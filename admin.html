@@ -1,0 +1,2680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | ONYX MUN</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@200;400;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="apple-touch-icon" href="logo.png">
+    <style>
+        :root { --onyx: #000000; --surface: #0A0A0A; --gold: #D4AF37; --white: #FFFFFF; --glass-border: rgba(255, 255, 255, 0.1); --bezier: cubic-bezier(0.16, 1, 0.3, 1); }
+        html { }
+        body { background: var(--onyx); color: var(--white); font-family: 'Inter', sans-serif; margin: 0; overflow-x: clip; min-height: 100vh; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--onyx); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E5C354; }
+        ::selection { background: var(--gold); color: var(--onyx); }
+
+        /* Noise Overlay */
+        .noise {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--onyx);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s var(--bezier), visibility 0.6s var(--bezier);
+        }
+        #loader.hidden { opacity: 0; visibility: hidden; }
+        .loader-content { text-align: center; }
+        .loader-logo { width: 80px; height: auto; animation: logoPulse 2s ease-in-out infinite; }
+        @keyframes logoPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        /* Login Screen */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            padding: 20px 16px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-logo {
+            width: 64px;
+            height: auto;
+            margin-bottom: 24px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            font-size: 0.7rem;
+            opacity: 0.5;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--gold);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px 18px;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s var(--bezier);
+            box-sizing: border-box;
+            min-height: 48px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            background: var(--gold);
+            color: var(--onyx);
+            padding: 16px;
+            border: none;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s var(--bezier);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            min-height: 52px;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .error-msg {
+            color: #ff4444;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .error-msg.visible { opacity: 1; }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+            padding: 24px 16px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dashboard-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .dashboard-title span {
+            color: var(--gold);
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--bezier);
+        }
+
+        .stat-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover::before { opacity: 1; }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin: 0 0 6px 0;
+            word-break: break-all;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            opacity: 0.5;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Applications Table */
+        .applications-section {
+            margin-top: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .refresh-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            color: var(--gold);
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s var(--bezier);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+        }
+
+        .refresh-btn:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .applications-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .application-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--bezier);
+        }
+
+        .application-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.08);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .applicant-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin: 0 0 4px 0;
+            color: var(--white);
+        }
+
+        .applicant-position {
+            color: var(--gold);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .application-date {
+            font-size: 0.7rem;
+            opacity: 0.4;
+            white-space: nowrap;
+        }
+
+        .application-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            color: var(--gold);
+        }
+
+        .detail-value {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            opacity: 0.9;
+            word-break: break-word;
+        }
+
+        .detail-value.long-text {
+            line-height: 1.7;
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--white);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s var(--bezier);
+            opacity: 0.6;
+            min-height: 40px;
+        }
+
+        .logout-btn:hover {
+            border-color: #ff4444;
+            color: #ff4444;
+            opacity: 1;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s var(--bezier);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+        }
+
+        .action-btn.email {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .action-btn.email:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.whatsapp {
+            background: rgba(37, 211, 102, 0.1);
+            color: #25D366;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+        }
+
+        .action-btn.whatsapp:hover {
+            background: rgba(37, 211, 102, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .action-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .best-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, var(--gold), #E5C354);
+            color: var(--onyx);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        .best-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s var(--bezier);
+        }
+
+        .best-toggle:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        .best-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+
+        .best-toggle label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold);
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .application-card.is-best {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .application-card.is-best::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), #E5C354);
+        }
+
+        /* Search and Filter Bar */
+        .search-filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s var(--bezier);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .filter-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s var(--bezier);
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .filter-select option {
+            background: var(--surface);
+            color: var(--white);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .status-badge.under_review {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+
+        .status-badge.accepted {
+            background: rgba(37, 211, 102, 0.2);
+            color: #25D366;
+        }
+
+        .status-badge.rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .status-badge.withdrawn {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9CA3AF;
+        }
+
+        /* Status Dropdown */
+        .status-dropdown {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s var(--bezier);
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .status-dropdown:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .status-dropdown option {
+            background: var(--surface);
+            color: var(--white);
+        }
+
+        /* Notes Field */
+        .notes-field {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+        }
+
+        .notes-field textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            resize: vertical;
+            min-height: 60px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .notes-field textarea:focus {
+            outline: none;
+        }
+
+        .notes-label {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Allocation Section */
+        .allocation-section {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+        }
+
+        .allocation-label {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .allocation-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            transition: all 0.3s var(--bezier);
+        }
+
+        .allocation-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Bulk Actions Bar */
+        .bulk-actions-bar {
+            display: none;
+            padding: 12px 16px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .bulk-actions-bar.visible {
+            display: flex;
+        }
+
+        .bulk-actions-info {
+            font-size: 0.85rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .bulk-actions-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .bulk-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s var(--bezier);
+            border: none;
+        }
+
+        .bulk-btn.accept {
+            background: rgba(37, 211, 102, 0.2);
+            color: #25D366;
+            border: 1px solid rgba(37, 211, 102, 0.4);
+        }
+
+        .bulk-btn.reject {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .bulk-btn.mark-best {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .bulk-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Checkbox for bulk select */
+        .bulk-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+
+        .bulk-select-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .bulk-select-label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 48px 16px;
+            opacity: 0.5;
+        }
+
+        .no-data svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .login-container { padding: 32px 20px; border-radius: 16px; }
+            .login-title { font-size: 1.35rem; }
+            .login-subtitle { font-size: 0.65rem; letter-spacing: 1.5px; margin-bottom: 24px; }
+            .login-logo { width: 56px; }
+            .form-group { margin-bottom: 16px; }
+            .form-group input { padding: 14px 16px; font-size: 16px; }
+            .login-btn { padding: 14px; font-size: 0.8rem; min-height: 48px; }
+            
+            .dashboard { padding: 20px 14px; }
+            .dashboard-title { font-size: 1.3rem; }
+            .dashboard-header { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 24px; }
+            .dashboard-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .stat-card { padding: 16px 12px; border-radius: 12px; }
+            .stat-value { font-size: 1.6rem; }
+            .stat-label { font-size: 0.55rem; letter-spacing: 1px; }
+            
+            .section-title { font-size: 1.15rem; }
+            .section-header { margin-bottom: 16px; }
+            .refresh-btn { padding: 8px 14px; font-size: 0.65rem; min-height: 36px; }
+            
+            .application-card { padding: 20px 16px; border-radius: 12px; }
+            .application-header { flex-direction: column; gap: 8px; margin-bottom: 12px; }
+            .applicant-name { font-size: 1.1rem; }
+            .applicant-position { font-size: 0.65rem; }
+            .application-date { font-size: 0.65rem; }
+            .application-details { grid-template-columns: 1fr; gap: 12px; margin-top: 12px; padding-top: 12px; }
+            .detail-value { font-size: 0.8rem; }
+            .detail-value.long-text { max-height: 100px; }
+            
+            .no-data { padding: 40px 16px; }
+            .no-data svg { width: 40px; height: 40px; }
+        }
+
+        @media (max-width: 400px) {
+            .dashboard-stats { grid-template-columns: 1fr; }
+            .stat-value { font-size: 1.8rem; }
+            .stat-label { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+
+    <div id="loader">
+        <div class="loader-content">
+            <img src="logo.svg" alt="ONYX MUN Logo" class="loader-logo">
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <img src="logo.svg" alt="ONYX MUN" class="login-logo">
+            <h1 class="login-title">Admin Access</h1>
+            <p class="login-subtitle">ONYX MUN Secretariat</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter admin password" autocomplete="off">
+                </div>
+                <button type="submit" class="login-btn">Authenticate</button>
+                <p class="error-msg" id="errorMsg">Invalid password. Access denied.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <div>
+                <h1 class="dashboard-title">ONYX MUN <span>Admin</span></h1>
+                <p style="opacity: 0.5; font-size: 0.8rem; margin-top: 4px; line-height: 1.4;">Application Management Dashboard</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation" style="display: flex; gap: 10px; margin-bottom: 24px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+            <button class="tab-btn active" id="ebTab" onclick="switchTab('eb')" style="padding: 12px 24px; background: var(--gold); color: var(--onyx); border: none; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s var(--bezier);">
+                EB Applications
+            </button>
+            <button class="tab-btn" id="delegateTab" onclick="switchTab('delegate')" style="padding: 12px 24px; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s var(--bezier);">
+                Delegate Applications
+            </button>
+            <button class="tab-btn" id="priorityTab" onclick="switchTab('priority')" style="padding: 12px 24px; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s var(--bezier);">
+                Priority Round
+            </button>
+            <button class="tab-btn" id="ocTab" onclick="switchTab('oc')" style="padding: 12px 24px; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s var(--bezier);">
+                OC Applications
+            </button>
+        </div>
+
+        <!-- EB Applications Section -->
+        <div id="ebSection" class="tab-content">
+            <div class="dashboard-stats" id="ebStatsContainer">
+                <div class="stat-card">
+                    <h2 class="stat-value" id="ebTotalCount">0</h2>
+                    <p class="stat-label">Total EB Applications</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="ebTodayCount">0</h2>
+                    <p class="stat-label">Today</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="ebWeekCount">0</h2>
+                    <p class="stat-label">This Week</p>
+                </div>
+            </div>
+
+            <div class="applications-section">
+                <div class="section-header">
+                    <h2 class="section-title">EB Applications</h2>
+                    <button class="refresh-btn" onclick="exportEBToPDF()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                        </svg>
+                        Export PDF
+                    </button>
+                    <button class="refresh-btn" onclick="loadApplications()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                        Refresh
+                    </button>
+                </div>
+                <div class="search-filter-bar">
+                    <input type="text" class="search-input" id="ebSearchInput" placeholder="Search by name or email..." oninput="filterApplications('eb')">
+                    <select class="filter-select" id="ebStatusFilter" onchange="filterApplications('eb')">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="withdrawn">Withdrawn</option>
+                    </select>
+                    <select class="filter-select" id="ebBestFilter" onchange="filterApplications('eb')">
+                        <option value="">All</option>
+                        <option value="best">Best Only</option>
+                    </select>
+                </div>
+                <div class="bulk-actions-bar" id="ebBulkActions">
+                    <span class="bulk-actions-info" id="ebBulkInfo">0 selected</span>
+                    <div class="bulk-actions-buttons">
+                        <button class="bulk-btn accept" onclick="bulkUpdateStatus('eb', 'accepted')">Accept</button>
+                        <button class="bulk-btn reject" onclick="bulkUpdateStatus('eb', 'rejected')">Reject</button>
+                        <button class="bulk-btn mark-best" onclick="bulkMarkBest('eb')">Mark Best</button>
+                        <button class="bulk-btn delete" onclick="bulkDelete('eb')">Delete</button>
+                    </div>
+                </div>
+                <div class="applications-grid" id="ebApplicationsGrid">
+                    <div class="no-data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                        </svg>
+                        <p>No EB applications found</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delegate Applications Section -->
+        <div id="delegateSection" class="tab-content" style="display: none;">
+            <div class="dashboard-stats" id="delegateStatsContainer">
+                <div class="stat-card">
+                    <h2 class="stat-value" id="delegateTotalCount">0</h2>
+                    <p class="stat-label">Total Delegate Applications</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="delegateTodayCount">0</h2>
+                    <p class="stat-label">Today</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="delegateWeekCount">0</h2>
+                    <p class="stat-label">This Week</p>
+                </div>
+            </div>
+
+            <div class="applications-section">
+                <div class="section-header">
+                    <h2 class="section-title">Delegate Applications</h2>
+                    <button class="refresh-btn" onclick="exportDelegateToPDF()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                        </svg>
+                        Export PDF
+                    </button>
+                    <button class="refresh-btn" onclick="loadApplications()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                        Refresh
+                    </button>
+                </div>
+                <div class="search-filter-bar">
+                    <input type="text" class="search-input" id="delegateSearchInput" placeholder="Search by name or email..." oninput="filterApplications('delegate')">
+                    <select class="filter-select" id="delegateStatusFilter" onchange="filterApplications('delegate')">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="withdrawn">Withdrawn</option>
+                    </select>
+                    <select class="filter-select" id="delegateBestFilter" onchange="filterApplications('delegate')">
+                        <option value="">All</option>
+                        <option value="best">Best Only</option>
+                    </select>
+                </div>
+                <div class="bulk-actions-bar" id="delegateBulkActions">
+                    <span class="bulk-actions-info" id="delegateBulkInfo">0 selected</span>
+                    <div class="bulk-actions-buttons">
+                        <button class="bulk-btn accept" onclick="bulkUpdateStatus('delegate', 'accepted')">Accept</button>
+                        <button class="bulk-btn reject" onclick="bulkUpdateStatus('delegate', 'rejected')">Reject</button>
+                        <button class="bulk-btn mark-best" onclick="bulkMarkBest('delegate')">Mark Best</button>
+                        <button class="bulk-btn delete" onclick="bulkDelete('delegate')">Delete</button>
+                    </div>
+                </div>
+                <div class="applications-grid" id="delegateApplicationsGrid">
+                    <div class="no-data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                        </svg>
+                        <p>No delegate applications found</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Priority Round Section -->
+        <div id="prioritySection" class="tab-content" style="display: none;">
+            <div class="dashboard-stats" id="priorityStatsContainer">
+                <div class="stat-card">
+                    <h2 class="stat-value" id="priorityTotalCount">0</h2>
+                    <p class="stat-label">Total Priority Applications</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="priorityTodayCount">0</h2>
+                    <p class="stat-label">Today</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="priorityWeekCount">0</h2>
+                    <p class="stat-label">This Week</p>
+                </div>
+            </div>
+
+            <div class="applications-section">
+                <div class="section-header">
+                    <h2 class="section-title">Priority Round</h2>
+                    <button class="refresh-btn" onclick="exportPriorityToPDF()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                        </svg>
+                        Export PDF
+                    </button>
+                    <button class="refresh-btn" onclick="loadApplications()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                        Refresh
+                    </button>
+                </div>
+                <div class="search-filter-bar">
+                    <input type="text" class="search-input" id="prioritySearchInput" placeholder="Search by name or email..." oninput="filterApplications('priority')">
+                    <select class="filter-select" id="priorityStatusFilter" onchange="filterApplications('priority')">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="withdrawn">Withdrawn</option>
+                    </select>
+                    <select class="filter-select" id="priorityBestFilter" onchange="filterApplications('priority')">
+                        <option value="">All</option>
+                        <option value="best">Best Only</option>
+                    </select>
+                </div>
+                <div class="bulk-actions-bar" id="priorityBulkActions">
+                    <span class="bulk-actions-info" id="priorityBulkInfo">0 selected</span>
+                    <div class="bulk-actions-buttons">
+                        <button class="bulk-btn accept" onclick="bulkUpdateStatus('priority', 'accepted')">Accept</button>
+                        <button class="bulk-btn reject" onclick="bulkUpdateStatus('priority', 'rejected')">Reject</button>
+                        <button class="bulk-btn mark-best" onclick="bulkMarkBest('priority')">Mark Best</button>
+                        <button class="bulk-btn delete" onclick="bulkDelete('priority')">Delete</button>
+                    </div>
+                </div>
+                <div class="applications-grid" id="priorityApplicationsGrid">
+                    <div class="no-data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                        </svg>
+                        <p>No priority applications found</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Organising Committee Applications Section -->
+        <div id="ocSection" class="tab-content" style="display: none;">
+            <div class="dashboard-stats" id="ocStatsContainer">
+                <div class="stat-card">
+                    <h2 class="stat-value" id="ocTotalCount">0</h2>
+                    <p class="stat-label">Total OC Applications</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="ocTodayCount">0</h2>
+                    <p class="stat-label">Today</p>
+                </div>
+                <div class="stat-card">
+                    <h2 class="stat-value" id="ocWeekCount">0</h2>
+                    <p class="stat-label">This Week</p>
+                </div>
+            </div>
+
+            <div class="applications-section">
+                <div class="section-header">
+                    <h2 class="section-title">Organising Committee Applications</h2>
+                    <button class="refresh-btn" onclick="exportOCToPDF()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                        </svg>
+                        Export PDF
+                    </button>
+                    <button class="refresh-btn" onclick="loadApplications()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                        Refresh
+                    </button>
+                </div>
+                <div class="search-filter-bar">
+                    <input type="text" class="search-input" id="ocSearchInput" placeholder="Search by name or email..." oninput="filterApplications('oc')">
+                    <select class="filter-select" id="ocStatusFilter" onchange="filterApplications('oc')">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="withdrawn">Withdrawn</option>
+                    </select>
+                    <select class="filter-select" id="ocBestFilter" onchange="filterApplications('oc')">
+                        <option value="">All</option>
+                        <option value="best">Best Only</option>
+                    </select>
+                </div>
+                <div class="bulk-actions-bar" id="ocBulkActions">
+                    <span class="bulk-actions-info" id="ocBulkInfo">0 selected</span>
+                    <div class="bulk-actions-buttons">
+                        <button class="bulk-btn accept" onclick="bulkUpdateStatus('oc', 'accepted')">Accept</button>
+                        <button class="bulk-btn reject" onclick="bulkUpdateStatus('oc', 'rejected')">Reject</button>
+                        <button class="bulk-btn mark-best" onclick="bulkMarkBest('oc')">Mark Best</button>
+                        <button class="bulk-btn delete" onclick="bulkDelete('oc')">Delete</button>
+                    </div>
+                </div>
+                <div class="applications-grid" id="ocApplicationsGrid">
+                    <div class="no-data">
+                        <p>No OC applications found</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://pmqbfmgjazlbtdtnlvez.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtcWJmbWdqYXpsYnRkdG5sdmV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NTQ5MzgsImV4cCI6MjA5MjIzMDkzOH0.XjmK1DhqyJJaTcBXso0IdkFrcK4C2f0MqxexDqzdrwQ';
+        const { createClient } = window.supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Valid passwords
+        const VALID_PASSWORDS = ['ruthwiknadevudu', 'onyxmunhyd'];
+
+        // Auth state
+        const SESSION_KEY = 'onyx_admin_auth';
+        
+        // Data storage
+        let ebApplications = [];
+        let delegateApplications = [];
+        let priorityApplications = [];
+        let ocApplications = [];
+        let currentTab = 'eb';
+
+        // Check existing session
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 800);
+
+            if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+                showDashboard();
+            }
+        });
+
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (VALID_PASSWORDS.includes(password)) {
+                sessionStorage.setItem(SESSION_KEY, 'true');
+                errorMsg.classList.remove('visible');
+                showDashboard();
+            } else {
+                errorMsg.classList.add('visible');
+                document.getElementById('password').value = '';
+            }
+        });
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadApplications();
+        }
+
+        function logout() {
+            sessionStorage.removeItem(SESSION_KEY);
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMsg').classList.remove('visible');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            const ebTab = document.getElementById('ebTab');
+            const delegateTab = document.getElementById('delegateTab');
+            const priorityTab = document.getElementById('priorityTab');
+            const ocTab = document.getElementById('ocTab');
+            const ebSection = document.getElementById('ebSection');
+            const delegateSection = document.getElementById('delegateSection');
+            const prioritySection = document.getElementById('prioritySection');
+            const ocSection = document.getElementById('ocSection');
+            
+            // Reset all styles
+            [ebTab, delegateTab, priorityTab, ocTab].forEach(btn => {
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--gold)';
+                btn.style.border = '1px solid var(--gold)';
+            });
+            [ebSection, delegateSection, prioritySection, ocSection].forEach(sec => sec.style.display = 'none');
+
+            // Set active
+            const activeTab = document.getElementById(tab + 'Tab');
+            const activeSec = document.getElementById(tab + 'Section');
+            activeTab.style.background = 'var(--gold)';
+            activeTab.style.color = 'var(--onyx)';
+            activeTab.style.border = 'none';
+            activeSec.style.display = 'block';
+        }
+
+        async function loadApplications() {
+            // Load EB Applications
+            const ebGrid = document.getElementById('ebApplicationsGrid');
+            ebGrid.innerHTML = '<div class="no-data"><p>Loading EB applications...</p></div>';
+
+            // Load Delegate Applications
+            const delegateGrid = document.getElementById('delegateApplicationsGrid');
+            delegateGrid.innerHTML = '<div class="no-data"><p>Loading delegate applications...</p></div>';
+            const ocGrid = document.getElementById('ocApplicationsGrid');
+            ocGrid.innerHTML = '<div class="no-data"><p>Loading OC applications...</p></div>';
+
+            try {
+                // Load EB applications
+                const { data: ebData, error: ebError } = await supabaseClient
+                    .from('eb_applications')
+                    .select('*')
+                    .order('submitted_at', { ascending: false });
+
+                if (ebError) throw ebError;
+                ebApplications = ebData || [];
+                updateEBStats(ebApplications);
+                renderEBApplications(ebApplications);
+
+                // Load Delegate applications
+                const { data: delegateData, error: delegateError } = await supabaseClient
+                    .from('delegate_applications')
+                    .select('*')
+                    .order('submitted_at', { ascending: false });
+
+                if (delegateError) throw delegateError;
+                delegateApplications = delegateData || [];
+                updateDelegateStats(delegateApplications);
+                renderDelegateApplications(delegateApplications);
+
+                // Load Priority applications
+                const { data: priorityData, error: priorityError } = await supabaseClient
+                    .from('priority_applications')
+                    .select('*')
+                    .order('submitted_at', { ascending: false });
+
+                if (priorityError) throw priorityError;
+                priorityApplications = priorityData || [];
+                updatePriorityStats(priorityApplications);
+                renderPriorityApplications(priorityApplications);
+
+                // Load Organising Committee applications
+                const { data: ocData, error: ocError } = await supabaseClient
+                    .from('oc_applications')
+                    .select('*')
+                    .order('submitted_at', { ascending: false });
+
+                if (ocError) {
+                    console.error('Error loading OC applications:', ocError);
+                    ocApplications = [];
+                    updateOCStats(ocApplications);
+                    ocGrid.innerHTML = `
+                        <div class="no-data">
+                            <p>Error loading OC applications.</p>
+                            <p style="font-size: 0.8rem; margin-top: 10px;">Run the Supabase migration for oc_applications.</p>
+                        </div>
+                    `;
+                } else {
+                    ocApplications = ocData || [];
+                    updateOCStats(ocApplications);
+                    renderOCApplications(ocApplications);
+                }
+
+            } catch (error) {
+                console.error('Error loading applications:', error);
+                ebGrid.innerHTML = `
+                    <div class="no-data">
+                        <p>Error loading applications. Please try refreshing.</p>
+                        <p style="font-size: 0.8rem; margin-top: 10px;">${error.message}</p>
+                    </div>
+                `;
+                delegateGrid.innerHTML = ebGrid.innerHTML;
+                document.getElementById('priorityApplicationsGrid').innerHTML = ebGrid.innerHTML;
+                ocGrid.innerHTML = ebGrid.innerHTML;
+            }
+        }
+
+        function updateEBStats(data) {
+            const total = data.length;
+            const today = data.filter(app => {
+                const date = new Date(app.submitted_at);
+                const now = new Date();
+                return date.toDateString() === now.toDateString();
+            }).length;
+
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const thisWeek = data.filter(app => new Date(app.submitted_at) >= weekAgo).length;
+
+            document.getElementById('ebTotalCount').textContent = total;
+            document.getElementById('ebTodayCount').textContent = today;
+            document.getElementById('ebWeekCount').textContent = thisWeek;
+        }
+
+        function updateDelegateStats(data) {
+            const total = data.length;
+            const today = data.filter(app => {
+                const date = new Date(app.submitted_at);
+                const now = new Date();
+                return date.toDateString() === now.toDateString();
+            }).length;
+
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const thisWeek = data.filter(app => new Date(app.submitted_at) >= weekAgo).length;
+
+            document.getElementById('delegateTotalCount').textContent = total;
+            document.getElementById('delegateTodayCount').textContent = today;
+            document.getElementById('delegateWeekCount').textContent = thisWeek;
+        }
+
+        function updatePriorityStats(data) {
+            const total = data.length;
+            const today = data.filter(app => {
+                const date = new Date(app.submitted_at);
+                const now = new Date();
+                return date.toDateString() === now.toDateString();
+            }).length;
+
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const thisWeek = data.filter(app => new Date(app.submitted_at) >= weekAgo).length;
+
+            document.getElementById('priorityTotalCount').textContent = total;
+            document.getElementById('priorityTodayCount').textContent = today;
+            document.getElementById('priorityWeekCount').textContent = thisWeek;
+        }
+
+        function updateOCStats(data) {
+            const total = data.length;
+            const today = data.filter(app => {
+                const date = new Date(app.submitted_at);
+                const now = new Date();
+                return date.toDateString() === now.toDateString();
+            }).length;
+
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const thisWeek = data.filter(app => new Date(app.submitted_at) >= weekAgo).length;
+
+            document.getElementById('ocTotalCount').textContent = total;
+            document.getElementById('ocTodayCount').textContent = today;
+            document.getElementById('ocWeekCount').textContent = thisWeek;
+        }
+
+        function getApplications(type) {
+            if (type === 'eb') return ebApplications;
+            if (type === 'delegate') return delegateApplications;
+            if (type === 'priority') return priorityApplications;
+            return ocApplications;
+        }
+
+        function getSelectedSet(type) {
+            if (type === 'eb') return selectedEBApplications;
+            if (type === 'delegate') return selectedDelegateApplications;
+            if (type === 'priority') return selectedPriorityApplications;
+            return selectedOCApplications;
+        }
+
+        function getTableName(type) {
+            if (type === 'eb') return 'eb_applications';
+            if (type === 'delegate') return 'delegate_applications';
+            if (type === 'priority') return 'priority_applications';
+            return 'oc_applications';
+        }
+
+        function renderApplications(type, data) {
+            if (type === 'eb') renderEBApplications(data);
+            else if (type === 'delegate') renderDelegateApplications(data);
+            else if (type === 'priority') renderPriorityApplications(data);
+            else renderOCApplications(data);
+        }
+
+        function renderEBApplications(data) {
+            const grid = document.getElementById('ebApplicationsGrid');
+
+            if (!data || data.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                        </svg>
+                        <p>No EB applications found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            };
+
+            const formatPosition = (pos) => {
+                if (!pos) return 'N/A';
+                return pos.split('-').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+            };
+
+            grid.innerHTML = data.map(app => `
+                <div class="application-card" data-id="${app.id}">
+                    <div class="bulk-select-wrapper">
+                        <input type="checkbox" class="bulk-checkbox" onchange="toggleBulkSelect('eb', '${app.id}')" ${selectedEBApplications.has(app.id) ? 'checked' : ''}>
+                        <span class="bulk-select-label">Select</span>
+                    </div>
+                    <div class="application-header ${app.is_best ? 'is-best' : ''}">
+                        <div>
+                            <h3 class="applicant-name">${app.full_name || 'N/A'} ${app.is_best ? '<span class="best-badge">⭐ Best</span>' : ''}</h3>
+                            <span class="applicant-position">${formatPosition(app.position)}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="status-badge ${app.status || 'pending'}">${formatStatus(app.status || 'pending')}</span>
+                            <span class="application-date">${formatDate(app.submitted_at)}</span>
+                        </div>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-group">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value">${app.email || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">${app.phone || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Institution</span>
+                            <span class="detail-value">${app.institution || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">MUN Experience</span>
+                            <span class="detail-value long-text">${app.mun_experience || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Leadership Experience</span>
+                            <span class="detail-value long-text">${app.leadership_experience || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Motivation</span>
+                            <span class="detail-value long-text">${app.motivation || 'N/A'}</span>
+                        </div>
+                        ${app.additional_info ? `
+                        <div class="detail-group">
+                            <span class="detail-label">Additional Info</span>
+                            <span class="detail-value long-text">${app.additional_info}</span>
+                        </div>
+                        ` : ''}
+                        <div class="detail-group">
+                            <span class="detail-label">Heard From</span>
+                            <span class="detail-value">${app.referral_source || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Queries/Feedback</span>
+                            <span class="detail-value long-text">${app.queries_feedback || 'None'}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px; align-items: center;">
+                        <span class="detail-label" style="font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;">Status:</span>
+                        <select class="status-dropdown" onchange="updateStatus('eb', '${app.id}', this.value)" onblur="updateStatus('eb', '${app.id}', this.value)">
+                            <option value="pending" ${app.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="under_review" ${app.status === 'under_review' ? 'selected' : ''}>Under Review</option>
+                            <option value="accepted" ${app.status === 'accepted' ? 'selected' : ''}>Accepted</option>
+                            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            <option value="withdrawn" ${app.status === 'withdrawn' ? 'selected' : ''}>Withdrawn</option>
+                        </select>
+                    </div>
+                    <div class="notes-field">
+                        <span class="notes-label">Admin Notes</span>
+                        <textarea placeholder="Add private notes about this applicant..." onblur="saveNotes('eb', '${app.id}', this.value)">${app.admin_notes || ''}</textarea>
+                    </div>
+                    <div class="best-toggle" onclick="toggleBest('eb', '${app.id}', ${app.is_best || false})">
+                        <input type="checkbox" ${app.is_best ? 'checked' : ''} onclick="event.stopPropagation(); toggleBest('eb', '${app.id}', ${app.is_best || false})">
+                        <label>Mark as Best of the Best</label>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn email" onclick="sendTemplatedEmail('eb', '${app.id}', '${app.full_name}', '${app.email}', 'under_review')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Review Email
+                        </button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('eb', '${app.id}', '${app.full_name}', '${app.email}', 'accept')" style="background: rgba(37, 211, 102, 0.1); color: #25D366; border-color: rgba(37, 211, 102, 0.3);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Accept Email
+                        </button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('eb', '${app.id}', '${app.full_name}', '${app.email}', 'reject')" style="background: rgba(239, 68, 68, 0.1); color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Reject Email
+                        </button>
+                        <button class="action-btn whatsapp" onclick="sendWhatsApp('${app.phone}', '${app.full_name}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            WhatsApp
+                        </button>
+                        <button class="action-btn delete" onclick="deleteApplication('eb', '${app.id}', '${app.full_name}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderDelegateApplications(data) {
+            const grid = document.getElementById('delegateApplicationsGrid');
+
+            if (!data || data.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-data">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                        </svg>
+                        <p>No delegate applications found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            };
+
+            grid.innerHTML = data.map(app => `
+                <div class="application-card ${app.is_best ? 'is-best' : ''}" data-id="${app.id}">
+                    <div class="bulk-select-wrapper">
+                        <input type="checkbox" class="bulk-checkbox" onchange="toggleBulkSelect('delegate', '${app.id}')" ${selectedDelegateApplications.has(app.id) ? 'checked' : ''}>
+                        <span class="bulk-select-label">Select</span>
+                    </div>
+                    <div class="application-header">
+                        <div>
+                            <h3 class="applicant-name">${app.full_name || 'N/A'} ${app.is_best ? '<span class="best-badge">⭐ Best</span>' : ''}</h3>
+                            <span class="applicant-position">${app.preference_1 || app.preferred_committee || 'N/A'}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="status-badge ${app.status || 'pending'}">${formatStatus(app.status || 'pending')}</span>
+                            <span class="application-date">${formatDate(app.submitted_at || app.created_at)}</span>
+                        </div>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-group">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value">${app.email || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">${app.phone || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Institution</span>
+                            <span class="detail-value">${app.institution || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Committee Preferences</span>
+                            <span class="detail-value">
+                                <strong>1.</strong> ${app.preference_1 || 'N/A'}<br>
+                                <strong>2.</strong> ${app.preference_2 || 'N/A'}<br>
+                                <strong>3.</strong> ${app.preference_3 || 'N/A'}
+                            </span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">MUN Experience Level</span>
+                            <span class="detail-value">${app.mun_experience || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Previous MUNs</span>
+                            <span class="detail-value long-text">${app.previous_muns || app.previous_experience || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Motivation</span>
+                            <span class="detail-value long-text">${app.motivation || 'N/A'}</span>
+                        </div>
+                        ${app.additional_info ? `
+                        <div class="detail-group">
+                            <span class="detail-label">Additional Info</span>
+                            <span class="detail-value long-text">${app.additional_info}</span>
+                        </div>
+                        ` : ''}
+                        <div class="detail-group">
+                            <span class="detail-label">Heard From</span>
+                            <span class="detail-value">${app.referral_source || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Queries/Feedback</span>
+                            <span class="detail-value long-text">${app.queries_feedback || 'None'}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px; align-items: center;">
+                        <span class="detail-label" style="font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;">Status:</span>
+                        <select class="status-dropdown" onchange="updateStatus('delegate', '${app.id}', this.value)" onblur="updateStatus('delegate', '${app.id}', this.value)">
+                            <option value="pending" ${app.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="under_review" ${app.status === 'under_review' ? 'selected' : ''}>Under Review</option>
+                            <option value="accepted" ${app.status === 'accepted' ? 'selected' : ''}>Accepted</option>
+                            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            <option value="withdrawn" ${app.status === 'withdrawn' ? 'selected' : ''}>Withdrawn</option>
+                        </select>
+                    </div>
+                    <div class="allocation-section">
+                        <span class="allocation-label">Portfolio Allocation</span>
+                        <input type="text" class="allocation-input" id="alloc-committee-${app.id}" placeholder="Committee" value="${app.allocated_committee || ''}">
+                        <input type="text" class="allocation-input" id="alloc-portfolio-${app.id}" placeholder="Portfolio" value="${app.allocated_portfolio || ''}">
+                        <button class="action-btn" onclick="saveAllocationUI('delegate', '${app.id}')" style="margin-top: 8px; width: 100%; padding: 10px; background: rgba(212, 175, 55, 0.2); color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4);">
+                            Save Allocation
+                        </button>
+                    </div>
+                    <div class="notes-field">
+                        <span class="notes-label">Admin Notes</span>
+                        <textarea placeholder="Add private notes about this applicant..." onblur="saveNotes('delegate', '${app.id}', this.value)">${app.admin_notes || ''}</textarea>
+                    </div>
+                    <div class="best-toggle" onclick="toggleBest('delegate', '${app.id}', ${app.is_best || false})">
+                        <input type="checkbox" ${app.is_best ? 'checked' : ''} onclick="event.stopPropagation(); toggleBest('delegate', '${app.id}', ${app.is_best || false})">
+                        <label>Mark as Best of the Best</label>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn email" onclick="sendTemplatedEmail('delegate', '${app.id}', '${app.full_name}', '${app.email}', 'under_review', {allocated_committee: '${app.allocated_committee}', allocated_portfolio: '${app.allocated_portfolio}'})">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Review Email
+                        </button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('delegate', '${app.id}', '${app.full_name}', '${app.email}', 'accept', {allocated_committee: '${app.allocated_committee}', allocated_portfolio: '${app.allocated_portfolio}'})" style="background: rgba(37, 211, 102, 0.1); color: #25D366; border-color: rgba(37, 211, 102, 0.3);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Accept Email
+                        </button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('delegate', '${app.id}', '${app.full_name}', '${app.email}', 'reject', {allocated_committee: '${app.allocated_committee}', allocated_portfolio: '${app.allocated_portfolio}'})" style="background: rgba(239, 68, 68, 0.1); color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Reject Email
+                        </button>
+                        <button class="action-btn whatsapp" onclick="sendWhatsApp('${app.phone}', '${app.full_name}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            WhatsApp
+                        </button>
+                        <button class="action-btn delete" onclick="deleteApplication('delegate', '${app.id}', '${app.full_name}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function exportEBToPDF() {
+            if (!ebApplications || ebApplications.length === 0) {
+                alert('No EB applications to export. Please refresh and try again.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(212, 175, 55);
+            doc.text('ONYX MUN 2026', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setTextColor(0, 0, 0);
+            doc.text('EB Applications Report', 105, 30, { align: 'center' });
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated: ${new Date().toLocaleString()}`, 105, 38, { align: 'center' });
+
+            // Stats
+            const total = ebApplications.length;
+            const today = ebApplications.filter(app => {
+                const date = new Date(app.submitted_at);
+                const now = new Date();
+                return date.toDateString() === now.toDateString();
+            }).length;
+
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Total EB Applications: ${total} | Today: ${today}`, 14, 50);
+
+            // Table data
+            const tableData = ebApplications.map((app, index) => [
+                index + 1,
+                app.full_name || 'N/A',
+                app.position ? app.position.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'N/A',
+                app.email || 'N/A',
+                app.phone || 'N/A',
+                app.institution || 'N/A',
+                new Date(app.submitted_at).toLocaleDateString()
+            ]);
+
+            // AutoTable
+            doc.autoTable({
+                head: [['#', 'Name', 'Position', 'Email', 'Phone', 'Institution', 'Date']],
+                body: tableData,
+                startY: 55,
+                styles: { fontSize: 8, cellPadding: 2 },
+                headStyles: { fillColor: [212, 175, 55], textColor: [0, 0, 0], fontStyle: 'bold' },
+                alternateRowStyles: { fillColor: [245, 245, 245] }
+            });
+
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(150, 150, 150);
+                doc.text(`ONYX MUN 2026 - Confidential - Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
+            }
+
+            doc.save(`ONYX_MUN_EB_Applications_${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+
+        async function exportDelegateToPDF() {
+            if (!delegateApplications || delegateApplications.length === 0) {
+                alert('No delegate applications to export. Please refresh and try again.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(212, 175, 55);
+            doc.text('ONYX MUN 2026', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Delegate Applications Report', 105, 30, { align: 'center' });
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated: ${new Date().toLocaleString()}`, 105, 38, { align: 'center' });
+
+            // Stats
+            const total = delegateApplications.length;
+            const today = delegateApplications.filter(app => {
+                const date = new Date(app.submitted_at);
+                const now = new Date();
+                return date.toDateString() === now.toDateString();
+            }).length;
+
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Total Delegate Applications: ${total} | Today: ${today}`, 14, 50);
+
+            // Table data
+            const tableData = delegateApplications.map((app, index) => [
+                index + 1,
+                app.full_name || 'N/A',
+                `${app.preference_1 || 'N/A'} (1st)`,
+                `${app.preference_2 || 'N/A'} (2nd)`,
+                `${app.preference_3 || 'N/A'} (3rd)`,
+                app.email || 'N/A',
+                app.phone || 'N/A',
+                app.institution || 'N/A',
+                new Date(app.submitted_at).toLocaleDateString()
+            ]);
+
+            // AutoTable
+            doc.autoTable({
+                head: [['#', 'Name', 'Pref 1', 'Pref 2', 'Pref 3', 'Email', 'Phone', 'Institution', 'Date']],
+                body: tableData,
+                startY: 55,
+                styles: { fontSize: 7, cellPadding: 1.5 },
+                headStyles: { fillColor: [212, 175, 55], textColor: [0, 0, 0], fontStyle: 'bold' },
+                alternateRowStyles: { fillColor: [245, 245, 245] }
+            });
+
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(150, 150, 150);
+                doc.text(`ONYX MUN 2026 - Confidential - Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
+            }
+
+            doc.save(`ONYX_MUN_Delegate_Applications_${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+
+        function renderPriorityApplications(data) {
+            const grid = document.getElementById('priorityApplicationsGrid');
+            if (!data || data.length === 0) {
+                grid.innerHTML = '<div class="no-data"><p>No priority applications found</p></div>';
+                return;
+            }
+
+            grid.innerHTML = data.map(app => `
+                <div class="application-card ${app.is_best ? 'is-best' : ''}" data-id="${app.id}">
+                    <div class="bulk-select-wrapper">
+                        <input type="checkbox" class="bulk-checkbox" onchange="toggleBulkSelect('priority', '${app.id}')" ${selectedPriorityApplications.has(app.id) ? 'checked' : ''}>
+                        <span class="bulk-select-label">Select</span>
+                    </div>
+                    <div class="application-header">
+                        <div>
+                            <h3 class="applicant-name">${app.full_name || 'N/A'} ${app.is_best ? '<span class="best-badge">⭐ Best</span>' : ''}</h3>
+                            <span class="applicant-position">Priority Round</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="status-badge ${app.status || 'pending'}">${formatStatus(app.status || 'pending')}</span>
+                            <span class="application-date">${new Date(app.submitted_at).toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-group">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value">${app.email}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">${app.phone}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Institution</span>
+                            <span class="detail-value">${app.institution}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Preferences</span>
+                            <span class="detail-value">
+                                1. ${app.pref1_committee.toUpperCase()} - ${app.pref1_portfolio}<br>
+                                2. ${app.pref2_committee.toUpperCase()} - ${app.pref2_portfolio}<br>
+                                3. ${app.pref3_committee.toUpperCase()} - ${app.pref3_portfolio}
+                            </span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Experience</span>
+                            <span class="detail-value">${app.experience_level}</span>
+                        </div>
+                        <div class="detail-group" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Previous MUNs</span>
+                            <span class="detail-value long-text">${app.previous_experience || 'None'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Heard From</span>
+                            <span class="detail-value">${app.referral_source || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Queries/Feedback</span>
+                            <span class="detail-value long-text">${app.queries_feedback || 'None'}</span>
+                        </div>
+                        <div class="detail-group" style="grid-column: 1 / -1; background: rgba(212,175,55,0.05); padding: 15px; border-radius: 8px;">
+                            <span class="detail-label" style="color: var(--gold);">UPI Transaction ID</span>
+                            <span class="detail-value" style="font-family: monospace; font-size: 1.1rem;">${app.transaction_id || 'NOT PROVIDED'}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px; align-items: center;">
+                        <span class="detail-label" style="font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;">Status:</span>
+                        <select class="status-dropdown" onchange="updateStatus('priority', '${app.id}', this.value)" onblur="updateStatus('priority', '${app.id}', this.value)">
+                            <option value="pending" ${app.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="under_review" ${app.status === 'under_review' ? 'selected' : ''}>Under Review</option>
+                            <option value="accepted" ${app.status === 'accepted' ? 'selected' : ''}>Accepted</option>
+                            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            <option value="withdrawn" ${app.status === 'withdrawn' ? 'selected' : ''}>Withdrawn</option>
+                        </select>
+                    </div>
+                    <div class="allocation-section">
+                        <span class="allocation-label">Portfolio Allocation</span>
+                        <input type="text" class="allocation-input" id="alloc-committee-${app.id}" placeholder="Committee" value="${app.allocated_committee || ''}">
+                        <input type="text" class="allocation-input" id="alloc-portfolio-${app.id}" placeholder="Portfolio" value="${app.allocated_portfolio || ''}">
+                        <button class="action-btn" onclick="saveAllocationUI('priority', '${app.id}')" style="margin-top: 8px; width: 100%; padding: 10px; background: rgba(212, 175, 55, 0.2); color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4);">
+                            Save Allocation
+                        </button>
+                    </div>
+                    <div class="notes-field">
+                        <span class="notes-label">Admin Notes</span>
+                        <textarea placeholder="Add private notes about this applicant..." onblur="saveNotes('priority', '${app.id}', this.value)">${app.admin_notes || ''}</textarea>
+                    </div>
+                    <div class="best-toggle" onclick="toggleBest('priority', '${app.id}', ${app.is_best || false})">
+                        <input type="checkbox" ${app.is_best ? 'checked' : ''} onclick="event.stopPropagation(); toggleBest('priority', '${app.id}', ${app.is_best || false})">
+                        <label>Mark as Best of the Best</label>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn email" onclick="sendTemplatedEmail('priority', '${app.id}', '${app.full_name}', '${app.email}', 'under_review', {allocated_committee: '${app.allocated_committee}', allocated_portfolio: '${app.allocated_portfolio}'})">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Review Email
+                        </button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('priority', '${app.id}', '${app.full_name}', '${app.email}', 'accept', {allocated_committee: '${app.allocated_committee}', allocated_portfolio: '${app.allocated_portfolio}'})" style="background: rgba(37, 211, 102, 0.1); color: #25D366; border-color: rgba(37, 211, 102, 0.3);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Accept Email
+                        </button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('priority', '${app.id}', '${app.full_name}', '${app.email}', 'reject', {allocated_committee: '${app.allocated_committee}', allocated_portfolio: '${app.allocated_portfolio}'})" style="background: rgba(239, 68, 68, 0.1); color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            Reject Email
+                        </button>
+                        <button class="action-btn whatsapp" onclick="sendWhatsApp('${app.phone}', '${app.full_name}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            WhatsApp
+                        </button>
+                        <button class="action-btn delete" onclick="deleteApplication('priority', '${app.id}', '${app.full_name}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function exportPriorityToPDF() {
+            if (!priorityApplications || priorityApplications.length === 0) return;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'mm', 'a4');
+            doc.text('ONYX MUN 2026 - Priority Round Applications', 14, 15);
+            
+            const rows = priorityApplications.map((app, i) => [
+                i+1, app.full_name, app.email, app.phone, app.institution,
+                `${app.pref1_committee}: ${app.pref1_portfolio}`,
+                `${app.pref2_committee}: ${app.pref2_portfolio}`,
+                `${app.pref3_committee}: ${app.pref3_portfolio}`,
+                app.experience_level,
+                app.transaction_id || 'N/A',
+                app.referral_source || 'N/A'
+            ]);
+
+            doc.autoTable({
+                head: [['#', 'Name', 'Email', 'Phone', 'Institution', 'Pref 1', 'Pref 2', 'Pref 3', 'Exp', 'Txn ID', 'Source']],
+                body: rows,
+                startY: 20,
+                styles: { fontSize: 6 }
+            });
+            doc.save('Priority_Round_Applications.pdf');
+        }
+
+        function renderOCApplications(data) {
+            const grid = document.getElementById('ocApplicationsGrid');
+            if (!data || data.length === 0) {
+                grid.innerHTML = '<div class="no-data"><p>No OC applications found</p></div>';
+                return;
+            }
+
+            grid.innerHTML = data.map(app => `
+                <div class="application-card ${app.is_best ? 'is-best' : ''}" data-id="${app.id}">
+                    <div class="bulk-select-wrapper">
+                        <input type="checkbox" class="bulk-checkbox" onchange="toggleBulkSelect('oc', '${app.id}')" ${selectedOCApplications.has(app.id) ? 'checked' : ''}>
+                        <span class="bulk-select-label">Select</span>
+                    </div>
+                    <div class="application-header">
+                        <div>
+                            <h3 class="applicant-name">${app.full_name || 'N/A'} ${app.is_best ? '<span class="best-badge">⭐ Best</span>' : ''}</h3>
+                            <span class="applicant-position">Organising Committee</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="status-badge ${app.status || 'pending'}">${formatStatus(app.status || 'pending')}</span>
+                            <span class="application-date">${new Date(app.submitted_at || app.created_at).toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-group">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value">${app.email || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">WhatsApp</span>
+                            <span class="detail-value">${app.phone || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Instagram</span>
+                            <span class="detail-value">${app.instagram_account || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Institution</span>
+                            <span class="detail-value">${app.institution || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Grade</span>
+                            <span class="detail-value">${app.grade || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Can Dedicate Time Before MUN</span>
+                            <span class="detail-value">${app.dedication_before_mun || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Experience</span>
+                            <span class="detail-value long-text">${app.experience || 'N/A'}</span>
+                        </div>
+                        <div class="detail-group" style="grid-column: 1 / -1; background: rgba(212,175,55,0.05); padding: 15px; border-radius: 8px;">
+                            <span class="detail-label" style="color: var(--gold);">Fee / UPI Transaction ID</span>
+                            <span class="detail-value" style="font-family: monospace; font-size: 1.05rem;">₹${app.fee_amount || 1699} · ${app.transaction_id || 'NOT PROVIDED'}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px; align-items: center;">
+                        <span class="detail-label" style="font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;">Status:</span>
+                        <select class="status-dropdown" onchange="updateStatus('oc', '${app.id}', this.value)" onblur="updateStatus('oc', '${app.id}', this.value)">
+                            <option value="pending" ${app.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="under_review" ${app.status === 'under_review' ? 'selected' : ''}>Under Review</option>
+                            <option value="accepted" ${app.status === 'accepted' ? 'selected' : ''}>Accepted</option>
+                            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            <option value="withdrawn" ${app.status === 'withdrawn' ? 'selected' : ''}>Withdrawn</option>
+                        </select>
+                    </div>
+                    <div class="notes-field">
+                        <span class="notes-label">Admin Notes</span>
+                        <textarea placeholder="Add private notes about this applicant..." onblur="saveNotes('oc', '${app.id}', this.value)">${app.admin_notes || ''}</textarea>
+                    </div>
+                    <div class="best-toggle" onclick="toggleBest('oc', '${app.id}', ${app.is_best || false})">
+                        <input type="checkbox" ${app.is_best ? 'checked' : ''} onclick="event.stopPropagation(); toggleBest('oc', '${app.id}', ${app.is_best || false})">
+                        <label>Mark as Best of the Best</label>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn email" onclick="sendTemplatedEmail('oc', '${app.id}', '${app.full_name}', '${app.email}', 'under_review')">Review Email</button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('oc', '${app.id}', '${app.full_name}', '${app.email}', 'accept')" style="background: rgba(37, 211, 102, 0.1); color: #25D366; border-color: rgba(37, 211, 102, 0.3);">Accept Email</button>
+                        <button class="action-btn email" onclick="sendTemplatedEmail('oc', '${app.id}', '${app.full_name}', '${app.email}', 'reject')" style="background: rgba(239, 68, 68, 0.1); color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">Reject Email</button>
+                        <button class="action-btn whatsapp" onclick="sendWhatsApp('${app.phone}', '${app.full_name}')">WhatsApp</button>
+                        <button class="action-btn delete" onclick="deleteApplication('oc', '${app.id}', '${app.full_name}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function exportOCToPDF() {
+            if (!ocApplications || ocApplications.length === 0) {
+                alert('No OC applications to export. Please refresh and try again.');
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'mm', 'a4');
+            doc.text('ONYX MUN 2026 - OC Applications', 14, 15);
+
+            const rows = ocApplications.map((app, i) => [
+                i + 1,
+                app.full_name || 'N/A',
+                app.instagram_account || 'N/A',
+                app.phone || 'N/A',
+                app.email || 'N/A',
+                app.institution || 'N/A',
+                app.grade || 'N/A',
+                app.dedication_before_mun || 'N/A',
+                app.transaction_id || 'N/A'
+            ]);
+
+            doc.autoTable({
+                head: [['#', 'Name', 'Instagram', 'WhatsApp', 'Email', 'Institution', 'Grade', 'Dedication', 'Txn ID']],
+                body: rows,
+                startY: 20,
+                styles: { fontSize: 7 }
+            });
+            doc.save(`ONYX_MUN_OC_Applications_${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+
+        // Global variables for bulk selection
+        let selectedEBApplications = new Set();
+        let selectedDelegateApplications = new Set();
+        let selectedPriorityApplications = new Set();
+        let selectedOCApplications = new Set();
+
+        // Helper function to format status
+        function formatStatus(status) {
+            const statusMap = {
+                'pending': 'Pending',
+                'under_review': 'Under Review',
+                'accepted': 'Accepted',
+                'rejected': 'Rejected',
+                'withdrawn': 'Withdrawn'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Filter applications
+        function filterApplications(type) {
+            const searchInput = document.getElementById(`${type}SearchInput`).value.toLowerCase();
+            const statusFilter = document.getElementById(`${type}StatusFilter`).value;
+            const bestFilter = document.getElementById(`${type}BestFilter`).value;
+
+            let data = getApplications(type);
+
+            data = data.filter(app => {
+                const matchesSearch = !searchInput || 
+                    (app.full_name && app.full_name.toLowerCase().includes(searchInput)) ||
+                    (app.email && app.email.toLowerCase().includes(searchInput));
+
+                const matchesStatus = !statusFilter || app.status === statusFilter;
+                const matchesBest = bestFilter !== 'best' || app.is_best;
+
+                return matchesSearch && matchesStatus && matchesBest;
+            });
+
+            renderApplications(type, data);
+        }
+
+        // Toggle bulk selection
+        function toggleBulkSelect(type, id) {
+            const set = getSelectedSet(type);
+            
+            if (set.has(id)) {
+                set.delete(id);
+            } else {
+                set.add(id);
+            }
+
+            updateBulkActionsBar(type);
+        }
+
+        // Update bulk actions bar visibility
+        function updateBulkActionsBar(type) {
+            const set = getSelectedSet(type);
+            const bar = document.getElementById(`${type}BulkActions`);
+            const info = document.getElementById(`${type}BulkInfo`);
+
+            if (set.size > 0) {
+                bar.classList.add('visible');
+                info.textContent = `${set.size} selected`;
+            } else {
+                bar.classList.remove('visible');
+            }
+        }
+
+        // Bulk update status
+        async function bulkUpdateStatus(type, status) {
+            const set = getSelectedSet(type);
+            if (set.size === 0) return;
+
+            if (!confirm(`Update status for ${set.size} applications to ${status}?`)) return;
+
+            const tableName = getTableName(type);
+
+            try {
+                for (const id of set) {
+                    await supabaseClient.from(tableName).update({ status }).eq('id', id);
+                }
+
+                alert(`Updated ${set.size} applications successfully.`);
+                set.clear();
+                updateBulkActionsBar(type);
+                loadApplications();
+            } catch (error) {
+                console.error('Error bulk updating status:', error);
+                alert('Error updating status. Please try again.');
+            }
+        }
+
+        // Bulk mark as best
+        async function bulkMarkBest(type) {
+            const set = getSelectedSet(type);
+            if (set.size === 0) return;
+
+            const tableName = getTableName(type);
+
+            try {
+                for (const id of set) {
+                    await supabaseClient.from(tableName).update({ is_best: true }).eq('id', id);
+                }
+
+                alert(`Marked ${set.size} applications as best.`);
+                set.clear();
+                updateBulkActionsBar(type);
+                loadApplications();
+            } catch (error) {
+                console.error('Error bulk marking best:', error);
+                alert('Error marking as best. Please try again.');
+            }
+        }
+
+        // Bulk delete
+        async function bulkDelete(type) {
+            const set = getSelectedSet(type);
+            if (set.size === 0) return;
+
+            if (!confirm(`Delete ${set.size} applications? This action cannot be undone.`)) return;
+
+            const tableName = getTableName(type);
+
+            try {
+                for (const id of set) {
+                    await supabaseClient.from(tableName).delete().eq('id', id);
+                }
+
+                alert(`Deleted ${set.size} applications successfully.`);
+                set.clear();
+                updateBulkActionsBar(type);
+                loadApplications();
+            } catch (error) {
+                console.error('Error bulk deleting:', error);
+                alert('Error deleting applications. Please try again.');
+            }
+        }
+
+        // Update status
+        async function updateStatus(type, id, status) {
+            const tableName = getTableName(type);
+
+            try {
+                const { error } = await supabaseClient.from(tableName).update({ status }).eq('id', id);
+                if (error) throw error;
+                loadApplications();
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('Error updating status. Please try again.');
+            }
+        }
+
+        // Save notes
+        async function saveNotes(type, id, notes) {
+            const tableName = getTableName(type);
+
+            try {
+                const { error } = await supabaseClient.from(tableName).update({ admin_notes: notes }).eq('id', id);
+                if (error) throw error;
+            } catch (error) {
+                console.error('Error saving notes:', error);
+                alert('Error saving notes. Please try again.');
+            }
+        }
+
+        // Save allocation UI helper
+        async function saveAllocationUI(type, id) {
+            const committee = document.getElementById(`alloc-committee-${id}`).value;
+            const portfolio = document.getElementById(`alloc-portfolio-${id}`).value;
+            
+            const tableName = type === 'delegate' ? 'delegate_applications' : 'priority_applications';
+            const updateData = { allocated_committee: committee, allocated_portfolio: portfolio };
+
+            try {
+                const { error } = await supabaseClient.from(tableName).update(updateData).eq('id', id);
+                if (error) throw error;
+                alert('Allocation saved successfully!');
+                loadApplications();
+            } catch (error) {
+                console.error('Error saving allocation:', error);
+                alert('Error saving allocation. Please try again.');
+            }
+        }
+
+        // Save allocation
+        async function saveAllocation(type, id, field, value) {
+            const tableName = type === 'delegate' ? 'delegate_applications' : 'priority_applications';
+            const updateData = field === 'committee' ? { allocated_committee: value } : { allocated_portfolio: value };
+
+            try {
+                const { error } = await supabaseClient.from(tableName).update(updateData).eq('id', id);
+                if (error) throw error;
+            } catch (error) {
+                console.error('Error saving allocation:', error);
+                alert('Error saving allocation. Please try again.');
+            }
+        }
+
+        // Email templates
+        function sendTemplatedEmail(type, id, name, email, templateType, allocation) {
+            let subject, body;
+            const website = 'https://onyxmunhyd.in';
+            const logo = website + '/logo.png';
+            
+            if (templateType === 'accept') {
+                if (type === 'eb') {
+                    subject = encodeURIComponent('ONYX MUN 2026 | Executive Board Application Accepted');
+                    body = encodeURIComponent(`════════════════════════════════════════════════════════════════
+                        ONYX MUN 2026
+                    ════════════════════════════════════════════════════════════════
+
+Dear ${name},
+
+CONGRATULATIONS! 🎉
+
+We are delighted to inform you that your application for the Executive Board position at ONYX MUN 2026 has been accepted!
+
+Your application stood out among many impressive candidates, and we believe you will make an excellent contribution to our team. Your passion for Model United Nations and leadership qualities truly impressed our selection committee.
+
+════════════════════════════════════════════════════════════════
+                        NEXT STEPS
+                    ═══════════════════════════════════════════════════════════════
+
+✓ You will receive detailed information about your role and responsibilities
+✓ Please confirm your acceptance by replying to this email within 48 hours
+✓ Follow us on social media for updates
+✓ Visit our website: ${website}
+
+════════════════════════════════════════════════════════════════
+                        ABOUT ONYX MUN
+                    ═══════════════════════════════════════════════════════════════
+
+ONYX MUN is Hyderabad's premier Model United Nations conference, bringing together passionate delegates from across the country. Our mission is to foster diplomacy, public speaking, and global awareness among young leaders.
+
+Website: ${website}
+Email: onyxmun.hyd@gmail.com
+
+If you have any questions, feel free to reach out. We're here to support you throughout your journey with us.
+
+Congratulations once again, and welcome to the ONYX MUN family!
+
+With warm regards,
+
+ONYX MUN Secretariat
+${website}
+
+════════════════════════════════════════════════════════════════`);
+                } else if (type === 'oc') {
+                    subject = encodeURIComponent('ONYX MUN 2026 | Organising Committee Application Accepted');
+                    body = encodeURIComponent(`Dear ${name},
+
+Congratulations!
+
+Your application for the ONYX MUN 2026 Organising Committee has been accepted. Our team will contact you with the next steps and role details shortly.
+
+With warm regards,
+ONYX MUN Secretariat
+${website}`);
+                } else {
+                    const committee = allocation?.allocated_committee || 'your assigned committee';
+                    const portfolio = allocation?.allocated_portfolio || 'your assigned portfolio';
+                    subject = encodeURIComponent('ONYX MUN 2026 | Delegate Application Accepted');
+                    body = encodeURIComponent(`════════════════════════════════════════════════════════════════
+                        ONYX MUN 2026
+                    ════════════════════════════════════════════════════════════════
+
+Dear ${name},
+
+CONGRATULATIONS! 🎉
+
+We are thrilled to inform you that your application for ONYX MUN 2026 has been accepted!
+
+After careful review of your application, we are pleased to welcome you as a delegate to this year's conference.
+
+════════════════════════════════════════════════════════════════
+                    YOUR ALLOCATION
+                ═══════════════════════════════════════════════════════════════
+
+📋 Committee: ${committee}
+🎭 Portfolio: ${portfolio}
+
+════════════════════════════════════════════════════════════════
+                        NEXT STEPS
+                    ═══════════════════════════════════════════════════════════════
+
+✓ Prepare your position papers (guidelines will be provided)
+✓ Follow us on social media for updates
+✓ Visit our website: ${website}
+
+════════════════════════════════════════════════════════════════
+                        ABOUT ONYX MUN
+                    ═══════════════════════════════════════════════════════════════
+
+ONYX MUN is Hyderabad's premier Model United Nations conference, bringing together passionate delegates from across the country. Our mission is to foster diplomacy, public speaking, and global awareness among young leaders.
+
+Website: ${website}
+Email: onyxmun.hyd@gmail.com
+
+We look forward to welcoming you to ONYX MUN 2026 and seeing you excel in your assigned portfolio!
+
+With warm regards,
+
+ONYX MUN Secretariat
+${website}
+
+════════════════════════════════════════════════════════════════`);
+                }
+            } else if (templateType === 'reject') {
+                subject = encodeURIComponent('ONYX MUN 2026 | Application Update');
+                body = encodeURIComponent(`════════════════════════════════════════════════════════════════
+                        ONYX MUN 2026
+                    ════════════════════════════════════════════════════════════════
+
+Dear ${name},
+
+APPLICATION UPDATE
+
+Thank you for your interest in ONYX MUN 2026 and for taking the time to submit your application. We truly appreciate your enthusiasm for Model United Nations.
+
+════════════════════════════════════════════════════════════════
+                        DECISION
+                    ═══════════════════════════════════════════════════════════════
+
+After careful consideration of all applications, we regret to inform you that we are unable to proceed with your application at this time.
+
+This decision was difficult given the exceptional quality of applications we received this year. We had a very competitive pool of candidates, and we had to make some tough choices.
+
+════════════════════════════════════════════════════════════════
+                        MOVING FORWARD
+                    ═══════════════════════════════════════════════════════════════
+
+We encourage you to:
+✓ Apply for future ONYX MUN conferences
+✓ Continue pursuing your passion for Model United Nations
+✓ Keep developing your public speaking and diplomatic skills
+✓ Stay connected with us through our social media
+
+Website: ${website}
+Instagram: @onymunhyd
+LinkedIn: ONYX MUN
+
+════════════════════════════════════════════════════════════════
+                        FEEDBACK
+                    ═══════════════════════════════════════════════════════════════
+
+If you would like specific feedback on your application to help you improve for future opportunities, please don't hesitate to reach out. We're happy to provide constructive feedback to support your growth in MUN.
+
+════════════════════════════════════════════════════════════════
+                        ABOUT ONYX MUN
+                    ═══════════════════════════════════════════════════════════════
+
+ONYX MUN is Hyderabad's premier Model United Nations conference. We are committed to nurturing young leaders and creating meaningful experiences for all participants.
+
+Website: ${website}
+Email: onyxmun.hyd@gmail.com
+
+Your interest in Model United Nations is commendable, and we hope you continue to pursue your passion. We would love to see you apply again in the future.
+
+With gratitude,
+
+ONYX MUN Secretariat
+${website}
+
+════════════════════════════════════════════════════════════════`);
+            } else if (templateType === 'under_review') {
+                subject = encodeURIComponent('ONYX MUN 2026 | Application Under Review');
+                body = encodeURIComponent(`════════════════════════════════════════════════════════════════
+                        ONYX MUN 2026
+                    ════════════════════════════════════════════════════════════════
+
+Dear ${name},
+
+APPLICATION STATUS UPDATE
+
+Thank you for your application to ONYX MUN 2026! We truly appreciate your interest in joining our conference.
+
+════════════════════════════════════════════════════════════════
+                        CURRENT STATUS
+                    ═══════════════════════════════════════════════════════════════
+
+We are pleased to inform you that your application is currently under review by our selection committee.
+
+We received an overwhelming number of applications this year, which speaks to the growing interest in Model United Nations. Our dedicated team is carefully evaluating each application to ensure a fair and thorough selection process.
+
+════════════════════════════════════════════════════════════════
+                        TIMELINE
+                    ═══════════════════════════════════════════════════════════════
+
+📅 Expected Decision Date: [Date]
+
+You will receive an email notification once a decision has been made regarding your application.
+
+════════════════════════════════════════════════════════════════
+                        STAY CONNECTED
+                    ═══════════════════════════════════════════════════════════════
+
+While you wait:
+✓ Follow us on Instagram: @onymunhyd
+✓ Like our Facebook page
+✓ Visit our website for updates: ${website}
+✓ Check out our previous conference highlights
+
+════════════════════════════════════════════════════════════════
+                        ABOUT ONYX MUN
+                    ═══════════════════════════════════════════════════════════════
+
+ONYX MUN is Hyderabad's premier Model United Nations conference. We are committed to providing an exceptional experience for all participants, fostering diplomacy, public speaking, and global awareness.
+
+Website: ${website}
+Email: onyxmun.hyd@gmail.com
+
+Thank you for your patience and for choosing ONYX MUN. We truly appreciate your interest and the time you've invested in your application.
+
+With anticipation,
+
+ONYX MUN Secretariat
+${website}
+
+════════════════════════════════════════════════════════════════`);
+            }
+            
+            window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+        }
+
+        // Updated action functions with template support
+        function sendEmail(email, name) {
+            const subject = encodeURIComponent('ONYX MUN 2026 - Application Update');
+            const body = encodeURIComponent(`Dear ${name},\n\nI hope this message finds you well. We are writing to you regarding your application for ONYX MUN 2026.\n\nBest regards,\nONYX MUN Secretariat`);
+            window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+        }
+
+        function sendWhatsApp(phone, name) {
+            // Remove non-numeric characters and add country code if needed
+            let cleanPhone = phone.replace(/[^0-9]/g, '');
+            if (cleanPhone.length === 10 && !cleanPhone.startsWith('91')) {
+                cleanPhone = '91' + cleanPhone;
+            }
+            const message = encodeURIComponent(`Hello ${name}, this is ONYX MUN Secretariat. We are writing regarding your application for ONYX MUN 2026.`);
+            window.open(`https://wa.me/${cleanPhone}?text=${message}`, '_blank');
+        }
+
+        async function deleteApplication(type, id, name) {
+            if (!confirm(`Are you sure you want to delete ${name}'s application? This action cannot be undone.`)) {
+                return;
+            }
+
+            const tableName = getTableName(type);
+
+            try {
+                const { error } = await supabaseClient
+                    .from(tableName)
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                alert('Application deleted successfully.');
+                loadApplications(); // Reload the applications
+            } catch (error) {
+                console.error('Error deleting application:', error);
+                alert('Error deleting application. Please try again.');
+            }
+        }
+
+        async function toggleBest(type, id, currentValue) {
+            const tableName = getTableName(type);
+            const newValue = !currentValue;
+
+            try {
+                const { error } = await supabaseClient
+                    .from(tableName)
+                    .update({ is_best: newValue })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                loadApplications(); // Reload to show updated state
+            } catch (error) {
+                console.error('Error updating best status:', error);
+                alert('Error updating status. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

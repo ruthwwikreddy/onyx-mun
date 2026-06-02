@@ -1,0 +1,15 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/delegate-application",
+      "destination": "/round-1",
+      "permanent": true
+    },
+    {
+      "source": "/delegate-application.html",
+      "destination": "/round-1",
+      "permanent": true
+    }
+  ]
+}

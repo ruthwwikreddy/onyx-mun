@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYX MUN — Venue Post (Export PNG)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --onyx: #000000;
+            --gold: #D4AF37;
+            --gold-bright: #F4CF67;
+            --white: #FFFFFF;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            background: #111;
+            font-family: 'Inter', sans-serif;
+            color: var(--white);
+            padding: 24px 16px 40px;
+        }
+
+        .toolbar {
+            max-width: 1080px;
+            margin: 0 auto 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toolbar h1 { font-size: 1rem; font-weight: 600; opacity: 0.85; }
+
+        .toolbar-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 100px;
+            border: none;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+            color: var(--onyx);
+        }
+
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35); }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+        }
+
+        .preview-wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .preview-scale {
+            width: min(100%, 540px);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #post-canvas {
+            width: 1080px;
+            height: 1080px;
+            transform-origin: top left;
+            transform: scale(0.5);
+            position: relative;
+            background: var(--onyx);
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .post-school-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .post-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(0, 0, 0, 0.82) 0%,
+                    rgba(0, 0, 0, 0.35) 28%,
+                    rgba(0, 0, 0, 0.15) 48%,
+                    rgba(0, 0, 0, 0.2) 58%,
+                    rgba(0, 0, 0, 0.75) 72%,
+                    rgba(0, 0, 0, 0.88) 100%
+                );
+            pointer-events: none;
+        }
+
+        .post-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: -120px;
+            right: -80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .post-line-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.7;
+            z-index: 4;
+        }
+
+        .post-header {
+            position: absolute;
+            top: 48px;
+            left: 48px;
+            right: 48px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            z-index: 5;
+        }
+
+        .post-logo {
+            height: 140px;
+            width: auto;
+            max-width: 400px;
+            object-fit: contain;
+            object-position: left top;
+            filter: drop-shadow(0 4px 24px rgba(0, 0, 0, 0.5));
+        }
+
+        .post-badge {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--onyx);
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+            padding: 14px 26px;
+            border-radius: 100px;
+            margin-top: 8px;
+        }
+
+        .post-content {
+            position: absolute;
+            left: 48px;
+            right: 48px;
+            bottom: 120px;
+            z-index: 5;
+            text-align: left;
+            padding: 28px 32px 32px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 100%);
+            border-radius: 12px;
+        }
+
+        .post-eyebrow {
+            font-size: 26px;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+        }
+
+        .post-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            line-height: 1.05;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--white);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 8px 32px rgba(0, 0, 0, 0.85);
+        }
+
+        .post-headline span {
+            display: block;
+            color: var(--gold);
+            font-size: 0.55em;
+            letter-spacing: 2px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .post-location {
+            font-size: 30px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+            margin-bottom: 28px;
+        }
+
+        .post-tagline {
+            display: inline-block;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--white);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            padding: 16px 32px;
+            border-radius: 100px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+        }
+
+        .post-footer {
+            position: absolute;
+            bottom: 44px;
+            left: 48px;
+            right: 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 5;
+            font-size: 20px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        .post-frame {
+            position: absolute;
+            inset: 24px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 20px;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .prompt-box {
+            max-width: 1080px;
+            margin: 32px auto 0;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        .prompt-box h2 {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .prompt-box pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 0.8rem;
+            line-height: 1.55;
+            opacity: 0.8;
+            font-family: ui-monospace, monospace;
+        }
+
+        #status { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; max-width: 1080px; margin-left: auto; margin-right: auto; }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <h1>Venue announcement · 1080×1080 PNG</h1>
+        <div class="toolbar-actions">
+            <button type="button" class="btn btn-ghost" id="btnCopyPrompt">Copy AI prompt</button>
+            <button type="button" class="btn btn-gold" id="btnDownload">Download PNG</button>
+        </div>
+    </div>
+    <p id="status">Loading images for export…</p>
+
+    <div class="preview-wrap">
+        <div class="preview-scale" id="previewHost">
+            <div id="post-canvas">
+                <img class="post-school-img" id="schoolImg" src="image.png" alt="">
+                <div class="post-overlay" aria-hidden="true"></div>
+                <div class="post-glow" aria-hidden="true"></div>
+                <div class="post-line-top" aria-hidden="true"></div>
+                <div class="post-frame" aria-hidden="true"></div>
+
+                <header class="post-header">
+                    <img class="post-logo" id="logoImg" src="logo.png" alt="ONYX MUN" height="140">
+                    <span class="post-badge">The venue</span>
+                </header>
+
+                <div class="post-content">
+                    <p class="post-eyebrow">Where we meet</p>
+                    <h2 class="post-headline">
+                        LAURUS THE<br>UNIVERSAL SCHOOL
+                        <span>Our conference home</span>
+                    </h2>
+                    <p class="post-location">Hyderabad · Bowrampet</p>
+                    <p class="post-tagline">ONYX MUN 2026</p>
+                </div>
+
+                <footer class="post-footer">
+                    <span>The Sovereign Standard</span>
+                    <span>onyxmunhyd.in</span>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="prompt-box">
+        <h2>AI image prompt</h2>
+        <pre id="aiPrompt">Premium Instagram square post (1080x1080), ONYX MUN conference venue announcement.
+
+Layout: ONYX MUN logo large in top-left corner (gold on black). Gold pill badge top-right: "THE VENUE".
+
+Background: full-bleed photo of Laurus The Universal School campus (modern international school building, green campus, professional architecture) with cinematic dark gradient overlay so text stays readable.
+
+Typography (black and gold luxury MUN brand):
+- Gold eyebrow: "WHERE WE MEET"
+- Large white serif headline: "LAURUS THE UNIVERSAL SCHOOL"
+- Italic gold subline: "Our conference home"
+- Muted uppercase: "HYDERABAD · BOWRAMPET"
+- Gold-outlined pill: "ONYX MUN 2026"
+
+Footer faint text: "THE SOVEREIGN STANDARD" and "onyxmunhyd.in". Thin gold border inset frame. Subtle film grain. No people in focus. High-end, minimal, Playfair Display + Inter style. Match onyxmunhyd.in website aesthetic.</pre>
+        <button type="button" class="btn btn-ghost" id="btnCopyPrompt2" style="margin-top:12px">Copy prompt</button>
+    </div>
+
+    <script>
+        const promptText = document.getElementById('aiPrompt').textContent.trim();
+
+        async function fileToDataUrl(path) {
+            const res = await fetch(path);
+            if (!res.ok) throw new Error('Could not load ' + path);
+            const blob = await res.blob();
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        async function prepareImages() {
+            const status = document.getElementById('status');
+            try {
+                const [logoData, schoolData] = await Promise.all([
+                    fileToDataUrl('logo.png'),
+                    fileToDataUrl('image.png')
+                ]);
+                document.getElementById('logoImg').src = logoData;
+                document.getElementById('schoolImg').src = schoolData;
+                status.textContent = 'Ready — click Download PNG.';
+            } catch (e) {
+                status.textContent = 'Load via http://localhost:8080/social-venue-post.html — ' + e.message;
+            }
+        }
+
+        prepareImages();
+
+        function copyPrompt() {
+            navigator.clipboard.writeText(promptText).then(() => {
+                document.getElementById('status').textContent = 'AI prompt copied.';
+            }).catch(() => {
+                document.getElementById('status').textContent = 'Copy the prompt from the box below.';
+            });
+        }
+
+        document.getElementById('btnCopyPrompt').addEventListener('click', copyPrompt);
+        document.getElementById('btnCopyPrompt2').addEventListener('click', copyPrompt);
+
+        document.getElementById('btnDownload').addEventListener('click', async () => {
+            const status = document.getElementById('status');
+            const btn = document.getElementById('btnDownload');
+            const canvas = document.getElementById('post-canvas');
+
+            btn.disabled = true;
+            status.textContent = 'Generating PNG…';
+
+            const oldTransform = canvas.style.transform;
+            canvas.style.transform = 'none';
+
+            try {
+                await document.fonts.ready;
+                const imgs = canvas.querySelectorAll('img');
+                await Promise.all([...imgs].map(img => {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+                }));
+
+                const exportCanvas = await html2canvas(canvas, {
+                    scale: 2,
+                    useCORS: false,
+                    allowTaint: false,
+                    backgroundColor: '#000000',
+                    width: 1080,
+                    height: 1080,
+                    logging: false
+                });
+
+                canvas.style.transform = oldTransform;
+
+                const dataUrl = exportCanvas.toDataURL('image/png');
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = 'onyx-mun-venue-laurus.png';
+                a.click();
+                status.textContent = 'Downloaded onyx-mun-venue-laurus.png';
+            } catch (err) {
+                canvas.style.transform = oldTransform;
+                console.error(err);
+                status.textContent = 'Export error: ' + err.message;
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "ONYX MUN",
+  "short_name": "ONYX",
+  "description": "The Sovereign Standard of Diplomatic Simulations",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#D4AF37",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

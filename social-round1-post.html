@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYX MUN — Round 1 Post (Export PNG)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --onyx: #000000;
+            --surface: #0A0A0A;
+            --gold: #D4AF37;
+            --gold-bright: #F4CF67;
+            --gold-muted: rgba(212, 175, 55, 0.15);
+            --white: #FFFFFF;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --bezier: cubic-bezier(0.19, 1, 0.22, 1);
+            --radius-sm: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--white);
+            padding: 24px 16px 40px;
+        }
+
+        .toolbar {
+            max-width: 1080px;
+            margin: 0 auto 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toolbar h1 { font-size: 1rem; font-weight: 600; opacity: 0.85; }
+        .toolbar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 12px 22px;
+            border-radius: 100px;
+            border: none;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+            color: var(--onyx);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+        }
+
+        .preview-wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .preview-scale {
+            width: min(100%, 540px);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        /* ─── 1080×1080 canvas = homepage hero slice ─── */
+        #post-canvas {
+            width: 1080px;
+            height: 1080px;
+            transform-origin: top left;
+            transform: scale(0.5);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at center, rgba(10, 10, 10, 0.8) 0%, var(--onyx) 100%);
+        }
+
+        .post-hero-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .post-noise {
+            position: absolute;
+            inset: 0;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .post-scroll-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gold);
+            z-index: 10;
+        }
+
+        /* Floating nav pill (from index nav) */
+        .post-nav {
+            position: absolute;
+            top: 56px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            padding: 14px 36px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .post-nav-logo {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .post-nav-badge {
+            background: var(--gold);
+            color: var(--onyx);
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Hero content (index .hero-content) */
+        .post-hero {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding: 200px 64px 200px;
+            z-index: 2;
+        }
+
+        .post-hero-sub {
+            font-size: 22px;
+            color: var(--gold);
+            opacity: 0.8;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .post-hero-sub::before,
+        .post-hero-sub::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.3;
+        }
+
+        .post-hero-sub::before { right: -56px; }
+        .post-hero-sub::after { left: -56px; }
+
+        .post-hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 96px;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin: 0 0 36px;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #FFFFFF 30%, rgba(255, 255, 255, 0.5) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        .post-hero-title span {
+            display: block;
+            color: var(--gold);
+            -webkit-text-fill-color: var(--gold);
+            font-style: italic;
+            letter-spacing: -1px;
+            margin-top: 12px;
+        }
+
+        .post-hero-desc {
+            font-size: 28px;
+            opacity: 0.6;
+            line-height: 1.75;
+            max-width: 720px;
+            margin-bottom: 48px;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+        }
+
+        .post-btn-primary {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--onyx);
+            padding: 26px 52px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 26px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Glass info card (index .bento-card / .comm-card) */
+        .post-glass-card {
+            margin-top: 32px;
+            padding: 24px 36px;
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 640px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.6;
+        }
+
+        .post-glass-card p {
+            font-size: 22px;
+            line-height: 1.6;
+            opacity: 0.65;
+        }
+
+        .post-glass-card .gold-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .post-glass-card strong {
+            color: var(--white);
+            opacity: 1;
+            font-weight: 700;
+        }
+
+        /* Merge footer (index .merge-section) */
+        .post-merge {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 4;
+            padding: 40px 72px 52px;
+            border-top: 1px solid rgba(212, 175, 55, 0.12);
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 55%),
+                radial-gradient(ellipse 70% 50% at 80% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+                linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 30%, #000 100%);
+        }
+
+        .post-merge-eyebrow {
+            font-size: 18px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.85;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .post-merge-brands {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .post-merge-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .post-merge-brand--onyx { color: var(--white); }
+
+        .post-merge-brand--resolve {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .post-merge-amp {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .post-merge-line {
+            width: 48px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .post-merge-x {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--gold);
+            opacity: 0.9;
+            line-height: 1;
+        }
+
+        .prompt-box {
+            max-width: 1080px;
+            margin: 32px auto 0;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        .prompt-box h2 {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .prompt-box pre {
+            white-space: pre-wrap;
+            font-size: 0.8rem;
+            line-height: 1.55;
+            opacity: 0.8;
+            font-family: ui-monospace, monospace;
+        }
+
+        #status { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <h1>Round 1 · matches onyxmunhyd.in</h1>
+        <div class="toolbar-actions">
+            <button type="button" class="btn btn-ghost" id="btnCopyPrompt">Copy AI prompt</button>
+            <button type="button" class="btn btn-gold" id="btnDownload">Download PNG</button>
+        </div>
+    </div>
+    <p id="status">Loading assets…</p>
+
+    <div class="preview-wrap">
+        <div class="preview-scale">
+            <div id="post-canvas">
+                <div class="post-hero-bg" id="heroBg" aria-hidden="true"></div>
+                <div class="post-scroll-bar" aria-hidden="true"></div>
+                <div class="post-noise" aria-hidden="true"></div>
+
+                <nav class="post-nav" aria-label="ONYX MUN">
+                    <img id="logoNav" src="logo.png" alt="" class="post-nav-logo" height="44">
+                    <span class="post-nav-badge">Round 1 · Open</span>
+                </nav>
+
+                <div class="post-hero">
+                    <p class="post-hero-sub">The Sovereign Standard</p>
+                    <h1 class="post-hero-title">
+                        ROUND 1<br>
+                        <span>Delegate Applications</span>
+                    </h1>
+                    <p class="post-hero-desc">
+                        India's most prestigious Model United Nations conference. Secure your seat at ONYX MUN 2026.
+                    </p>
+                    <p class="post-btn-primary">onyxmunhyd.in/round-1</p>
+                    <div class="post-glass-card">
+                        <p><span class="gold-dot" aria-hidden="true"></span><strong>Now accepting delegates.</strong> Apply online — choose your committee preferences in minutes.</p>
+                    </div>
+                </div>
+
+                <footer class="post-merge">
+                    <p class="post-merge-eyebrow">Hyderabad · 2026</p>
+                    <div class="post-merge-brands">
+                        <span class="post-merge-brand post-merge-brand--onyx">ONYX</span>
+                        <div class="post-merge-amp" aria-hidden="true">
+                            <span class="post-merge-line"></span>
+                            <span class="post-merge-x">×</span>
+                            <span class="post-merge-line"></span>
+                        </div>
+                        <span class="post-merge-brand post-merge-brand--resolve">RESOLVE</span>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="prompt-box">
+        <h2>AI prompt</h2>
+        <pre id="aiPrompt">Square 1080×1080 social post matching ONYX MUN website (onyxmunhyd.in) exactly.
+
+Black background with same triple radial gold glows as homepage hero, subtle hero photo at 20% opacity, film grain overlay, gold 3px line at top.
+
+Floating glass pill nav centered near top: ONYX logo + gold "ROUND 1 · OPEN" badge.
+
+Centered hero like homepage:
+- Gold caps "THE SOVEREIGN STANDARD" with thin gold lines on sides
+- Huge Playfair headline white gradient "ROUND 1" then italic gold "Delegate Applications"
+- Muted Jakarta sans description about India's premier MUN
+- Gold pill button "onyxmunhyd.in/round-1" with shadow
+- Dark glass card below with gold dot accent and short apply message
+
+Bottom merge strip: "HYDERABAD · 2026" then Playfair "ONYX × RESOLVE" with gold lines.
+
+No price. No Resolve website. Black gold white only. Premium sovereign standard aesthetic.</pre>
+        <button type="button" class="btn btn-ghost" style="margin-top:12px" id="btnCopyPrompt2">Copy prompt</button>
+    </div>
+
+    <script>
+        const promptText = document.getElementById('aiPrompt').textContent.trim();
+
+        function copyPrompt() {
+            navigator.clipboard.writeText(promptText).then(() => {
+                document.getElementById('status').textContent = 'Prompt copied.';
+            }).catch(() => {
+                document.getElementById('status').textContent = 'Copy prompt manually from box below.';
+            });
+        }
+
+        async function fileToDataUrl(path) {
+            const res = await fetch(path);
+            if (!res.ok) throw new Error(path);
+            const blob = await res.blob();
+            return new Promise((resolve, reject) => {
+                const r = new FileReader();
+                r.onload = () => resolve(r.result);
+                r.onerror = reject;
+                r.readAsDataURL(blob);
+            });
+        }
+
+        async function initAssets() {
+            const status = document.getElementById('status');
+            try {
+                const logo = await fileToDataUrl('logo.png');
+                document.getElementById('logoNav').src = logo;
+
+                try {
+                    const hero = await fileToDataUrl('assets/hero/image.png');
+                    document.getElementById('heroBg').style.backgroundImage = 'url("' + hero + '")';
+                } catch {
+                    /* gradients only — same as site when hero images missing */
+                }
+
+                status.textContent = 'Ready — Download PNG.';
+            } catch (e) {
+                status.textContent = 'Serve at http://localhost:8080/social-round1-post.html — ' + e.message;
+            }
+        }
+
+        initAssets();
+
+        document.getElementById('btnCopyPrompt').addEventListener('click', copyPrompt);
+        document.getElementById('btnCopyPrompt2').addEventListener('click', copyPrompt);
+
+        document.getElementById('btnDownload').addEventListener('click', async () => {
+            const status = document.getElementById('status');
+            const btn = document.getElementById('btnDownload');
+            const canvas = document.getElementById('post-canvas');
+
+            btn.disabled = true;
+            status.textContent = 'Generating PNG…';
+
+            const oldTransform = canvas.style.transform;
+            canvas.style.transform = 'none';
+
+            try {
+                await document.fonts.ready;
+                const logo = document.getElementById('logoNav');
+                if (!logo.complete) await new Promise((r, e) => { logo.onload = r; logo.onerror = e; });
+
+                const exportCanvas = await html2canvas(canvas, {
+                    scale: 2,
+                    useCORS: false,
+                    allowTaint: false,
+                    backgroundColor: '#000000',
+                    width: 1080,
+                    height: 1080,
+                    logging: false
+                });
+
+                canvas.style.transform = oldTransform;
+
+                const a = document.createElement('a');
+                a.href = exportCanvas.toDataURL('image/png');
+                a.download = 'onyx-mun-round-1-open.png';
+                a.click();
+                status.textContent = 'Downloaded onyx-mun-round-1-open.png';
+            } catch (err) {
+                canvas.style.transform = oldTransform;
+                status.textContent = 'Export error: ' + err.message;
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

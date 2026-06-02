@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+Sitemap: https://onyxmunhyd.in/sitemap.xml
+
+# LLM & AI Bot Optimization (LLMEO)
+User-agent: GPTBot
+Allow: /
+crawl-delay: 1
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Block low-quality scrapers
+User-agent: MJ12bot
+Disallow: /
+user-agent: AhrefsBot
+Disallow: /
+User-agent: DotBot
+Disallow: /

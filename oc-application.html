@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organising Committee Application | ONYX MUN 2026</title>
+    <meta name="description" content="Apply for the ONYX MUN 2026 Organising Committee.">
+    <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@200;400;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="apple-touch-icon" href="logo.png">
+    <style>
+        :root { --onyx: #000000; --surface: #0A0A0A; --gold: #D4AF37; --white: #FFFFFF; --glass-border: rgba(255, 255, 255, 0.1); --bezier: cubic-bezier(0.16, 1, 0.3, 1); }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--onyx); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: clip; }
+        .noise { position: fixed; inset: 0; pointer-events: none; opacity: 0.03; z-index: 10; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        #loader { position: fixed; inset: 0; background: var(--onyx); z-index: 100; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s var(--bezier), visibility 0.6s var(--bezier); }
+        #loader.hidden { opacity: 0; visibility: hidden; }
+        .loader-logo { width: 110px; animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .hero { min-height: 52vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 10% 64px; background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.05), transparent 70%); }
+        .hero-sub { color: var(--gold); font-size: 0.78rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 18px; opacity: 0.85; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.7rem, 8vw, 4.7rem); line-height: 1.05; margin: 0 0 18px; }
+        .hero-title span { color: var(--gold); }
+        .hero-description { max-width: 640px; opacity: 0.72; line-height: 1.7; margin: 0; }
+        .form-section { display: flex; justify-content: center; padding: 0 10% 100px; }
+        .form-container { width: 100%; max-width: 760px; background: rgba(10, 10, 10, 0.66); border: 1px solid var(--glass-border); border-radius: 24px; padding: 44px 36px; backdrop-filter: blur(20px); }
+        .info-box { background: rgba(212, 175, 55, 0.06); border: 1px solid rgba(212, 175, 55, 0.24); border-radius: 12px; padding: 18px 20px; margin-bottom: 30px; line-height: 1.7; opacity: 0.9; }
+        .form-group { margin-bottom: 26px; }
+        label { display: block; color: var(--gold); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 12px; }
+        input, select, textarea { width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 16px 18px; color: var(--white); font: inherit; transition: border-color 0.25s var(--bezier), background 0.25s var(--bezier); }
+        textarea { min-height: 120px; resize: vertical; }
+        select { cursor: pointer; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); background: rgba(255, 255, 255, 0.055); }
+        select option { background: var(--surface); color: var(--white); }
+        .payment-section { background: rgba(212,175,55,0.05); padding: 25px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.2); margin-top: 30px; }
+        .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 25px; }
+        .submit-btn { width: 100%; padding: 19px; border: 0; border-radius: 100px; background: var(--gold); color: var(--onyx); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: transform 0.3s var(--bezier), opacity 0.3s var(--bezier); }
+        .submit-btn:hover { transform: translateY(-2px); }
+        .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+        #formMessage { margin-top: 20px; text-align: center; font-weight: 700; }
+        @media (max-width: 768px) {
+            .hero { padding: 100px 6% 52px; }
+            .form-section { padding: 0 5% 70px; }
+            .form-container { padding: 30px 20px; border-radius: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div id="loader"><img src="logo.svg" alt="ONYX MUN" class="loader-logo"></div>
+
+    <section class="hero">
+        <div class="hero-sub">Round One</div>
+        <h1 class="hero-title">Organising Committee <span>Application</span></h1>
+        <p class="hero-description">Apply for the ONYX MUN 2026 Organising Committee. Complete the payment, add your transaction ID, and submit your details for review.</p>
+    </section>
+
+    <section class="form-section">
+        <div class="form-container">
+            <div class="info-box">
+                OC Round One fee is <strong style="color: var(--gold);">₹1699</strong>. Please use the QR below and enter the UPI transaction ID before submitting.
+            </div>
+
+            <form id="ocForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="instagram">Instagram Account *</label>
+                    <input type="text" id="instagram" name="instagram" required placeholder="@yourhandle">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number (WhatsApp) *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+91 00000 00000">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="name@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="institution">Institution *</label>
+                    <input type="text" id="institution" name="institution" required placeholder="School/College name">
+                </div>
+
+                <div class="form-group">
+                    <label for="grade">Grade *</label>
+                    <input type="text" id="grade" name="grade" required placeholder="Example: Grade 11 / First Year">
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Experience *</label>
+                    <textarea id="experience" name="experience" required placeholder="Mention your MUN, event, leadership, logistics, media, or team experience."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="dedication">Are you willing to dedicate time before the actual dates of MUN? *</label>
+                    <select id="dedication" name="dedication" required>
+                        <option value="">Select Option</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group payment-section">
+                    <label style="font-size: 1.05rem;">Application Fee Payment *</label>
+                    <div class="qr-wrap">
+                        <div style="background: white; padding: 10px; border-radius: 10px;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi%3A%2F%2Fpay%3Fpa%3D9493678346%40ibl%26pn%3DSUNKARA%2520MURALI%2520KRISHNA%26mc%3D0000%26mode%3D02%26purpose%3D00" alt="UPI QR Code" style="width: 200px; height: 200px; display: block;">
+                        </div>
+                        <div style="text-align: center; line-height: 1.8;">
+                            <p style="font-size: 1.2rem; font-weight: 800; color: var(--gold); margin: 0;">Amount: ₹1699</p>
+                            <p style="margin: 5px 0 0; opacity: 0.8; font-family: monospace; font-size: 1rem;">9493678346@ibl</p>
+                            <p style="margin: 0; opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">SUNKARA MURALI KRISHNA</p>
+                        </div>
+                    </div>
+                    <label for="transactionId">UPI Transaction ID *</label>
+                    <input type="text" id="transactionId" name="transactionId" required placeholder="Enter your UPI Transaction ID">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Submit OC Application</button>
+                <div id="formMessage"></div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        const SUPABASE_URL = 'https://pmqbfmgjazlbtdtnlvez.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtcWJmbWdqYXpsYnRkdG5sdmV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NTQ5MzgsImV4cCI6MjA5MjIzMDkzOH0.XjmK1DhqyJJaTcBXso0IdkFrcK4C2f0MqxexDqzdrwQ';
+    </script>
+    <script>
+        const { createClient } = window.supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('loader').classList.add('hidden'), 900);
+        });
+
+        document.getElementById('ocForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            const payload = {
+                full_name: document.getElementById('fullName').value,
+                instagram_account: document.getElementById('instagram').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                institution: document.getElementById('institution').value,
+                grade: document.getElementById('grade').value,
+                experience: document.getElementById('experience').value,
+                dedication_before_mun: document.getElementById('dedication').value,
+                fee_amount: 1699,
+                transaction_id: document.getElementById('transactionId').value,
+                submitted_at: new Date().toISOString(),
+                application_type: 'organising_committee'
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const { error } = await supabaseClient.from('oc_applications').insert([payload]);
+                if (error) throw error;
+                formMessage.style.color = '#4CAF50';
+                formMessage.textContent = 'OC application submitted successfully.';
+                document.getElementById('ocForm').reset();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (error) {
+                console.error('OC submission error:', error);
+                formMessage.style.color = '#ff6b6b';
+                formMessage.textContent = 'Error submitting application. Please try again.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit OC Application';
+            }
+        });
+    </script>
+</body>
+</html>
