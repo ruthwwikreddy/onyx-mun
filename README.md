@@ -54,16 +54,35 @@ No npm, no bundler, no transpilation required.
     illuminati.html
     hcc.html                  # Placeholder/new file
 
+  /embed
+    promo.html                # Remotion promo iframe (390×780, scene query param)
+
   /assets
     onyx.css
     onyx-hifi.css
     onyx-forms.css
+    onyx-embed.css            # Promo embed styles
+    onyx-embed.js             # Promo scene + postMessage API
     onyx.js
     onyx-upi.js
     ...images...
 
   aether.png                  # The Aether Organisation logo
 ```
+
+---
+
+## Promo embed (marketing / Remotion)
+
+Fixed **390×780** iframe for Gathrly video promos. Not indexed (`robots.txt` blocks `/embed/`).
+
+Base URL: `https://onyxmunhyd.in/embed/promo?scene=<scene>`
+
+Scenes: `landing`, `checkout`, `checkout-processing`, `success`, `dashboard`
+
+Optional: `amount=2840`, `currency=INR`, `theme=dark`, `chrome=1`
+
+Parent can drive scenes via `postMessage({ type: 'gathrly-promo', scene: 'checkout' })`.
 
 ---
 
