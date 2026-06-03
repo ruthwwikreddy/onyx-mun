@@ -138,12 +138,29 @@
     }
   }
 
+  function initHeroBackground() {
+    var heroBg = document.getElementById('heroBg');
+    if (!heroBg) return;
+    var imgs = [
+      '../assets/hero/image.png',
+      '../assets/hero/image copy.png',
+      '../assets/hero/image copy 2.png',
+      '../assets/hero/image copy 3.png'
+    ];
+    var chosen = params.get('hero') || imgs[0];
+    if (imgs.indexOf(chosen) === -1 && !/^\.{0,2}\//.test(chosen)) {
+      chosen = imgs[0];
+    }
+    heroBg.style.backgroundImage = 'url("' + encodeURI(chosen) + '")';
+  }
+
   function init() {
     if (!root) {
       notifyParent('gathrly-promo-error', { message: 'promo-root missing' });
       return;
     }
 
+    initHeroBackground();
     setChrome(chrome);
     setTheme(theme);
     applyAmount();

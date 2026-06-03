@@ -8,14 +8,13 @@
     <link rel="icon" type="image/svg+xml" href="../logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/onyx.css">
+    <link rel="stylesheet" href="../assets/onyx-hifi.css">
     <link rel="stylesheet" href="../assets/onyx-embed.css">
 </head>
-<body data-scene="landing" data-theme="dark" data-chrome="0">
+<body data-scene="landing" data-theme="dark" data-chrome="0" class="promo-embed">
     <div id="promo-root">
-        <div class="promo-ambient" aria-hidden="true"></div>
-        <div class="promo-grain" aria-hidden="true"></div>
-
         <div class="promo-chrome" id="promo-chrome" hidden>
             <div class="promo-chrome__bar">
                 <span class="promo-chrome__lock" aria-hidden="true"></span>
@@ -25,43 +24,74 @@
 
         <div class="promo-backdrop" aria-hidden="true"></div>
 
-        <!-- Landing: mobile event home -->
+        <!-- Landing: real index.html hero (mobile viewport) -->
         <section id="scene-landing" class="is-active" data-scene-panel aria-label="Event home">
-            <header class="landing-header">
-                <img src="../logo.svg" alt="ONYX MUN" width="120" height="32">
-                <span class="landing-badge">Round 1 · Open</span>
-            </header>
-            <div class="landing-hero">
-                <p class="landing-hero__eyebrow">12–14 June · Hyderabad</p>
-                <h1>
-                    <span>Model UN in Hyderabad</span>
-                    Lead the <em>Conversation</em>
-                </h1>
-                <p class="landing-hero__lead">Debate, committee sessions, and leadership learning at ONYX MUN.</p>
-                <button type="button" class="landing-cta" id="cta-apply">Round 1 Apply</button>
-                <button type="button" class="landing-cta landing-cta--ghost">Explore Committees</button>
-                <div class="landing-stats">
-                    <div><strong>7</strong><span>Committees</span></div>
-                    <div><strong>2026</strong><span>Edition</span></div>
-                    <div><strong>HYD</strong><span>Hyderabad</span></div>
-                </div>
-                <article class="landing-card">
-                    <p class="landing-card__tag">Conference</p>
-                    <dl>
-                        <div>
-                            <dt>Event</dt>
-                            <dd>ONYX MUN</dd>
+            <div class="embed-site">
+                <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+                <div class="onyx-bg" aria-hidden="true"></div>
+                <div class="onyx-grain" aria-hidden="true"></div>
+
+                <header class="onyx-header is-scrolled">
+                    <div class="onyx-header__inner">
+                        <a href="#" class="onyx-logo" aria-label="ONYX MUN home" tabindex="-1">
+                            <img src="../logo.svg" alt="ONYX MUN" width="108" height="54">
+                        </a>
+                        <nav class="onyx-nav-wrap" aria-label="Primary" aria-hidden="true">
+                            <ul class="onyx-nav">
+                                <li><a href="#partnership">Partnership</a></li>
+                                <li><a href="#committees">Committees</a></li>
+                            </ul>
+                        </nav>
+                        <div class="onyx-header__actions">
+                            <span class="onyx-btn onyx-btn--ghost onyx-btn--sm" role="presentation">Round 1</span>
+                            <span class="onyx-btn onyx-btn--primary onyx-btn--sm" role="presentation">OC Apply</span>
+                            <button type="button" class="onyx-menu-btn" aria-label="Menu" tabindex="-1">
+                                <span></span><span></span><span></span>
+                            </button>
                         </div>
-                        <div>
-                            <dt>Delegate fee</dt>
-                            <dd data-promo-amount>₹2,840</dd>
+                    </div>
+                </header>
+
+                <main class="onyx-main embed-main">
+                    <section class="ox-hero" aria-labelledby="hero-title">
+                        <div class="ox-hero__bg" id="heroBg" role="presentation"></div>
+                        <div class="ox-hero__shine" aria-hidden="true"></div>
+                        <div class="ox-hero__inner">
+                            <div class="ox-hero__copy">
+                                <h1 id="hero-title">
+                                    <span>Model UN in Hyderabad</span>
+                                    Lead the <em>Conversation</em>
+                                </h1>
+                                <p class="ox-lead">A Model United Nations conference in Hyderabad where students debate real-world topics.</p>
+                                <div class="ox-hero__actions">
+                                    <span class="onyx-btn onyx-btn--primary" id="cta-apply" role="presentation">Round 1 Apply</span>
+                                    <span class="onyx-btn onyx-btn--ghost" role="presentation">Explore Committees</span>
+                                </div>
+                                <div class="ox-hero__stats">
+                                    <div><strong>7</strong><span>Committees</span></div>
+                                    <div><strong>2026</strong><span>Edition</span></div>
+                                    <div><strong>HYD</strong><span>Hyderabad</span></div>
+                                </div>
+                            </div>
+                            <aside class="ox-hero__panel">
+                                <dl>
+                                    <div>
+                                        <dt>Conference</dt>
+                                        <dd>ONYX MUN</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Committees</dt>
+                                        <dd>Seven councils</dd>
+                                    </div>
+                                    <div>
+                                        <dt>City</dt>
+                                        <dd>Hyderabad, India</dd>
+                                    </div>
+                                </dl>
+                            </aside>
                         </div>
-                        <div>
-                            <dt>City</dt>
-                            <dd>Hyderabad, India</dd>
-                        </div>
-                    </dl>
-                </article>
+                    </section>
+                </main>
             </div>
         </section>
 
