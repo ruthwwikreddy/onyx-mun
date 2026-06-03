@@ -2,213 +2,118 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="theme-color" content="#c9a227">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code of Conduct & Delegate Policy | ONYX MUN 2026</title>
-    
-    <!-- Premium Fonts -->
+    <title>Code of Conduct & Delegate Policy | ONYX MUN</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --onyx: #000000;
-            --surface: #0A0A0A;
-            --gold: #D4AF37;
-            --gold-muted: rgba(212, 175, 55, 0.15);
-            --white: #FFFFFF;
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --radius-lg: 32px;
-            --radius-sm: 16px;
-            --bezier: cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        body { 
-            background: var(--onyx); 
-            color: var(--white); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            margin: 0; 
-            overflow-x: clip; 
-            line-height: 1.8;
-        }
-
-        .noise { 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            z-index: 9999; 
-            pointer-events: none; 
-            opacity: 0.03; 
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); 
-        }
-
-        nav {
-            padding: 12px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1400px;
-            z-index: 1000;
-        }
-
-        .nav-logo img { height: 40px; width: auto; }
-        .back-link { color: var(--gold); text-decoration: none; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; }
-
-        .content-hero {
-            padding: 200px 8% 100px;
-            text-align: center;
-            background: radial-gradient(circle at center, var(--gold-muted) 0%, transparent 70%);
-        }
-
-        .eyebrow {
-            font-size: 0.8rem;
-            letter-spacing: 6px;
-            color: var(--gold);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            line-height: 1.1;
-            margin-bottom: 30px;
-        }
-
-        .policy-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 8% 150px;
-        }
-
-        .policy-section {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: 60px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-        }
-
-        h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            opacity: 0.7;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            position: relative;
-            padding-left: 30px;
-            margin-bottom: 15px;
-            opacity: 0.8;
-        }
-
-        li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-            font-weight: bold;
-        }
-
-        .footer {
-            padding: 60px 8%;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .policy-section { padding: 40px 25px; }
-            h2 { font-size: 1.8rem; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/onyx.css">
+    <link rel="stylesheet" href="assets/onyx-hifi.css">
+    <script defer src="assets/onyx.js"></script>
 </head>
 <body>
-    <div class="noise"></div>
+    <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="onyx-bg" aria-hidden="true"></div>
+    <div class="onyx-grain" aria-hidden="true"></div>
+        <div id="scroll-progress" aria-hidden="true"></div>
 
-    <!-- Navigation Removed for Focus -->
+    <header class="onyx-header is-scrolled">
+        <div class="onyx-header__inner">
+            <a href="index.html" class="onyx-logo"><img src="logo.svg" alt="ONYX MUN"></a>
+            <div class="onyx-header__actions">
+                <a href="index.html" class="onyx-btn onyx-btn--ghost onyx-btn--sm">Home</a>
+                <a href="round-1.html" class="onyx-btn onyx-btn--primary onyx-btn--sm">Apply</a>
+            </div>
+        </div>
+    </header>
 
-    <div class="content-hero">
-        <span class="eyebrow">The Sovereign Standard</span>
-        <h1>Delegate Policy</h1>
-    </div>
-
-    <main class="policy-container">
-        <section class="policy-section">
-            <h2>1. Code of Conduct</h2>
-            <p>ONYX MUN 2026 is committed to providing a safe, inclusive, and professional environment for all participants. Every delegate, EB member, and secretariat staff is expected to uphold the highest standards of diplomacy.</p>
-            <ul>
-                <li><strong>Professionalism:</strong> Delegates must maintain a diplomatic decorum in and out of the council rooms.</li>
-                <li><strong>Anti-Harassment:</strong> Any form of harassment, discrimination, or bullying based on gender, race, religion, sexual orientation, or disability is strictly prohibited.</li>
-                <li><strong>Zero Tolerance:</strong> Substance abuse, physical violence, or possession of prohibited items will lead to immediate expulsion from the conference.</li>
-            </ul>
+    <main class="onyx-main">
+        <section class="ox-page-hero">
+            <div class="onyx-wrap">
+                <nav class="ox-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a> · <span>Policy</span>
+                </nav>
+                <p class="ox-eyebrow">Clear guidelines</p>
+                <h1 class="ox-title">Delegate <em>Policy</em></h1>
+                <p class="ox-lead">Read before you apply. By registering, you agree to these standards.</p>
+            </div>
         </section>
 
-        <section class="policy-section">
-            <h2>2. Dress Code</h2>
-            <p>To be informed by the Secretariat.</p>
-        </section>
-
-        <section class="policy-section">
-            <h2>3. Academic Integrity</h2>
-            <p>Delegates are evaluated on their original research and negotiation skills. Plagiarism is a serious offense.</p>
-            <ul>
-                <li>Position papers and speeches must be the delegate's own work.</li>
-                <li>AI tools may be used for research assistance, but verbatim AI-generated speeches or papers will be flagged.</li>
-                <li>Honesty in negotiation and adherence to the council’s rules of procedure is required.</li>
-            </ul>
-        </section>
-
-        <section class="policy-section">
-            <h2>4. Post-Allocation Requirement</h2>
-            <p>Once committee and country allocations are released, all delegates are required to formally accept their position.</p>
-            <ul>
-                <li>Delegates must sign an 'Agreement of Participation' form within 48 hours of receiving their allocation.</li>
-                <li>Additional details (travel info, ID proof) must be submitted via the secondary form provided in the allocation email.</li>
-                <li>Failure to comply with these requirements may lead to the forfeiture of your allocated seat.</li>
-            </ul>
-        </section>
-
-        <section class="policy-section">
-            <h2>5. Attendance & Certification</h2>
-            <ul>
-                <li>Attendance at every session is mandatory to receive a certificate of participation.</li>
-                <li>Delegates arriving late or leaving early without prior permission from the chair will have their participation status reviewed.</li>
-            </ul>
-        </section>
-
-        <section class="policy-section">
-            <h2>5. Liability & Waiver</h2>
-            <p>The ONYX MUN Secretariat and the host institution are not liable for any loss of personal property or injuries sustained during the conference. By registering, delegates agree to follow all safety guidelines provided by the staff.</p>
+        <section class="ox-section ox-section--tight">
+            <div class="onyx-wrap" style="max-width:880px">
+                <div class="ox-policy-stack">
+                    <article class="ox-surface ox-policy-card" data-reveal>
+                        <span class="ox-policy-card__num">01</span>
+                        <div>
+                            <h2>Code of Conduct</h2>
+                            <p>ONYX MUN is committed to a safe, inclusive, and professional environment. Every participant must uphold the highest standards of diplomacy.</p>
+                            <ul class="ox-list">
+                                <li><strong>Professionalism:</strong> Diplomatic decorum in and out of council rooms.</li>
+                                <li><strong>Anti-Harassment:</strong> Zero tolerance for harassment or discrimination.</li>
+                                <li><strong>Zero Tolerance:</strong> Substance abuse, violence, or prohibited items lead to immediate expulsion.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="ox-surface ox-policy-card" data-reveal>
+                        <span class="ox-policy-card__num">02</span>
+                        <div>
+                            <h2>Dress Code</h2>
+                            <p>To be informed by the Secretariat.</p>
+                        </div>
+                    </article>
+                    <article class="ox-surface ox-policy-card" data-reveal>
+                        <span class="ox-policy-card__num">03</span>
+                        <div>
+                            <h2>Academic Integrity</h2>
+                            <ul class="ox-list">
+                                <li>Position papers and speeches must be your own work.</li>
+                                <li>Writing tools may support your research, but copied auto-generated content may be flagged.</li>
+                                <li>Honesty in negotiation and adherence to rules of procedure is required.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="ox-surface ox-policy-card" data-reveal>
+                        <span class="ox-policy-card__num">04</span>
+                        <div>
+                            <h2>Post-Allocation Requirement</h2>
+                            <ul class="ox-list">
+                                <li>Sign the Agreement of Participation within 48 hours of allocation.</li>
+                                <li>Submit travel and ID details via the secondary form in your allocation email.</li>
+                                <li>Failure to comply may forfeit your seat.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="ox-surface ox-policy-card" data-reveal>
+                        <span class="ox-policy-card__num">05</span>
+                        <div>
+                            <h2>Attendance &amp; Certification</h2>
+                            <ul class="ox-list">
+                                <li>Full session attendance required for certificates.</li>
+                                <li>Late arrival or early departure without permission may affect certification.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="ox-surface ox-policy-card" data-reveal>
+                        <span class="ox-policy-card__num">06</span>
+                        <div>
+                            <h2>Liability &amp; Waiver</h2>
+                            <p>The Secretariat and host institution are not liable for loss of property or injuries during the conference. By registering, delegates agree to follow all safety guidelines.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <p>© 2026 ONYX MUN. The Sovereign Standard of Diplomacy.</p>
+    <footer class="ox-footer">
+        <div class="onyx-wrap">
+            <a href="round-1.html" class="onyx-btn onyx-btn--primary">Round 1 Apply</a>
+            <p class="ox-footer__copy" style="margin-top:24px">© 2026 ONYX MUN</p>
+            <p class="ox-footer__credit"><a href="https://www.gathrly.in/" target="_blank" rel="noopener noreferrer">Powered by Gathrly</a></p>
+        </div>
     </footer>
+    <button type="button" class="scroll-top" aria-label="Scroll to top">↑</button>
 </body>
 </html>

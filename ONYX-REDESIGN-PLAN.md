@@ -133,7 +133,7 @@ Redesign ONYX frontend pages to feel modern, clean, and significantly improved a
 
 ---
 
-## 3) AI Suggestions (practical improvements)
+## 3) Practical suggestions (improvements)
 - Introduce a lightweight shared design-token layer (consistent spacing, typography scale, button/input variants) inside existing files to reduce style drift.
 - Standardize responsive breakpoints and component behavior so nav/forms/cards behave predictably across pages.
 - Reduce inline style sprawl where practical to improve maintainability and future edits.

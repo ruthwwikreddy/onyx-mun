@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONYX MUN — Round 1 Post (Export PNG)</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="apple-touch-icon" href="logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         :root {
@@ -386,12 +388,15 @@
 
         #status { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; }
     </style>
+    <link rel="stylesheet" href="assets/onyx.css">
+    <link rel="stylesheet" href="assets/onyx-hifi.css">
+    <script defer src="assets/onyx.js"></script>
 </head>
 <body>
     <div class="toolbar">
         <h1>Round 1 · matches onyxmunhyd.in</h1>
         <div class="toolbar-actions">
-            <button type="button" class="btn btn-ghost" id="btnCopyPrompt">Copy AI prompt</button>
+            <button type="button" class="btn btn-ghost" id="btnCopyPrompt">Copy prompt</button>
             <button type="button" class="btn btn-gold" id="btnDownload">Download PNG</button>
         </div>
     </div>
@@ -405,18 +410,18 @@
                 <div class="post-noise" aria-hidden="true"></div>
 
                 <nav class="post-nav" aria-label="ONYX MUN">
-                    <img id="logoNav" src="logo.png" alt="" class="post-nav-logo" height="44">
+                    <img id="logoNav" src="logo.png" alt="ONYX MUN logo" class="post-nav-logo" height="44">
                     <span class="post-nav-badge">Round 1 · Open</span>
                 </nav>
 
                 <div class="post-hero">
-                    <p class="post-hero-sub">The Sovereign Standard</p>
+                    <p class="post-hero-sub">Round 1 Applications</p>
                     <h1 class="post-hero-title">
                         ROUND 1<br>
                         <span>Delegate Applications</span>
                     </h1>
                     <p class="post-hero-desc">
-                        India's most prestigious Model United Nations conference. Secure your seat at ONYX MUN 2026.
+                        Join ONYX MUN in Hyderabad. Apply now to take part in committee sessions.
                     </p>
                     <p class="post-btn-primary">onyxmunhyd.in/round-1</p>
                     <div class="post-glass-card">
@@ -441,28 +446,28 @@
     </div>
 
     <div class="prompt-box">
-        <h2>AI prompt</h2>
-        <pre id="aiPrompt">Square 1080×1080 social post matching ONYX MUN website (onyxmunhyd.in) exactly.
+        <h2>Prompt</h2>
+        <pre id="promptTextBlock">Square 1080×1080 social post matching ONYX MUN website (onyxmunhyd.in) exactly.
 
 Black background with same triple radial gold glows as homepage hero, subtle hero photo at 20% opacity, film grain overlay, gold 3px line at top.
 
 Floating glass pill nav centered near top: ONYX logo + gold "ROUND 1 · OPEN" badge.
 
 Centered hero like homepage:
-- Gold caps "THE SOVEREIGN STANDARD" with thin gold lines on sides
+- Gold caps "ROUND 1 APPLICATIONS" with thin gold lines on sides
 - Huge Playfair headline white gradient "ROUND 1" then italic gold "Delegate Applications"
-- Muted Jakarta sans description about India's premier MUN
+- Muted Jakarta sans description about ONYX MUN in Hyderabad
 - Gold pill button "onyxmunhyd.in/round-1" with shadow
 - Dark glass card below with gold dot accent and short apply message
 
 Bottom merge strip: "HYDERABAD · 2026" then Playfair "ONYX × RESOLVE" with gold lines.
 
-No price. No Resolve website. Black gold white only. Premium sovereign standard aesthetic.</pre>
+No price. No Resolve website. Black gold white only. Clean ONYX style.</pre>
         <button type="button" class="btn btn-ghost" style="margin-top:12px" id="btnCopyPrompt2">Copy prompt</button>
     </div>
 
     <script>
-        const promptText = document.getElementById('aiPrompt').textContent.trim();
+        const promptText = document.getElementById('promptTextBlock').textContent.trim();
 
         function copyPrompt() {
             navigator.clipboard.writeText(promptText).then(() => {

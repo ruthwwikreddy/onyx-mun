@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONYX MUN — Venue Post (Export PNG)</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="apple-touch-icon" href="logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         :root {
@@ -285,12 +287,15 @@
 
         #status { font-size: 0.85rem; opacity: 0.7; margin-top: 8px; max-width: 1080px; margin-left: auto; margin-right: auto; }
     </style>
+    <link rel="stylesheet" href="assets/onyx.css">
+    <link rel="stylesheet" href="assets/onyx-hifi.css">
+    <script defer src="assets/onyx.js"></script>
 </head>
 <body>
     <div class="toolbar">
         <h1>Venue announcement · 1080×1080 PNG</h1>
         <div class="toolbar-actions">
-            <button type="button" class="btn btn-ghost" id="btnCopyPrompt">Copy AI prompt</button>
+            <button type="button" class="btn btn-ghost" id="btnCopyPrompt">Copy prompt</button>
             <button type="button" class="btn btn-gold" id="btnDownload">Download PNG</button>
         </div>
     </div>
@@ -299,7 +304,7 @@
     <div class="preview-wrap">
         <div class="preview-scale" id="previewHost">
             <div id="post-canvas">
-                <img class="post-school-img" id="schoolImg" src="image.png" alt="">
+                <img class="post-school-img" id="schoolImg" src="image.png" alt="Laurus The Universal School campus">
                 <div class="post-overlay" aria-hidden="true"></div>
                 <div class="post-glow" aria-hidden="true"></div>
                 <div class="post-line-top" aria-hidden="true"></div>
@@ -317,11 +322,11 @@
                         <span>Our conference home</span>
                     </h2>
                     <p class="post-location">Hyderabad · Bowrampet</p>
-                    <p class="post-tagline">ONYX MUN 2026</p>
+                    <p class="post-tagline">ONYX MUN</p>
                 </div>
 
                 <footer class="post-footer">
-                    <span>The Sovereign Standard</span>
+                    <span>ONYX MUN Hyderabad</span>
                     <span>onyxmunhyd.in</span>
                 </footer>
             </div>
@@ -329,26 +334,26 @@
     </div>
 
     <div class="prompt-box">
-        <h2>AI image prompt</h2>
-        <pre id="aiPrompt">Premium Instagram square post (1080x1080), ONYX MUN conference venue announcement.
+        <h2>Image prompt</h2>
+        <pre id="imagePromptText">Instagram square post (1080x1080), ONYX MUN conference venue announcement.
 
 Layout: ONYX MUN logo large in top-left corner (gold on black). Gold pill badge top-right: "THE VENUE".
 
 Background: full-bleed photo of Laurus The Universal School campus (modern international school building, green campus, professional architecture) with cinematic dark gradient overlay so text stays readable.
 
-Typography (black and gold luxury MUN brand):
+Typography (black and gold ONYX style):
 - Gold eyebrow: "WHERE WE MEET"
 - Large white serif headline: "LAURUS THE UNIVERSAL SCHOOL"
 - Italic gold subline: "Our conference home"
 - Muted uppercase: "HYDERABAD · BOWRAMPET"
-- Gold-outlined pill: "ONYX MUN 2026"
+- Gold-outlined pill: "ONYX MUN"
 
-Footer faint text: "THE SOVEREIGN STANDARD" and "onyxmunhyd.in". Thin gold border inset frame. Subtle film grain. No people in focus. High-end, minimal, Playfair Display + Inter style. Match onyxmunhyd.in website aesthetic.</pre>
+Footer faint text: "ONYX MUN HYDERABAD" and "onyxmunhyd.in". Thin gold border inset frame. Subtle film grain. No people in focus. Clean, minimal, Playfair Display + Inter style. Match onyxmunhyd.in website aesthetic.</pre>
         <button type="button" class="btn btn-ghost" id="btnCopyPrompt2" style="margin-top:12px">Copy prompt</button>
     </div>
 
     <script>
-        const promptText = document.getElementById('aiPrompt').textContent.trim();
+        const promptText = document.getElementById('imagePromptText').textContent.trim();
 
         async function fileToDataUrl(path) {
             const res = await fetch(path);
@@ -381,7 +386,7 @@ Footer faint text: "THE SOVEREIGN STANDARD" and "onyxmunhyd.in". Thin gold borde
 
         function copyPrompt() {
             navigator.clipboard.writeText(promptText).then(() => {
-                document.getElementById('status').textContent = 'AI prompt copied.';
+                document.getElementById('status').textContent = 'Prompt copied.';
             }).catch(() => {
                 document.getElementById('status').textContent = 'Copy the prompt from the box below.';
             });

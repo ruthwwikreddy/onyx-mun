@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@200;400;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
@@ -864,8 +864,13 @@
             .stat-label { font-size: 0.7rem; }
         }
     </style>
+    <link rel="stylesheet" href="assets/onyx.css">
+    <link rel="stylesheet" href="assets/onyx-hifi.css">
+    <script defer src="assets/onyx.js"></script>
 </head>
 <body>
+    <div class="onyx-bg" aria-hidden="true"></div>
+    <div class="onyx-grain" aria-hidden="true"></div>
     <div class="noise"></div>
 
     <div id="loader">
@@ -1798,7 +1803,7 @@
             // Header
             doc.setFontSize(20);
             doc.setTextColor(212, 175, 55);
-            doc.text('ONYX MUN 2026', 105, 20, { align: 'center' });
+            doc.text('ONYX MUN', 105, 20, { align: 'center' });
             
             doc.setFontSize(16);
             doc.setTextColor(0, 0, 0);
@@ -1847,7 +1852,7 @@
                 doc.setPage(i);
                 doc.setFontSize(8);
                 doc.setTextColor(150, 150, 150);
-                doc.text(`ONYX MUN 2026 - Confidential - Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
+                doc.text(`ONYX MUN - Confidential - Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
             }
 
             doc.save(`ONYX_MUN_EB_Applications_${new Date().toISOString().split('T')[0]}.pdf`);
@@ -1865,7 +1870,7 @@
             // Header
             doc.setFontSize(20);
             doc.setTextColor(212, 175, 55);
-            doc.text('ONYX MUN 2026', 105, 20, { align: 'center' });
+            doc.text('ONYX MUN', 105, 20, { align: 'center' });
             
             doc.setFontSize(16);
             doc.setTextColor(0, 0, 0);
@@ -1916,7 +1921,7 @@
                 doc.setPage(i);
                 doc.setFontSize(8);
                 doc.setTextColor(150, 150, 150);
-                doc.text(`ONYX MUN 2026 - Confidential - Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
+                doc.text(`ONYX MUN - Confidential - Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
             }
 
             doc.save(`ONYX_MUN_Delegate_Applications_${new Date().toISOString().split('T')[0]}.pdf`);
@@ -2057,7 +2062,7 @@
             if (!priorityApplications || priorityApplications.length === 0) return;
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('l', 'mm', 'a4');
-            doc.text('ONYX MUN 2026 - Priority Round Applications', 14, 15);
+            doc.text('ONYX MUN - Priority Round Applications', 14, 15);
             
             const rows = priorityApplications.map((app, i) => [
                 i+1, app.full_name, app.email, app.phone, app.institution,
@@ -2171,7 +2176,7 @@
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('l', 'mm', 'a4');
-            doc.text('ONYX MUN 2026 - OC Applications', 14, 15);
+            doc.text('ONYX MUN - OC Applications', 14, 15);
 
             const rows = ocApplications.map((app, i) => [
                 i + 1,
@@ -2399,16 +2404,16 @@
             
             if (templateType === 'accept') {
                 if (type === 'eb') {
-                    subject = encodeURIComponent('ONYX MUN 2026 | Executive Board Application Accepted');
+                    subject = encodeURIComponent('ONYX MUN | Executive Board Application Accepted');
                     body = encodeURIComponent(`════════════════════════════════════════════════════════════════
-                        ONYX MUN 2026
+                        ONYX MUN
                     ════════════════════════════════════════════════════════════════
 
 Dear ${name},
 
 CONGRATULATIONS! 🎉
 
-We are delighted to inform you that your application for the Executive Board position at ONYX MUN 2026 has been accepted!
+We are delighted to inform you that your application for the Executive Board position at ONYX MUN has been accepted!
 
 Your application stood out among many impressive candidates, and we believe you will make an excellent contribution to our team. Your passion for Model United Nations and leadership qualities truly impressed our selection committee.
 
@@ -2425,7 +2430,7 @@ Your application stood out among many impressive candidates, and we believe you 
                         ABOUT ONYX MUN
                     ═══════════════════════════════════════════════════════════════
 
-ONYX MUN is Hyderabad's premier Model United Nations conference, bringing together passionate delegates from across the country. Our mission is to foster diplomacy, public speaking, and global awareness among young leaders.
+ONYX MUN is a Model United Nations conference in Hyderabad. We help students build skills in debate, public speaking, and global awareness.
 
 Website: ${website}
 Email: onyxmun.hyd@gmail.com
@@ -2441,12 +2446,12 @@ ${website}
 
 ════════════════════════════════════════════════════════════════`);
                 } else if (type === 'oc') {
-                    subject = encodeURIComponent('ONYX MUN 2026 | Organising Committee Application Accepted');
+                    subject = encodeURIComponent('ONYX MUN | Organising Committee Application Accepted');
                     body = encodeURIComponent(`Dear ${name},
 
 Congratulations!
 
-Your application for the ONYX MUN 2026 Organising Committee has been accepted. Our team will contact you with the next steps and role details shortly.
+Your application for the ONYX MUN Organising Committee has been accepted. Our team will contact you with the next steps and role details shortly.
 
 With warm regards,
 ONYX MUN Secretariat
@@ -2454,16 +2459,16 @@ ${website}`);
                 } else {
                     const committee = allocation?.allocated_committee || 'your assigned committee';
                     const portfolio = allocation?.allocated_portfolio || 'your assigned portfolio';
-                    subject = encodeURIComponent('ONYX MUN 2026 | Delegate Application Accepted');
+                    subject = encodeURIComponent('ONYX MUN | Delegate Application Accepted');
                     body = encodeURIComponent(`════════════════════════════════════════════════════════════════
-                        ONYX MUN 2026
+                        ONYX MUN
                     ════════════════════════════════════════════════════════════════
 
 Dear ${name},
 
 CONGRATULATIONS! 🎉
 
-We are thrilled to inform you that your application for ONYX MUN 2026 has been accepted!
+We are thrilled to inform you that your application for ONYX MUN has been accepted!
 
 After careful review of your application, we are pleased to welcome you as a delegate to this year's conference.
 
@@ -2486,12 +2491,12 @@ After careful review of your application, we are pleased to welcome you as a del
                         ABOUT ONYX MUN
                     ═══════════════════════════════════════════════════════════════
 
-ONYX MUN is Hyderabad's premier Model United Nations conference, bringing together passionate delegates from across the country. Our mission is to foster diplomacy, public speaking, and global awareness among young leaders.
+ONYX MUN is a Model United Nations conference in Hyderabad. We help students build skills in debate, public speaking, and global awareness.
 
 Website: ${website}
 Email: onyxmun.hyd@gmail.com
 
-We look forward to welcoming you to ONYX MUN 2026 and seeing you excel in your assigned portfolio!
+We look forward to welcoming you to ONYX MUN and seeing you excel in your assigned portfolio!
 
 With warm regards,
 
@@ -2501,16 +2506,16 @@ ${website}
 ════════════════════════════════════════════════════════════════`);
                 }
             } else if (templateType === 'reject') {
-                subject = encodeURIComponent('ONYX MUN 2026 | Application Update');
+                subject = encodeURIComponent('ONYX MUN | Application Update');
                 body = encodeURIComponent(`════════════════════════════════════════════════════════════════
-                        ONYX MUN 2026
+                        ONYX MUN
                     ════════════════════════════════════════════════════════════════
 
 Dear ${name},
 
 APPLICATION UPDATE
 
-Thank you for your interest in ONYX MUN 2026 and for taking the time to submit your application. We truly appreciate your enthusiasm for Model United Nations.
+Thank you for your interest in ONYX MUN and for taking the time to submit your application. We truly appreciate your enthusiasm for Model United Nations.
 
 ════════════════════════════════════════════════════════════════
                         DECISION
@@ -2518,7 +2523,7 @@ Thank you for your interest in ONYX MUN 2026 and for taking the time to submit y
 
 After careful consideration of all applications, we regret to inform you that we are unable to proceed with your application at this time.
 
-This decision was difficult given the exceptional quality of applications we received this year. We had a very competitive pool of candidates, and we had to make some tough choices.
+This decision was difficult because we received many strong applications this year, and we had limited seats.
 
 ════════════════════════════════════════════════════════════════
                         MOVING FORWARD
@@ -2544,7 +2549,7 @@ If you would like specific feedback on your application to help you improve for 
                         ABOUT ONYX MUN
                     ═══════════════════════════════════════════════════════════════
 
-ONYX MUN is Hyderabad's premier Model United Nations conference. We are committed to nurturing young leaders and creating meaningful experiences for all participants.
+ONYX MUN is a Model United Nations conference in Hyderabad. We focus on giving students a useful and supportive conference experience.
 
 Website: ${website}
 Email: onyxmun.hyd@gmail.com
@@ -2558,16 +2563,16 @@ ${website}
 
 ════════════════════════════════════════════════════════════════`);
             } else if (templateType === 'under_review') {
-                subject = encodeURIComponent('ONYX MUN 2026 | Application Under Review');
+                subject = encodeURIComponent('ONYX MUN | Application Under Review');
                 body = encodeURIComponent(`════════════════════════════════════════════════════════════════
-                        ONYX MUN 2026
+                        ONYX MUN
                     ════════════════════════════════════════════════════════════════
 
 Dear ${name},
 
 APPLICATION STATUS UPDATE
 
-Thank you for your application to ONYX MUN 2026! We truly appreciate your interest in joining our conference.
+Thank you for your application to ONYX MUN! We truly appreciate your interest in joining our conference.
 
 ════════════════════════════════════════════════════════════════
                         CURRENT STATUS
@@ -2599,7 +2604,7 @@ While you wait:
                         ABOUT ONYX MUN
                     ═══════════════════════════════════════════════════════════════
 
-ONYX MUN is Hyderabad's premier Model United Nations conference. We are committed to providing an exceptional experience for all participants, fostering diplomacy, public speaking, and global awareness.
+ONYX MUN is a Model United Nations conference in Hyderabad. We support participants with clear communication and a smooth conference experience.
 
 Website: ${website}
 Email: onyxmun.hyd@gmail.com
@@ -2619,8 +2624,8 @@ ${website}
 
         // Updated action functions with template support
         function sendEmail(email, name) {
-            const subject = encodeURIComponent('ONYX MUN 2026 - Application Update');
-            const body = encodeURIComponent(`Dear ${name},\n\nI hope this message finds you well. We are writing to you regarding your application for ONYX MUN 2026.\n\nBest regards,\nONYX MUN Secretariat`);
+            const subject = encodeURIComponent('ONYX MUN - Application Update');
+            const body = encodeURIComponent(`Dear ${name},\n\nI hope this message finds you well. We are writing to you regarding your application for ONYX MUN.\n\nBest regards,\nONYX MUN Secretariat`);
             window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
         }
 
@@ -2630,7 +2635,7 @@ ${website}
             if (cleanPhone.length === 10 && !cleanPhone.startsWith('91')) {
                 cleanPhone = '91' + cleanPhone;
             }
-            const message = encodeURIComponent(`Hello ${name}, this is ONYX MUN Secretariat. We are writing regarding your application for ONYX MUN 2026.`);
+            const message = encodeURIComponent(`Hello ${name}, this is ONYX MUN Secretariat. We are writing regarding your application for ONYX MUN.`);
             window.open(`https://wa.me/${cleanPhone}?text=${message}`, '_blank');
         }
 

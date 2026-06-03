@@ -3,285 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>International Press | Agenda: Ethics of AI Journalism & Crisis Reporting | ONYX MUN 2026</title>
-    
-    <!-- Geo & LLMEO Meta Tags -->
-    <meta name="description" content="Official International Press council details for ONYX MUN 2026. Agenda: The role of AI in journalism, ethical reporting in conflict zones, and the battle against misinformation.">
-    <meta name="keywords" content="International Press MUN, Media Ethics Debate, AI Journalism MUN, Crisis Reporting Ethics, Student Journalism Hyderabad">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://onyxmunhyd.in/committees/press">
-
-    <!-- Answer Engine Optimization (AEO) Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://onyxmunhyd.in/" },
-            { "@type": "ListItem", "position": 2, "name": "Committees", "item": "https://onyxmunhyd.in/committees" },
-            { "@type": "ListItem", "position": 3, "name": "International Press", "item": "https://onyxmunhyd.in/committees/press" }
-        ]
-    }
-    </script>
-    
-    <!-- Premium Fonts -->
+    <title>International Press | ONYX MUN</title>
+    <link rel="icon" type="image/svg+xml" href="../logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --onyx: #000000;
-            --surface: #0A0A0A;
-            --gold: #D4AF37;
-            --gold-muted: rgba(212, 175, 55, 0.15);
-            --white: #FFFFFF;
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --radius-lg: 32px;
-            --radius-sm: 16px;
-            --bezier: cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        body { 
-            background: var(--onyx); 
-            color: var(--white); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            margin: 0; 
-            overflow-x: clip; 
-            line-height: 1.8;
-        }
-
-        .noise { 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            z-index: 9999; 
-            pointer-events: none; 
-            opacity: 0.03; 
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); 
-        }
-
-        /* Navigation */
-        .nav-container {
-            position: fixed;
-            top: 30px; left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            width: 90%;
-            max-width: 1400px;
-        }
-
-        nav {
-            padding: 12px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .nav-logo img { height: 60px; width: auto; }
-
-        .back-btn {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Hero */
-        section.hero { 
-            padding: 200px 8% 100px; 
-            max-width: 1400px; 
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .eyebrow {
-            font-size: 0.8rem;
-            letter-spacing: 6px;
-            color: var(--gold);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .big-text {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3.5rem, 10vw, 8rem);
-            line-height: 0.9;
-            margin-bottom: 30px;
-            color: var(--white);
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            opacity: 0.6;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Content Grid */
-        .content-container {
-            padding: 0 8% 100px;
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 80px;
-        }
-
-        .main-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin: 60px 0 30px;
-        }
-
-        .main-content h2:first-child { margin-top: 0; }
-
-        .agenda-box {
-            background: var(--gold-muted);
-            border: 1px solid var(--gold);
-            padding: 40px;
-            border-radius: var(--radius-sm);
-            margin: 40px 0;
-        }
-
-        .agenda-box h3 {
-            margin: 0 0 15px;
-            font-size: 1.25rem;
-            color: var(--gold);
-        }
-
-        .sidebar {
-            position: sticky;
-            top: 140px;
-            height: fit-content;
-        }
-
-        .sidebar-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: var(--radius-sm);
-        }
-
-        .sidebar-card h4 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--gold);
-            margin-bottom: 20px;
-        }
-
-        .comm-img {
-            width: 100%;
-            height: 300px;
-            background-size: cover;
-            background-position: center;
-            border-radius: var(--radius-sm);
-            margin-bottom: 30px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .points-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .points-list li {
-            position: relative;
-            padding-left: 30px;
-            margin-bottom: 20px;
-            opacity: 0.7;
-        }
-
-        .points-list li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-        }
-
-        @media (max-width: 1024px) {
-            .nav-container { top: 15px; width: 94%; }
-            nav { padding: 8px 20px; }
-            .nav-logo img { height: 45px; }
-            .content-container { grid-template-columns: 1fr; gap: 40px; }
-            .sidebar { position: static; }
-        }
-
-        @media (max-width: 768px) {
-            section.hero { padding-top: 150px; }
-            .big-text { font-size: 4rem; }
-            .main-content h2 { font-size: 2rem; }
-        }
-
-        @media (max-width: 480px) {
-            .big-text { font-size: 3rem; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/onyx.css">
+    <link rel="stylesheet" href="../assets/onyx-hifi.css">
+    <script defer src="../assets/onyx.js"></script>
 </head>
 <body>
-    <div class="noise"></div>
-    
-    <div class="nav-container">
-        <nav>
-            <a href="../index.html" class="nav-logo">
-                <img src="../logo.svg" alt="ONYX MUN">
-            </a>
-            <div style="display: flex; gap: 20px; align-items: center;">
-                <a href="../committees.html" class="back-btn">
-                    <span>← All Councils</span>
-                </a>
-                <a href="../round-1.html" style="color: var(--gold); text-decoration: none; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; border: 1px solid var(--gold); padding: 8px 18px; border-radius: 50px; transition: var(--bezier);">Apply Now</a>
-            </div>
-        </nav>
-    </div>
-
-    <section class="hero">
-        <span class="eyebrow">The Fourth Estate</span>
-        <h1 class="big-text">International Press</h1>
-        <p>Documenting global events, shaping public narratives, and ensuring absolute accountability.</p>
-    </section>
-
-    <div class="content-container">
-        <div class="main-content">
-            <h2>The Council</h2>
-            <p>The International Press Corps is the storytelling heart of the conference. As journalists, you hold the power to influence public opinion, challenge diplomatic narratives, and ensure that every resolution is held to the highest standard of transparency.</p>
-            
-            <p>At ONYX MUN, the Press Corps isn't just an observer—it's an active participant. You'll produce daily coverage that can change the course of committee debates.</p>
-            
-            <h2>Journalistic Scope</h2>
-            <ul class="points-list">
-                <li>Covering council proceedings with investigative depth.</li>
-                <li>Conducting high-stakes interviews with world leaders (delegates).</li>
-                <li>Publishing breaking news, editorials, and multimedia content.</li>
-                <li>Fact-checking diplomatic claims in real-time.</li>
-                <li>Influencing the conference narrative through strategic reporting.</li>
-            </ul>
-
-            <h2>Expectations</h2>
-            <p>Reporters are expected to meet rigorous deadlines, maintain objectivity, and use creative storytelling to bring the conference's defining moments to life.</p>
-        </div>
-
-        <div class="sidebar">
-            <div class="sidebar-card">
-                <div class="comm-img" style="background-image: url('../assets/6.png');"></div>
-                <h4>Council Brief</h4>
-                <p style="font-size: 0.9rem; opacity: 0.6; margin-bottom: 25px;">The word is mightier than the gavel. Join the most dynamic role in MUN.</p>
+    <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="onyx-bg" aria-hidden="true"></div>
+    <div class="onyx-grain" aria-hidden="true"></div>
+        <div id="scroll-progress" aria-hidden="true"></div>
+    <header class="onyx-header is-scrolled">
+        <div class="onyx-header__inner">
+            <a href="../index.html" class="onyx-logo"><img src="../logo.svg" alt="ONYX MUN"></a>
+            <div class="onyx-header__actions">
+                <a href="../committees.html" class="onyx-btn onyx-btn--ghost onyx-btn--sm">All councils</a>
+                <a href="../round-1.html" class="onyx-btn onyx-btn--primary onyx-btn--sm">Apply</a>
             </div>
         </div>
-    </div>
+    </header>
+    <main class="onyx-main">
+        <section class="ox-page-hero">
+            <div class="onyx-wrap">
+                <nav class="ox-breadcrumb" aria-label="Breadcrumb">
+                    <a href="../index.html">Home</a> · <a href="../committees.html">Committees</a> · <span>International Press</span>
+                </nav>
+                <p class="ox-eyebrow">Fourth Estate</p>
+                <h1 class="ox-title">International Press</h1>
+                <p class="ox-lead">Journalism that shapes the narrative of debate.</p>
+            </div>
+        </section>
+        <section class="ox-section ox-section--tight">
+            <div class="onyx-wrap ox-detail">
+                <div class="ox-prose" data-reveal>
+                    <div class="ox-agenda ox-agenda--pending">
+                        <div class="ox-agenda__icon" aria-hidden="true">◆</div>
+                        <h2>Revealing the Mandate</h2>
+                        <p>The International Press Corps brief and mandate will be published ahead of the conference.</p>
+                        
+                    </div>
+                    <h2>The Committee</h2><p>Press delegates report, investigate, and hold councils accountable. Expect fast deadlines and editorial judgment.</p><ul class="ox-list"><li>Press conferences and breaking-news cycles.</li><li>Investigative pieces on delegate blocs.</li></ul>
+                </div>
+                <aside class="ox-surface ox-aside-card" data-reveal>
+                    <div class="ox-aside-card__img" style="background-image:url('../assets/6.png')"></div>
+                    <p class="ox-tag">Council brief</p>
+                    <p style="color:var(--text-muted)">Applications welcome from writers, photographers, and editors.</p>
+                    <a href="../round-1.html" class="onyx-btn onyx-btn--primary" style="margin-top:20px;width:100%;justify-content:center">Apply now</a>
+                    <a href="../allocations.html" class="onyx-btn onyx-btn--ghost" style="margin-top:10px;width:100%;justify-content:center">View allocations</a>
+                </aside>
+            </div>
+        </section>
+    </main>
+    <footer class="ox-footer">
+        <div class="onyx-wrap">
+            <a href="../round-1.html" class="onyx-btn onyx-btn--primary">Round 1 Apply</a>
+            <p class="ox-footer__copy" style="margin-top:20px">© 2026 ONYX MUN Secretariat</p>
+            <p class="ox-footer__credit"><a href="https://www.gathrly.in/" target="_blank" rel="noopener noreferrer">Powered by Gathrly</a></p>
+        </div>
+    </footer>
+    <button type="button" class="scroll-top" aria-label="Scroll to top">↑</button>
 </body>
 </html>

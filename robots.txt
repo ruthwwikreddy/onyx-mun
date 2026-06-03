@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Sitemap: https://onyxmunhyd.in/sitemap.xml
 
-# LLM & AI Bot Optimization (LLMEO)
+# Bot access configuration
 User-agent: GPTBot
 Allow: /
 crawl-delay: 1
