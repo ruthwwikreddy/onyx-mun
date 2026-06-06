@@ -9,20 +9,34 @@
 
     const header = document.querySelector(".onyx-header");
     const progress = document.getElementById("scroll-progress");
-    const onScroll = () => {
+    const heroBg = document.getElementById("heroBg");
+    const scrollTop = document.querySelector(".scroll-top");
+    let scrollTicking = false;
+
+    const updateOnScroll = () => {
       const y = window.scrollY;
       if (header) header.classList.toggle("is-scrolled", y > 12);
       if (progress) {
         const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         progress.style.width = h > 0 ? `${(y / h) * 100}%` : "0%";
       }
-      const heroBg = document.getElementById("heroBg");
       if (heroBg && y < window.innerHeight * 1.2) {
         heroBg.style.transform = `scale(1.08) translateY(${y * 0.18}px)`;
       }
+      if (scrollTop) scrollTop.classList.toggle("is-visible", y > 500);
     };
+
+    const onScroll = () => {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        updateOnScroll();
+        scrollTicking = false;
+      });
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    updateOnScroll();
 
     const menuBtn = document.querySelector(".onyx-menu-btn");
     const navWrap = document.querySelector(".onyx-nav-wrap");
@@ -78,10 +92,8 @@
     });
 
     const revealEls = document.querySelectorAll("[data-reveal]");
-    if (revealEls.length) {
+    if (revealEls.length && "IntersectionObserver" in window) {
       revealEls.forEach((el, i) => {
-        // If a section/page already sets a specific reveal delay inline, keep it.
-        // Otherwise, assign the default stagger delay.
         const existing = el.style.getPropertyValue("--reveal-delay");
         if (!existing) {
           el.style.setProperty("--reveal-delay", `${Math.min(i % 8, 7) * 60}ms`);
@@ -99,21 +111,19 @@
         { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
       );
       revealEls.forEach((el) => io.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add("is-visible"));
     }
 
-    const scrollTop = document.querySelector(".scroll-top");
     if (scrollTop) {
-      window.addEventListener("scroll", () => {
-        scrollTop.classList.toggle("is-visible", window.scrollY > 500);
-      }, { passive: true });
       scrollTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
     }
 
     const loader = document.getElementById("loader");
-    if (loader) {
+    if (loader && !loader.hidden) {
       window.addEventListener("load", () => {
-        setTimeout(() => loader.classList.add("is-hidden"), loader.dataset.delay ? +loader.dataset.delay : 800);
-      });
+        setTimeout(() => loader.classList.add("is-hidden"), loader.dataset.delay ? +loader.dataset.delay : 0);
+      }, { once: true });
     }
 
     document.querySelectorAll('a[target="_blank"]').forEach((a) => {
@@ -130,8 +140,8 @@
       }
     });
 
-    const heroBg = document.getElementById("heroBg");
-    if (heroBg) {
+    const setHeroImage = () => {
+      if (!heroBg) return;
       const imgs = [
         "assets/hero/image.webp",
         "assets/hero/image copy.webp",
@@ -143,14 +153,24 @@
         chosen = imgs[Math.floor(Math.random() * imgs.length)];
         sessionStorage.setItem("heroImage", chosen);
       }
-      heroBg.style.backgroundImage = `url("${encodeURI(chosen)}")`;
+      if (heroBg.style.backgroundImage.indexOf(chosen) === -1) {
+        heroBg.style.backgroundImage = `url("${encodeURI(chosen)}")`;
+      }
+    };
+
+    if (heroBg) {
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(setHeroImage, { timeout: 1500 });
+      } else {
+        setTimeout(setHeroImage, 200);
+      }
     }
 
     const navLinks = document.querySelectorAll('.onyx-nav a[href^="#"]');
     const sections = [...navLinks]
       .map((a) => document.querySelector(a.getAttribute("href")))
       .filter(Boolean);
-    if (navLinks.length && sections.length) {
+    if (navLinks.length && sections.length && "IntersectionObserver" in window) {
       const sectionIo = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
