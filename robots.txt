@@ -1,17 +1,36 @@
 User-agent: *
 Allow: /
 Disallow: /embed/
+Disallow: /admin
+Disallow: /admin.html
 Sitemap: https://onyxmunhyd.in/sitemap.xml
 
-# Bot access configuration
+# AI-readable site summary (AEO)
+# https://onyxmunhyd.in/llms.txt
+
+# AI & search engine crawlers — full access for SEO/AEO visibility
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
-crawl-delay: 1
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
 
 User-agent: Claude-Web
 Allow: /
 
-User-agent: CCBot
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
 Allow: /
 
 User-agent: PerplexityBot
@@ -20,13 +39,21 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-User-agent: OAI-SearchBot
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckDuckBot
 Allow: /
 
 # Block low-quality scrapers
 User-agent: MJ12bot
 Disallow: /
-user-agent: AhrefsBot
+
+User-agent: AhrefsBot
 Disallow: /
+
 User-agent: DotBot
 Disallow: /

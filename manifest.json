@@ -1,16 +1,19 @@
 {
-  "name": "ONYX MUN",
-  "short_name": "ONYX",
-  "description": "The Sovereign Standard of Diplomatic Simulations",
-  "start_url": "/index.html",
+  "name": "ONYX MUN 2026 — Best Model United Nations in Hyderabad",
+  "short_name": "ONYX MUN",
+  "description": "Hyderabad's premier Model United Nations conference. 7 committees · 12–14 June 2026 · Delegate applications open.",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#D4AF37",
+  "theme_color": "#c9a227",
+  "lang": "en-IN",
+  "categories": ["education", "events"],
   "icons": [
     {
       "src": "logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
