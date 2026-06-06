@@ -120,13 +120,23 @@
       if (!a.getAttribute("rel")) a.setAttribute("rel", "noopener noreferrer");
     });
 
+    document.querySelectorAll(".js-email").forEach((el) => {
+      const user = el.dataset.user;
+      const domain = el.dataset.domain;
+      if (user && domain) {
+        const addr = `${user}@${domain}`;
+        el.href = `mailto:${addr}`;
+        if (el.textContent.trim() === "Contact via email") el.textContent = addr;
+      }
+    });
+
     const heroBg = document.getElementById("heroBg");
     if (heroBg) {
       const imgs = [
-        "assets/hero/image.png",
-        "assets/hero/image copy.png",
-        "assets/hero/image copy 2.png",
-        "assets/hero/image copy 3.png",
+        "assets/hero/image.webp",
+        "assets/hero/image copy.webp",
+        "assets/hero/image copy 2.webp",
+        "assets/hero/image copy 3.webp",
       ];
       let chosen = sessionStorage.getItem("heroImage");
       if (!chosen || !imgs.includes(chosen)) {
