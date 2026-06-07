@@ -7,7 +7,7 @@
     <title>Priority Round | ONYX MUN 2026 — Best MUN in Hyderabad</title>
     <meta name="description" content="Priority Round registration for ONYX MUN 2026 — secure early committee allocation at Hyderabad's premier Model United Nations conference.">
     <meta name="keywords" content="MUN priority registration Hyderabad, ONYX MUN early bird, delegate priority round">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="noindex, follow">
     <link rel="canonical" href="https://onyxmunhyd.in/priority-round">
     <meta property="og:title" content="Priority Round | ONYX MUN 2026">
     <meta property="og:description" content="Early registration for the best MUN in Hyderabad — ONYX MUN 2026.">
@@ -28,7 +28,7 @@
     <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="onyx-bg" aria-hidden="true"></div>
     <div class="onyx-grain" aria-hidden="true"></div>
-    <div id="loader"><img src="logo.svg" alt="ONYX MUN logo" class="loader-mark" width="96"></div>
+    <div id="loader" data-delay="400" aria-hidden="false"><img src="logo.webp" alt="ONYX MUN logo" class="loader-mark" width="96" height="96"></div>
     <header class="onyx-header is-scrolled">
         <div class="onyx-header__inner">
             <a href="index.html" class="onyx-logo"><img src="logo.svg" alt="ONYX MUN"></a>
@@ -261,10 +261,6 @@
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtcWJmbWdqYXpsYnRkdG5sdmV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NTQ5MzgsImV4cCI6MjA5MjIzMDkzOH0.XjmK1DhqyJJaTcBXso0IdkFrcK4C2f0MqxexDqzdrwQ';
         const { createClient } = window.supabase;
         const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        window.addEventListener('load', () => {
-            setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1000);
-        });
 
         const PRIORITY_ROUND_OPEN = false;
         const priorityForm = document.getElementById('priorityForm');

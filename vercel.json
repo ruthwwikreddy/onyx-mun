@@ -38,6 +38,24 @@
       ]
     },
     {
+      "source": "/llms-full.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/ai.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
+    },
+    {
       "source": "/embed/promo",
       "headers": [
         {
@@ -79,6 +97,51 @@
     },
     {
       "source": "/delegate-application.html",
+      "destination": "/round-1",
+      "permanent": true
+    },
+    {
+      "source": "/best-mun-in-hyderabad",
+      "destination": "/best-mun-hyderabad",
+      "permanent": true
+    },
+    {
+      "source": "/mun-in-hyderabad",
+      "destination": "/best-mun-hyderabad",
+      "permanent": true
+    },
+    {
+      "source": "/top-mun-hyderabad",
+      "destination": "/best-mun-hyderabad",
+      "permanent": true
+    },
+    {
+      "source": "/hyderabad-best-mun",
+      "destination": "/best-mun-hyderabad",
+      "permanent": true
+    },
+    {
+      "source": "/llms",
+      "destination": "/llms.txt",
+      "permanent": true
+    },
+    {
+      "source": "/ai",
+      "destination": "/ai.txt",
+      "permanent": true
+    },
+    {
+      "source": "/committees/hcc",
+      "destination": "/committees/ccc",
+      "permanent": true
+    },
+    {
+      "source": "/committees/hcc.html",
+      "destination": "/committees/ccc",
+      "permanent": true
+    },
+    {
+      "source": "/round-2",
       "destination": "/round-1",
       "permanent": true
     }

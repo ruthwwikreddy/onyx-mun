@@ -3,13 +3,21 @@ Allow: /
 Disallow: /embed/
 Disallow: /admin
 Disallow: /admin.html
+Disallow: /social-round1-post
+Disallow: /social-venue-post
+Disallow: /priority-round
 Sitemap: https://onyxmunhyd.in/sitemap.xml
 
-# AI-readable site summary (AEO)
+# AI-readable summaries (AEO / GEO / LLMO)
+# https://onyxmunhyd.in/ai.txt
 # https://onyxmunhyd.in/llms.txt
+# https://onyxmunhyd.in/llms-full.txt
 
-# AI & search engine crawlers — full access for SEO/AEO visibility
+# Search & AI crawlers — full access
 User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
 Allow: /
 
 User-agent: Bingbot
@@ -36,7 +44,7 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Google-Extended
+User-agent: Perplexity-User
 Allow: /
 
 User-agent: CCBot
@@ -48,6 +56,24 @@ Allow: /
 User-agent: DuckDuckBot
 Allow: /
 
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
 # Block low-quality scrapers
 User-agent: MJ12bot
 Disallow: /
@@ -56,4 +82,7 @@ User-agent: AhrefsBot
 Disallow: /
 
 User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
 Disallow: /

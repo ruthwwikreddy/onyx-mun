@@ -33,8 +33,8 @@
     <div class="onyx-bg" aria-hidden="true"></div>
     <div class="onyx-grain" aria-hidden="true"></div>
 
-    <div id="loader">
-        <img src="logo.svg" alt="ONYX MUN logo" class="loader-mark" width="88" height="88">
+    <div id="loader" data-delay="400" aria-hidden="false">
+        <img src="logo.webp" alt="ONYX MUN logo" class="loader-mark" width="88" height="88">
     </div>
 
     <div id="toast" class="toast" role="alert" aria-live="polite"></div>
@@ -222,10 +222,6 @@
         const btnNext = document.getElementById('btnNext');
         const toast = document.getElementById('toast');
         const successScreen = document.getElementById('successScreen');
-
-        window.addEventListener('load', () => {
-            setTimeout(() => document.getElementById('loader').classList.add('is-hidden'), 900);
-        });
 
         function showToast(msg, type = 'error') {
             toast.textContent = msg;

@@ -120,10 +120,21 @@
     }
 
     const loader = document.getElementById("loader");
-    if (loader && !loader.hidden) {
-      window.addEventListener("load", () => {
-        setTimeout(() => loader.classList.add("is-hidden"), loader.dataset.delay ? +loader.dataset.delay : 0);
-      }, { once: true });
+    if (loader) {
+      const hideLoader = () => {
+        loader.classList.add("is-hidden");
+        loader.setAttribute("aria-hidden", "true");
+        loader.hidden = true;
+      };
+      const delay = loader.dataset.delay ? Math.max(0, +loader.dataset.delay) : 400;
+      const scheduleHide = () => setTimeout(hideLoader, delay);
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", scheduleHide, { once: true });
+      } else {
+        scheduleHide();
+      }
+      // Never block the page if a slow asset delays window.load
+      setTimeout(hideLoader, Math.max(delay + 600, 1200));
     }
 
     document.querySelectorAll('a[target="_blank"]').forEach((a) => {
