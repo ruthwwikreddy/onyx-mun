@@ -442,6 +442,11 @@ body.onyx-form-page {
   text-transform: uppercase;
   color: rgba(255,255,255,0.42);
 }
+.onyx-form-footer__credit a {
+  color: inherit;
+  transition: color 0.2s;
+}
+.onyx-form-footer__credit a:hover { color: var(--gold-bright, #f2df9a); }
 
 /* Round-1 wizard footer legacy buttons */
 .btn {

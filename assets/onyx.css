@@ -624,6 +624,8 @@ a { color: inherit; text-decoration: none; }
   min-height: 128px;
 }
 .ox-team-card h4 { font-size: 1.05rem; margin-bottom: 6px; }
+.ox-team-card h4 a { color: inherit; text-decoration: none; }
+.ox-team-card h4 a:hover { color: var(--gold-bright); }
 .ox-team-card p {
   font-size: 0.68rem;
   letter-spacing: 0.14em;
@@ -830,13 +832,15 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   color: rgba(255,255,255,0.35);
 }
+.ox-footer__credits { margin-top: 10px; }
 .ox-footer__credit {
-  margin-top: 10px;
+  margin-top: 4px;
   font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.46);
 }
+.ox-footer__credit:first-child { margin-top: 0; }
 .ox-footer__credit a {
   color: inherit;
   transition: color 0.2s;

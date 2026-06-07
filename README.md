@@ -261,3 +261,10 @@ Then open `http://localhost:8080`.
 
 For content or style updates, start with `index.html` + the matching CSS layer and keep cross-page consistency with existing class patterns.
 
+---
+
+## Credits
+
+- **Founded by** [Ruthwik Reddy](https://www.ruthwikreddy.live/) — conference web platform & technology
+- **Powered by** [Gathrly](https://www.gathrly.in/) — registration, UPI payments, and admin dashboard
+
