@@ -7,6 +7,47 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtcWJmbWdqYXpsYnRkdG5sdmV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NTQ5MzgsImV4cCI6MjA5MjIzMDkzOH0.XjmK1DhqyJJaTcBXso0IdkFrcK4C2f0MqxexDqzdrwQ';
   const VALID_PASSWORDS = ['ruthwiknadevudu', 'onyxmunhyd'];
   const SESSION_KEY = 'onyx_admin_auth';
+  const LOGIN_GUARD_KEY = 'onyx_admin_login_guard';
+  const MAX_LOGIN_ATTEMPTS = 5;
+  const LOGIN_LOCKOUT_MS = 15 * 60 * 1000;
+
+  function getLoginGuard() {
+    try {
+      return JSON.parse(localStorage.getItem(LOGIN_GUARD_KEY) || '{"count":0,"lockedUntil":0}');
+    } catch {
+      return { count: 0, lockedUntil: 0 };
+    }
+  }
+
+  function setLoginGuard(guard) {
+    localStorage.setItem(LOGIN_GUARD_KEY, JSON.stringify(guard));
+  }
+
+  function checkLoginLockout() {
+    const guard = getLoginGuard();
+    if (Date.now() < guard.lockedUntil) {
+      const mins = Math.ceil((guard.lockedUntil - Date.now()) / 60000);
+      return { locked: true, message: `Too many attempts. Try again in ${mins} minute(s).` };
+    }
+    if (guard.lockedUntil && Date.now() >= guard.lockedUntil) {
+      setLoginGuard({ count: 0, lockedUntil: 0 });
+    }
+    return { locked: false };
+  }
+
+  function recordFailedLogin() {
+    const guard = getLoginGuard();
+    const count = (guard.count || 0) + 1;
+    if (count >= MAX_LOGIN_ATTEMPTS) {
+      setLoginGuard({ count, lockedUntil: Date.now() + LOGIN_LOCKOUT_MS });
+      return;
+    }
+    setLoginGuard({ count, lockedUntil: 0 });
+  }
+
+  function clearLoginGuard() {
+    setLoginGuard({ count: 0, lockedUntil: 0 });
+  }
 
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -1172,12 +1213,26 @@
 
     $('loginForm')?.addEventListener('submit', (e) => {
       e.preventDefault();
+      const lockout = checkLoginLockout();
+      if (lockout.locked) {
+        $('errorMsg').textContent = lockout.message;
+        $('errorMsg').classList.add('visible');
+        $('password').value = '';
+        return;
+      }
       const password = $('password').value;
       if (VALID_PASSWORDS.includes(password)) {
+        clearLoginGuard();
         sessionStorage.setItem(SESSION_KEY, 'true');
         $('errorMsg').classList.remove('visible');
         showDashboard();
       } else {
+        recordFailedLogin();
+        const remaining = MAX_LOGIN_ATTEMPTS - getLoginGuard().count;
+        $('errorMsg').textContent =
+          remaining > 0
+            ? `Invalid password. ${remaining} attempt(s) remaining.`
+            : checkLoginLockout().message;
         $('errorMsg').classList.add('visible');
         $('password').value = '';
       }

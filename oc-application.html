@@ -21,6 +21,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/onyx-config.js"></script>
+    <script src="assets/onyx-guard.js"></script>
+    <script src="assets/onyx-submit.js"></script>
     <link rel="stylesheet" href="assets/onyx.css">
     <link rel="stylesheet" href="assets/onyx-hifi.css">
     <link rel="stylesheet" href="assets/onyx-forms.css">
@@ -78,6 +81,10 @@
             <div class="onyx-form-shell">
                 <div class="onyx-form-panel" id="formCard">
                     <form id="ocForm" novalidate>
+                        <div class="ox-hp" aria-hidden="true">
+                            <label for="website_url">Website</label>
+                            <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+                        </div>
                         <!-- Step 1 -->
                         <div class="form-step is-active" data-step="0">
                             <h2 class="step-title">Your details</h2>
@@ -141,7 +148,7 @@
                         <!-- Step 3 -->
                         <div class="form-step" data-step="2">
                             <h2 class="step-title">Payment & submit</h2>
-                            <p class="step-desc">Pay via UPI, then enter your transaction ID below.</p>
+                            <p class="step-desc">Pay via UPI, then enter your transaction ID below. Secure registration flows powered by <a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Gathrly</a>, ONYX MUN's event registration technology partner.</p>
 
                             <div class="payment-card" data-upi-panel data-upi-amount="1699" data-upi-note="ONYX MUN OC Application" data-upi-qr-size="240">
                                 <div class="payment-header">
@@ -199,15 +206,10 @@
             <button type="button" class="btn btn-ghost hidden-nav" id="btnBack">Back</button>
             <button type="button" class="onyx-btn onyx-btn--primary" id="btnNext">Continue</button>
         </div>
-        <p class="onyx-form-footer__credit"><a href="https://www.gathrly.in/" target="_blank" rel="noopener noreferrer">Powered by Gathrly</a></p>
+        <p class="onyx-form-footer__credit"><a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer">Registration powered by Gathrly</a> · Platform by <a href="https://www.ruthwikreddy.live/" target="_blank" rel="noopener noreferrer">Ruthwik Reddy</a></p>
     </footer>
 
     <script>
-        const SUPABASE_URL = 'https://pmqbfmgjazlbtdtnlvez.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtcWJmbWdqYXpsYnRkdG5sdmV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NTQ5MzgsImV4cCI6MjA5MjIzMDkzOH0.XjmK1DhqyJJaTcBXso0IdkFrcK4C2f0MqxexDqzdrwQ';
-        const { createClient } = window.supabase;
-        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
         const OC_ROUND_1_OPEN = true;
         const STEPS = ['Your details', 'Experience', 'Payment'];
         const TOTAL = 3;
@@ -317,8 +319,10 @@
                     application_type: 'organising_committee'
                 };
 
-                const { error } = await supabaseClient.from('oc_applications').insert([payload]);
-                if (error) throw error;
+                await ONYX_SUBMIT.insert('oc_applications', payload, {
+                    formType: 'oc',
+                    honeypot: document.getElementById('website_url')?.value || '',
+                });
 
                 successScreen.classList.add('is-show');
                 form.reset();

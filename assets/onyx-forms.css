@@ -704,3 +704,14 @@ body.onyx-form-page {
 .onyx-form-hero h1 span { color: var(--gold-light); font-style: italic; }
 .step-label { color: var(--gold); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.7rem; }
 .step-count { color: var(--muted); font-size: 0.75rem; }
+
+/* Honeypot — hidden from users, visible to naive bots */
+.ox-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}

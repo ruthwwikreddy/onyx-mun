@@ -75,7 +75,7 @@ Instagram: https://instagram.com/onyx.mun
 X: https://x.com/ONYXMUN
 Facebook: https://www.facebook.com/onyx.mun.hyd
 
-Powered by Gathrly · onyxmun.hyd@gmail.com
+Registration powered by Gathrly (https://www.gathrly.in/clients/onyx-mun-2026) · Platform by Ruthwik Reddy (https://www.ruthwikreddy.live/) · onyxmun.hyd@gmail.com
 
 #ONYXMUN #BestMUNHyderabad #MUN2026 #ModelUN #HyderabadMUN #StudentLeadership
 ```

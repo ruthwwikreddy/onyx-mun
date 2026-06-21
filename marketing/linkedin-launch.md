@@ -10,7 +10,7 @@
 | **Company size** | 11–50 employees (student org) |
 | **Website** | https://onyxmunhyd.in |
 | **Location** | Hyderabad, Telangana, India |
-| **About** | ONYX MUN 2026 is Hyderabad's premier Model United Nations conference — 7 committees, expert-led debate, and delegate applications open for students across India. Powered by Gathrly. |
+| **About** | ONYX MUN 2026 is Hyderabad's premier Model United Nations conference — 7 committees, expert-led debate, and delegate applications open for students across India. Registration powered by [Gathrly](https://www.gathrly.in/clients/onyx-mun-2026), our premium event technology partner. Platform by [Ruthwik Reddy](https://www.ruthwikreddy.live/). |
 
 ---
 
@@ -39,7 +39,7 @@ Whether you're a first-time delegate or a seasoned chair, ONYX MUN 2026 is built
 
 **7 committees. One conference. Zero compromise on debate quality.**
 
-ONYX MUN 2026 isn't just another weekend MUN — it's Hyderabad's premier Model United Nations experience, powered by Gathrly for seamless registration and payments.
+ONYX MUN 2026 isn't just another weekend MUN — it's Hyderabad's premier Model United Nations experience, powered by [Gathrly](https://www.gathrly.in/clients/onyx-mun-2026) for seamless registration and UPI payments.
 
 Committee agendas are live. Round 1 delegate applications are open.
 

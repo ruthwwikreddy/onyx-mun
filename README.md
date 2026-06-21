@@ -265,6 +265,7 @@ For content or style updates, start with `index.html` + the matching CSS layer a
 
 ## Credits
 
+- **Powered by** [Gathrly](https://www.gathrly.in/clients/onyx-mun-2026) — premium event technology partner (registration, UPI payments, admin dashboard)
+- **Event technology**: https://www.gathrly.in/event-technology
 - **Founded by** [Ruthwik Reddy](https://www.ruthwikreddy.live/) — conference web platform & technology
-- **Powered by** [Gathrly](https://www.gathrly.in/) — registration, UPI payments, and admin dashboard
 
