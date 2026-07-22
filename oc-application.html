@@ -5,42 +5,28 @@
     <meta name="theme-color" content="#c9a227">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>OC Application | ONYX MUN 2026 — Best MUN in Hyderabad</title>
-    <meta name="description" content="Apply for Organising Committee at ONYX MUN 2026 — Hyderabad's premier Model United Nations conference. OC Round 1 registration with UPI payment.">
-    <meta name="keywords" content="MUN OC application Hyderabad, ONYX MUN organising committee, MUN volunteer Hyderabad 2026">
+    <meta name="description" content="ONYX MUN 2026 has concluded. Thank you for your participation.">
+    <meta name="keywords" content="ONYX MUN, Model United Nations Hyderabad">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://onyxmunhyd.in/oc-application">
-    <meta property="og:title" content="OC Application | ONYX MUN 2026">
-    <meta property="og:description" content="Join the Organising Committee at Hyderabad's best Model United Nations conference.">
+    <meta property="og:title" content="ONYX MUN 2026 — Conference concluded">
+    <meta property="og:description" content="Thank you for a wonderful conference. We look forward to seeing you next year!">
     <meta property="og:url" content="https://onyxmunhyd.in/oc-application">
     <meta property="og:image" content="https://onyxmunhyd.in/logo.png">
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="apple-touch-icon" href="logo.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/onyx-config.js"></script>
-    <script src="assets/onyx-guard.js"></script>
-    <script src="assets/onyx-submit.js"></script>
     <link rel="stylesheet" href="assets/onyx.css">
     <link rel="stylesheet" href="assets/onyx-hifi.css">
     <link rel="stylesheet" href="assets/onyx-forms.css">
-    <script defer src="assets/onyx-upi.js"></script>
-    <script defer src="assets/onyx.js"></script>
 </head>
 
 <body class="onyx-form-page">
     <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="onyx-bg" aria-hidden="true"></div>
     <div class="onyx-grain" aria-hidden="true"></div>
-
-    <div id="loader" data-delay="400" aria-hidden="false">
-        <img src="logo.webp" alt="ONYX MUN logo" class="loader-mark" width="88" height="88">
-    </div>
-
-    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
     <header class="onyx-form-header">
         <div class="onyx-form-header__inner">
@@ -51,321 +37,32 @@
             <a href="index.html" class="header-logo" aria-label="ONYX MUN">
                 <img src="logo.svg" alt="ONYX MUN">
             </a>
-            <span class="onyx-fee-badge">₹1,699</span>
         </div>
     </header>
 
-    <div class="onyx-progress" id="progressWrap">
-        <div class="onyx-progress__meta">
-            <span class="step-label" id="stepLabel">Your details</span>
-            <span class="step-count" id="stepCount">Step 1 of 3</span>
-        </div>
-        <div class="onyx-progress__track" aria-hidden="true">
-            <div class="onyx-progress__fill" id="progressFill"></div>
-        </div>
-        <div class="onyx-steps" aria-hidden="true">
-            <div class="onyx-step is-active" data-step="0"><span></span><span>You</span></div>
-            <div class="onyx-step" data-step="1"><span></span><span>Exp</span></div>
-            <div class="onyx-step" data-step="2"><span></span><span>Pay</span></div>
-        </div>
-    </div>
-
     <section class="onyx-form-hero">
-        <span class="hero-badge">Round 1 · OC</span>
-        <h1>Organising Committee <span>Application</span></h1>
-        <p>Secure your role with ONYX MUN. Takes about 6 minutes on mobile.</p>
+        <span class="hero-badge" style="background-color:var(--text-muted);">Conference concluded</span>
+        <h1>ONYX MUN 2026</h1>
+        <p>Thank you for your participation. We look forward to seeing you next year!</p>
     </section>
 
     <main class="onyx-main">
         <section class="ox-section ox-section--tight" style="padding-top:0">
             <div class="onyx-form-shell">
-                <div class="onyx-form-panel" id="formCard">
-                    <form id="ocForm" novalidate>
-                        <div class="ox-hp" aria-hidden="true">
-                            <label for="website_url">Website</label>
-                            <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
-                        </div>
-                        <!-- Step 1 -->
-                        <div class="form-step is-active" data-step="0">
-                            <h2 class="step-title">Your details</h2>
-                            <p class="step-desc">We'll use this to contact you about your OC application.</p>
-                            <div class="field-grid two-col">
-                                <div class="field" style="grid-column: 1 / -1;">
-                                    <label for="fullName">Full name <span class="req">*</span></label>
-                                    <input type="text" id="fullName" name="fullName" required autocomplete="name" placeholder="As on ID / school records">
-                                    <span class="field-error">Please enter your full name</span>
-                                </div>
-                                <div class="field">
-                                    <label for="instagram">Instagram <span class="req">*</span></label>
-                                    <input type="text" id="instagram" name="instagram" required autocomplete="off" placeholder="@yourhandle">
-                                    <span class="field-error">Instagram handle required</span>
-                                </div>
-                                <div class="field">
-                                    <label for="phone">WhatsApp number <span class="req">*</span></label>
-                                    <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210">
-                                    <span class="field-error">Valid phone number required</span>
-                                </div>
-                                <div class="field" style="grid-column: 1 / -1;">
-                                    <label for="email">Email <span class="req">*</span></label>
-                                    <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" placeholder="you@school.edu">
-                                    <span class="field-error">Enter a valid email address</span>
-                                </div>
-                                <div class="field">
-                                    <label for="institution">Institution <span class="req">*</span></label>
-                                    <input type="text" id="institution" name="institution" required autocomplete="organization" placeholder="School or college name">
-                                    <span class="field-error">Institution is required</span>
-                                </div>
-                                <div class="field">
-                                    <label for="grade">Grade <span class="req">*</span></label>
-                                    <input type="text" id="grade" name="grade" required autocomplete="off" placeholder="e.g. Grade 11">
-                                    <span class="field-error">Grade is required</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="form-step" data-step="1">
-                            <h2 class="step-title">Experience</h2>
-                            <p class="step-desc">Tell us what you've done in MUN and beyond.</p>
-                            <div class="field-grid">
-                                <div class="field" style="grid-column: 1 / -1;">
-                                    <label for="experience">Your experience <span class="req">*</span></label>
-                                    <textarea id="experience" name="experience" required placeholder="MUN, events, leadership, logistics, media…"></textarea>
-                                    <span class="field-error">Experience is required</span>
-                                </div>
-                                <div class="field" style="grid-column: 1 / -1;">
-                                    <label for="dedication">Dedication before MUN dates <span class="req">*</span></label>
-                                    <select id="dedication" name="dedication" required>
-                                        <option value="">Select</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                    </select>
-                                    <span class="field-error">Please select yes or no</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="form-step" data-step="2">
-                            <h2 class="step-title">Payment & submit</h2>
-                            <p class="step-desc">Pay via UPI, then enter your transaction ID below. Secure registration flows powered by <a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Gathrly</a>, ONYX MUN's event registration technology partner.</p>
-
-                            <div class="payment-card" data-upi-panel data-upi-amount="1699" data-upi-note="ONYX MUN OC Application" data-upi-qr-size="240">
-                                <div class="payment-header">
-                                    <div class="payment-amount">₹1,699</div>
-                                    <p class="payment-sub">OC application fee · UPI only</p>
-                                </div>
-
-                                <div class="payment-grid">
-                                    <div class="payment-qr">
-                                        <div class="qr-frame">
-                                            <img data-upi-qr src="" alt="Scan to pay via UPI" width="240" height="240" loading="lazy">
-                                        </div>
-                                        <p class="hint">Open your UPI app and scan</p>
-                                    </div>
-
-                                    <div class="payment-info">
-                                        <a data-upi-link class="onyx-btn onyx-btn--primary upi-pay-btn" href="#">Pay with UPI app</a>
-                                        <div class="upi-row">
-                                            <span class="upi-id" id="upiId" data-upi-id></span>
-                                            <button type="button" class="copy-btn" id="copyUpi" aria-label="Copy UPI ID">Copy UPI</button>
-                                        </div>
-                                        <p class="payee-name">Sunkara Murali Krishna</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field" style="margin-top:20px;">
-                                <label for="transactionId">UPI transaction ID <span class="req">*</span></label>
-                                <input type="text" id="transactionId" name="transactionId" required inputmode="numeric" autocomplete="off" placeholder="UPI reference after payment">
-                                <p class="hint">Found in your UPI app after payment</p>
-                                <span class="field-error">Enter your transaction ID</span>
-                            </div>
-
-                            <div class="policy-ack">
-                                By submitting this form, you agree to the <a href="policy.html" target="_blank" rel="noopener">Code of Conduct</a> and <a href="policy.html" target="_blank" rel="noopener">Delegate Policy</a>.
-                            </div>
-                        </div>
-                    </form>
-
-                    <div class="success-screen" id="successScreen">
-                        <div class="success-icon" aria-hidden="true">
-                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        </div>
-                        <h2>Application received</h2>
-                        <p>Thank you for applying to ONYX MUN. We'll review your submission and reach out on WhatsApp or email soon.</p>
-                        <a href="index.html" class="onyx-btn onyx-btn--primary">Back to home</a>
-                    </div>
+                <div class="onyx-form-panel" id="formCard" style="text-align:center;padding:60px 20px;">
+                    <h2 style="color:var(--gold);margin-bottom:16px;">Applications closed</h2>
+                    <p style="color:var(--text-muted);margin-bottom:24px;max-width:500px;margin-inline:auto;">ONYX MUN 2026 has concluded. If you have questions about your participation or the event, please reach out to the Secretariat.</p>
+                    <a href="index.html" class="onyx-btn onyx-btn--primary" style="display:inline-block;">Back to home</a>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="onyx-form-footer" id="formFooter">
-        <div class="onyx-form-footer__inner">
-            <button type="button" class="btn btn-ghost hidden-nav" id="btnBack">Back</button>
-            <button type="button" class="onyx-btn onyx-btn--primary" id="btnNext">Continue</button>
+        <div class="onyx-form-footer__inner" style="justify-content:center;">
+            <a href="index.html" class="onyx-btn onyx-btn--ghost">Back to home</a>
         </div>
         <p class="onyx-form-footer__credit"><a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer">Registration powered by Gathrly</a> · Platform by <a href="https://www.ruthwikreddy.live/" target="_blank" rel="noopener noreferrer">Ruthwik Reddy</a></p>
     </footer>
-
-    <script>
-        const OC_ROUND_1_OPEN = true;
-        const STEPS = ['Your details', 'Experience', 'Payment'];
-        const TOTAL = 3;
-        let currentStep = 0;
-
-        const form = document.getElementById('ocForm');
-        const steps = form.querySelectorAll('.form-step');
-        const progressFill = document.getElementById('progressFill');
-        const stepLabel = document.getElementById('stepLabel');
-        const stepCount = document.getElementById('stepCount');
-        const stepDots = document.querySelectorAll('.onyx-step');
-        const btnBack = document.getElementById('btnBack');
-        const btnNext = document.getElementById('btnNext');
-        const toast = document.getElementById('toast');
-        const successScreen = document.getElementById('successScreen');
-
-        function showToast(msg, type = 'error') {
-            toast.textContent = msg;
-            toast.className = `toast is-show ${type}`;
-            clearTimeout(showToast._t);
-            showToast._t = setTimeout(() => toast.classList.remove('is-show'), 4500);
-        }
-
-        function updateUI() {
-            steps.forEach((s, i) => s.classList.toggle('is-active', i === currentStep));
-            progressFill.style.width = `${((currentStep + 1) / TOTAL) * 100}%`;
-            stepLabel.textContent = STEPS[currentStep];
-            stepCount.textContent = `Step ${currentStep + 1} of ${TOTAL}`;
-            stepDots.forEach((dot, i) => {
-                dot.classList.toggle('is-active', i === currentStep);
-                dot.classList.toggle('is-done', i < currentStep);
-            });
-            btnBack.classList.toggle('hidden-nav', currentStep === 0);
-            btnNext.textContent = currentStep === TOTAL - 1 ? 'Submit OC application' : 'Continue';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function validateField(el) {
-            const wrap = el.closest('.field');
-            if (!wrap) return true;
-
-            let valid = true;
-            if (el.type === 'email') {
-                valid = el.checkValidity();
-            } else if (el.required) {
-                valid = el.value.trim() !== '' && el.checkValidity();
-            }
-
-            wrap.classList.toggle('error', !valid);
-            return valid;
-        }
-
-        function validateStep(stepIndex) {
-            const step = steps[stepIndex];
-            const fields = step.querySelectorAll('input, select, textarea');
-            let ok = true;
-            fields.forEach(f => {
-                if (!validateField(f)) ok = false;
-            });
-            return ok;
-        }
-
-        btnBack.addEventListener('click', () => {
-            if (currentStep > 0) {
-                currentStep--;
-                updateUI();
-            }
-        });
-
-        btnNext.addEventListener('click', async () => {
-            if (!OC_ROUND_1_OPEN) {
-                showToast('OC applications are currently closed.');
-                return;
-            }
-
-            if (!validateStep(currentStep)) {
-                showToast('Please complete all required fields.');
-                const firstErr = steps[currentStep].querySelector('.field.error');
-                firstErr?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-
-            if (currentStep < TOTAL - 1) {
-                currentStep++;
-                updateUI();
-                return;
-            }
-
-            // Submit
-            try {
-                btnNext.disabled = true;
-                const original = btnNext.textContent;
-                btnNext.textContent = 'Submitting…';
-
-                const payload = {
-                    full_name: document.getElementById('fullName').value,
-                    instagram_account: document.getElementById('instagram').value,
-                    phone: document.getElementById('phone').value,
-                    email: document.getElementById('email').value,
-                    institution: document.getElementById('institution').value,
-                    grade: document.getElementById('grade').value,
-                    experience: document.getElementById('experience').value,
-                    dedication_before_mun: document.getElementById('dedication').value,
-                    fee_amount: 1699,
-                    transaction_id: document.getElementById('transactionId').value,
-                    submitted_at: new Date().toISOString(),
-                    application_type: 'organising_committee'
-                };
-
-                await ONYX_SUBMIT.insert('oc_applications', payload, {
-                    formType: 'oc',
-                    honeypot: document.getElementById('website_url')?.value || '',
-                });
-
-                successScreen.classList.add('is-show');
-                form.reset();
-            } catch (err) {
-                showToast(err?.message || 'Error submitting. Please try again.');
-            } finally {
-                btnNext.disabled = false;
-                btnNext.textContent = 'Submit OC application';
-            }
-        });
-
-        // Live validation
-        form.querySelectorAll('input, select, textarea').forEach(el => {
-            el.addEventListener('blur', () => validateField(el));
-            const clearErrorIfFixed = () => {
-                const wrap = el.closest('.field');
-                if (wrap?.classList.contains('error')) validateField(el);
-            };
-            el.addEventListener('input', clearErrorIfFixed);
-            el.addEventListener('change', clearErrorIfFixed);
-        });
-
-        // Copy UPI ID
-        const copyBtn = document.getElementById('copyUpi');
-        const upiIdEl = document.getElementById('upiId');
-        if (copyBtn && upiIdEl) {
-            copyBtn.addEventListener('click', async () => {
-                const id = upiIdEl.textContent;
-                try {
-                    await navigator.clipboard.writeText(id);
-                    copyBtn.textContent = 'Copied!';
-                    copyBtn.classList.add('copied');
-                    setTimeout(() => {
-                        copyBtn.textContent = 'Copy UPI';
-                        copyBtn.classList.remove('copied');
-                    }, 2000);
-                } catch {
-                    showToast('Copy manually: ' + id);
-                }
-            });
-        }
-
-        updateUI();
-    </script>
 </body>
 </html>

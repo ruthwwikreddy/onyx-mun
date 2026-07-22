@@ -5,43 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#c9a227">
     <title>Delegate Application | ONYX MUN 2026 — Register for Best MUN in Hyderabad</title>
-    <meta name="description" content="Apply as a delegate for ONYX MUN 2026 — Hyderabad's premier Model United Nations conference (12–14 June). Choose from 7 committees and register via Round 1.">
-    <meta name="keywords" content="MUN registration Hyderabad, ONYX MUN apply, delegate application Hyderabad, Model United Nations register 2026">
+    <meta name="description" content="ONYX MUN 2026 has concluded. Thank you for your participation.">
+    <meta name="keywords" content="ONYX MUN, Model United Nations Hyderabad, MUN conference 2026">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://onyxmunhyd.in/round-1">
-    <meta property="og:title" content="Delegate Application | ONYX MUN 2026">
-    <meta property="og:description" content="Register for the best MUN in Hyderabad — 7 committees, 12–14 June 2026.">
+    <meta property="og:title" content="ONYX MUN 2026 — Conference concluded">
+    <meta property="og:description" content="Thank you for a wonderful conference. We look forward to seeing you next year!">
     <meta property="og:url" content="https://onyxmunhyd.in/round-1">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://onyxmunhyd.in/logo.png">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Apply — ONYX MUN 2026 Hyderabad">
-    <meta name="twitter:description" content="Delegate Round 1 registration open for Hyderabad's premier MUN.">
+    <meta name="twitter:title" content="ONYX MUN 2026 — Conference concluded">
+    <meta name="twitter:description" content="Thank you for your participation.">
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/onyx-config.js"></script>
-    <script src="assets/onyx-guard.js"></script>
-    <script src="assets/onyx-submit.js"></script>
     <link rel="stylesheet" href="assets/onyx.css">
     <link rel="stylesheet" href="assets/onyx-hifi.css">
     <link rel="stylesheet" href="assets/onyx-forms.css">
-    <script defer src="assets/onyx-upi.js"></script>
-    <script defer src="assets/onyx.js"></script>
 </head>
 <body class="onyx-form-page">
     <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="onyx-bg" aria-hidden="true"></div>
     <div class="onyx-grain" aria-hidden="true"></div>
-
-    <div id="loader" data-delay="400" aria-hidden="false">
-        <img src="logo.webp" alt="ONYX MUN logo" class="loader-mark" width="88" height="88">
-    </div>
-
-    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
     <header class="onyx-form-header">
         <div class="onyx-form-header__inner">
@@ -52,402 +40,28 @@
             <a href="index.html" class="header-logo" aria-label="ONYX MUN">
                 <img src="logo.svg" alt="ONYX MUN">
             </a>
-            <span class="onyx-fee-badge">₹2,699</span>
         </div>
     </header>
 
-    <div class="onyx-progress" id="progressWrap">
-        <div class="onyx-progress__meta">
-            <span class="step-label" id="stepLabel">Your details</span>
-            <span class="step-count" id="stepCount">Step 1 of 4</span>
-        </div>
-        <div class="onyx-progress__track" aria-hidden="true">
-            <div class="onyx-progress__fill" id="progressFill"></div>
-        </div>
-        <div class="onyx-steps" aria-hidden="true">
-            <div class="onyx-step is-active" data-step="0"><span></span><span>You</span></div>
-            <div class="onyx-step" data-step="1"><span></span><span>Prefs</span></div>
-            <div class="onyx-step" data-step="2"><span></span><span>Exp</span></div>
-            <div class="onyx-step" data-step="3"><span></span><span>Pay</span></div>
-        </div>
-    </div>
-
     <section class="onyx-form-hero">
-        <span class="hero-badge">Round 1 · Open</span>
-        <h1>Delegate <span>Application</span></h1>
-        <p>Secure your seat at ONYX MUN. Takes about 5 minutes on mobile.</p>
+        <span class="hero-badge" style="background-color:var(--text-muted);">Conference concluded</span>
+        <h1>ONYX MUN 2026</h1>
+        <p>Thank you for a wonderful conference. We look forward to seeing you next year!</p>
     </section>
 
     <main class="onyx-form-shell">
-        <div class="onyx-form-panel" id="formCard">
-            <form id="delegateForm" novalidate>
-                <div class="ox-hp" aria-hidden="true">
-                    <label for="website_url">Website</label>
-                    <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
-                </div>
-                <!-- Step 1 -->
-                <div class="form-step is-active" data-step="0">
-                    <h2 class="step-title">About you</h2>
-                    <p class="step-desc">We'll use this to contact you about your allocation.</p>
-                    <div class="field-grid two-col">
-                        <div class="field">
-                            <label for="fullName">Full name <span class="req">*</span></label>
-                            <input type="text" id="fullName" name="fullName" required autocomplete="name" placeholder="As on ID / school records">
-                            <span class="field-error">Please enter your full name</span>
-                        </div>
-                        <div class="field">
-                            <label for="phone">WhatsApp number <span class="req">*</span></label>
-                            <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210">
-                            <span class="field-error">Valid phone number required</span>
-                        </div>
-                        <div class="field" style="grid-column: 1 / -1;">
-                            <label for="email">Email <span class="req">*</span></label>
-                            <input type="email" id="email" name="email" required autocomplete="email" inputmode="email" placeholder="you@school.edu">
-                            <span class="field-error">Enter a valid email address</span>
-                        </div>
-                        <div class="field" style="grid-column: 1 / -1;">
-                            <label for="institution">Institution <span class="req">*</span></label>
-                            <input type="text" id="institution" name="institution" required autocomplete="organization" placeholder="School or college name">
-                            <span class="field-error">Institution is required</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="form-step" data-step="1">
-                    <h2 class="step-title">Committee preferences</h2>
-                    <p class="step-desc">Pick three different committees, in order of preference.</p>
-                    <div class="info-strip">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-                        <span>See <a href="allocations.html">allocations</a> for portfolios. Read the <a href="policy.html" target="_blank">delegate policy</a> before applying.</span>
-                    </div>
-                    <div class="pref-list">
-                        <div class="pref-card">
-                            <div class="pref-rank">1</div>
-                            <div class="field" id="field-pref1">
-                                <label for="preference1">First choice <span class="req">*</span></label>
-                                <select id="preference1" name="preference1" required>
-                                    <option value="">Select committee</option>
-                                    <option value="UNGA - DISEC">UNGA — DISEC</option>
-                                    <option value="CCC">CCC</option>
-                                    <option value="UNHRC">UNHRC</option>
-                                    <option value="UNCSW">UNCSW</option>
-                                    <option value="Lok Sabha">Lok Sabha</option>
-                                    <option value="International Press">International Press</option>
-                                    <option value="Illuminati">Illuminati</option>
-                                </select>
-                                <span class="field-error">Select your first preference</span>
-                            </div>
-                        </div>
-                        <div class="pref-card">
-                            <div class="pref-rank">2</div>
-                            <div class="field" id="field-pref2">
-                                <label for="preference2">Second choice <span class="req">*</span></label>
-                                <select id="preference2" name="preference2" required>
-                                    <option value="">Select committee</option>
-                                    <option value="UNGA - DISEC">UNGA — DISEC</option>
-                                    <option value="CCC">CCC</option>
-                                    <option value="UNHRC">UNHRC</option>
-                                    <option value="UNCSW">UNCSW</option>
-                                    <option value="Lok Sabha">Lok Sabha</option>
-                                    <option value="International Press">International Press</option>
-                                    <option value="Illuminati">Illuminati</option>
-                                </select>
-                                <span class="field-error">Select your second preference</span>
-                            </div>
-                        </div>
-                        <div class="pref-card">
-                            <div class="pref-rank">3</div>
-                            <div class="field" id="field-pref3">
-                                <label for="preference3">Third choice <span class="req">*</span></label>
-                                <select id="preference3" name="preference3" required>
-                                    <option value="">Select committee</option>
-                                    <option value="UNGA - DISEC">UNGA — DISEC</option>
-                                    <option value="CCC">CCC</option>
-                                    <option value="UNHRC">UNHRC</option>
-                                    <option value="UNCSW">UNCSW</option>
-                                    <option value="Lok Sabha">Lok Sabha</option>
-                                    <option value="International Press">International Press</option>
-                                    <option value="Illuminati">Illuminati</option>
-                                </select>
-                                <span class="field-error">Select your third preference</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="field-error" id="prefDupError" style="margin-top:12px;text-align:center;display:none;">All three preferences must be different committees.</p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="form-step" data-step="2">
-                    <h2 class="step-title">Experience</h2>
-                    <p class="step-desc">Help the Secretariat understand your background.</p>
-                    <div class="field-grid">
-                        <div class="field">
-                            <label for="munExperience">Prior MUN experience? <span class="req">*</span></label>
-                            <select id="munExperience" name="munExperience" required>
-                                <option value="">Select</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                            <span class="field-error">Please select an option</span>
-                        </div>
-                        <div class="field">
-                            <label for="previousMuns">Previous conferences</label>
-                            <textarea id="previousMuns" name="previousMuns" placeholder="Committees, awards, years (optional)"></textarea>
-                        </div>
-                        <div class="field">
-                            <label for="additionalInfo">Additional info</label>
-                            <textarea id="additionalInfo" name="additionalInfo" placeholder="Dietary needs, accessibility, etc. (optional)"></textarea>
-                        </div>
-                        <div class="field">
-                            <label for="referralSource">Where did you hear about ONYX MUN? <span class="req">*</span></label>
-                            <select id="referralSource" name="referralSource" required>
-                                <option value="">Select</option>
-                                <option value="Instagram">Instagram</option>
-                                <option value="Google">Google</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            <span class="field-error">Please select one</span>
-                        </div>
-                        <div class="field">
-                            <label for="queriesFeedback">Questions or feedback</label>
-                            <textarea id="queriesFeedback" name="queriesFeedback" placeholder="Optional"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="form-step" data-step="3">
-                    <h2 class="step-title">Payment & submit</h2>
-                    <p class="step-desc">Pay via UPI, then enter your transaction ID below. Secure registration flows powered by <a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Gathrly</a>, ONYX MUN's event registration technology partner.</p>
-                    <div class="payment-card" data-upi-panel data-upi-amount="2699" data-upi-note="ONYX MUN Round 1 Delegate" data-upi-qr-size="240">
-                        <div class="payment-header">
-                            <div class="payment-amount">₹2,699</div>
-                            <p class="payment-sub">Round 1 delegate fee · UPI only</p>
-                        </div>
-
-                        <div class="payment-grid">
-                            <div class="payment-qr">
-                                <div class="qr-frame">
-                                    <img data-upi-qr src="" alt="Scan to pay via UPI" width="240" height="240" loading="lazy">
-                                </div>
-                                <p class="hint">Open your UPI app and scan</p>
-                            </div>
-
-                            <div class="payment-info">
-                                <a data-upi-link class="onyx-btn onyx-btn--primary upi-pay-btn" href="#">Pay with UPI app</a>
-                                <div class="upi-row">
-                                    <span class="upi-id" id="upiId" data-upi-id>9493678346@ibl</span>
-                                    <button type="button" class="copy-btn" id="copyUpi" aria-label="Copy UPI ID">Copy UPI</button>
-                                </div>
-                                <p class="payee-name">Sunkara Murali Krishna</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field" style="margin-top:20px;">
-                        <label for="transactionId">UPI transaction ID <span class="req">*</span></label>
-                        <input type="text" id="transactionId" name="transactionId" required inputmode="numeric" autocomplete="off" placeholder="12-digit UPI reference">
-                        <p class="hint">Found in your UPI app after payment</p>
-                        <span class="field-error">Enter your transaction ID</span>
-                    </div>
-                    <div class="policy-ack">
-                        By submitting this form, you agree to the <a href="policy.html" target="_blank" rel="noopener">Code of Conduct</a> and <a href="policy.html" target="_blank" rel="noopener">Delegate Policy</a>.
-                    </div>
-                </div>
-            </form>
-
-            <div class="success-screen" id="successScreen">
-                <div class="success-icon" aria-hidden="true">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <h2>Application received</h2>
-                <p>Thank you for applying to ONYX MUN. We'll review your submission and reach out on WhatsApp or email soon.</p>
-                <a href="index.html" class="onyx-btn onyx-btn--primary">Back to home</a>
-            </div>
+        <div class="onyx-form-panel" id="formCard" style="text-align:center;padding:60px 20px;">
+            <h2 style="color:var(--gold);margin-bottom:16px;">Applications closed</h2>
+            <p style="color:var(--text-muted);margin-bottom:24px;max-width:500px;margin-inline:auto;">ONYX MUN 2026 has concluded. If you have questions about your participation or the event, please reach out to the Secretariat.</p>
+            <a href="index.html" class="onyx-btn onyx-btn--primary" style="display:inline-block;">Back to home</a>
         </div>
     </main>
 
     <footer class="onyx-form-footer" id="formFooter">
-        <div class="onyx-form-footer__inner">
-            <button type="button" class="btn btn-ghost hidden-nav" id="btnBack">Back</button>
-            <button type="button" class="onyx-btn onyx-btn--primary" id="btnNext">Continue</button>
+        <div class="onyx-form-footer__inner" style="justify-content:center;">
+            <a href="index.html" class="onyx-btn onyx-btn--ghost">Back to home</a>
         </div>
         <p class="onyx-form-footer__credit"><a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer">Registration powered by Gathrly</a> · Platform by <a href="https://www.ruthwikreddy.live/" target="_blank" rel="noopener noreferrer">Ruthwik Reddy</a></p>
     </footer>
-
-    <script>
-        const DELEGATE_ROUND_1_OPEN = true;
-        const STEPS = ['Your details', 'Committees', 'Experience', 'Payment'];
-        const TOTAL = 4;
-        let currentStep = 0;
-
-        const form = document.getElementById('delegateForm');
-        const steps = form.querySelectorAll('.form-step');
-        const progressFill = document.getElementById('progressFill');
-        const stepLabel = document.getElementById('stepLabel');
-        const stepCount = document.getElementById('stepCount');
-        const stepDots = document.querySelectorAll('.onyx-step');
-        const btnBack = document.getElementById('btnBack');
-        const btnNext = document.getElementById('btnNext');
-        const toast = document.getElementById('toast');
-        const prefDupError = document.getElementById('prefDupError');
-
-        function showToast(msg, type = 'error') {
-            toast.textContent = msg;
-            toast.className = `toast is-show ${type}`;
-            clearTimeout(showToast._t);
-            // Auto-hide: hide via the same "is-show" class used to display the toast.
-            showToast._t = setTimeout(() => toast.classList.remove('is-show'), 4500);
-        }
-
-        function updateUI() {
-            steps.forEach((s, i) => s.classList.toggle('is-active', i === currentStep));
-            progressFill.style.width = `${((currentStep + 1) / TOTAL) * 100}%`;
-            stepLabel.textContent = STEPS[currentStep];
-            stepCount.textContent = `Step ${currentStep + 1} of ${TOTAL}`;
-            stepDots.forEach((dot, i) => {
-                dot.classList.toggle('is-active', i === currentStep);
-                dot.classList.toggle('is-done', i < currentStep);
-            });
-            btnBack.classList.toggle('hidden-nav', currentStep === 0);
-            btnNext.textContent = currentStep === TOTAL - 1 ? 'Submit application' : 'Continue';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function getFieldWrapper(el) {
-            return el.closest('.field');
-        }
-
-        function validateField(el) {
-            const wrap = getFieldWrapper(el);
-            if (!wrap) return true;
-            let valid = true;
-            if (el.type === 'checkbox') {
-                valid = el.checked;
-            } else if (el.type === 'email') {
-                valid = el.checkValidity();
-            } else if (el.required) {
-                valid = el.value.trim() !== '' && el.checkValidity();
-            }
-            wrap.classList.toggle('error', !valid);
-            return valid;
-        }
-
-        function validateStep(stepIndex) {
-            const step = steps[stepIndex];
-            const fields = step.querySelectorAll('input, select, textarea');
-            let ok = true;
-            fields.forEach(f => {
-                if (!validateField(f)) ok = false;
-            });
-
-            if (stepIndex === 1) {
-                const p1 = document.getElementById('preference1').value;
-                const p2 = document.getElementById('preference2').value;
-                const p3 = document.getElementById('preference3').value;
-                const dup = p1 && p2 && p3 && (p1 === p2 || p1 === p3 || p2 === p3);
-                prefDupError.style.display = dup ? 'block' : 'none';
-                if (dup) ok = false;
-            }
-            return ok;
-        }
-
-        btnBack.addEventListener('click', () => {
-            if (currentStep > 0) {
-                currentStep--;
-                updateUI();
-            }
-        });
-
-        btnNext.addEventListener('click', async () => {
-            if (!DELEGATE_ROUND_1_OPEN) {
-                showToast('Round 1 applications are currently closed.');
-                return;
-            }
-            if (!validateStep(currentStep)) {
-                showToast('Please complete all required fields.');
-                const firstErr = steps[currentStep].querySelector('.field.error');
-                firstErr?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            if (currentStep < TOTAL - 1) {
-                currentStep++;
-                updateUI();
-                return;
-            }
-            await submitForm();
-        });
-
-        form.querySelectorAll('input, select, textarea').forEach(el => {
-            el.addEventListener('blur', () => validateField(el));
-            const clearErrorIfFixed = () => {
-                const wrap = getFieldWrapper(el);
-                if (wrap?.classList.contains('error')) validateField(el);
-            };
-            el.addEventListener('input', clearErrorIfFixed);
-            el.addEventListener('change', clearErrorIfFixed);
-        });
-
-        document.getElementById('copyUpi').addEventListener('click', async () => {
-            const id = document.getElementById('upiId').textContent;
-            const btn = document.getElementById('copyUpi');
-            try {
-                await navigator.clipboard.writeText(id);
-                btn.textContent = 'Copied!';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = 'Copy UPI';
-                    btn.classList.remove('copied');
-                }, 2000);
-            } catch {
-                showToast('Copy manually: ' + id);
-            }
-        });
-
-        async function submitForm() {
-            btnNext.disabled = true;
-            btnNext.textContent = 'Submitting…';
-
-            const formData = {
-                full_name: document.getElementById('fullName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                institution: document.getElementById('institution').value.trim(),
-                preference_1: document.getElementById('preference1').value,
-                preference_2: document.getElementById('preference2').value,
-                preference_3: document.getElementById('preference3').value,
-                mun_experience: document.getElementById('munExperience').value,
-                previous_muns: document.getElementById('previousMuns').value.trim(),
-                motivation: '',
-                additional_info: document.getElementById('additionalInfo').value.trim(),
-                referral_source: document.getElementById('referralSource').value,
-                queries_feedback: document.getElementById('queriesFeedback').value.trim(),
-                transaction_id: document.getElementById('transactionId').value.trim(),
-                fee_amount: 2699,
-                submitted_at: new Date().toISOString(),
-                application_type: 'delegate'
-            };
-
-            try {
-                const result = await ONYX_SUBMIT.insert('delegate_applications', formData, {
-                    formType: 'delegate',
-                    honeypot: document.getElementById('website_url')?.value || '',
-                });
-                if (result.bot) return;
-                form.style.display = 'none';
-                document.getElementById('formFooter').style.display = 'none';
-                document.getElementById('progressWrap').style.display = 'none';
-                document.querySelector('.hero-compact').style.display = 'none';
-                document.getElementById('successScreen').classList.add('is-show');
-            } catch (err) {
-                console.error(err);
-                showToast(err.message || 'Submission failed. Please try again.');
-                btnNext.disabled = false;
-                btnNext.textContent = 'Submit application';
-            }
-        }
-
-        updateUI();
-    </script>
 </body>
 </html>

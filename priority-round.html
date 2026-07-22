@@ -5,33 +5,26 @@
     <meta name="theme-color" content="#c9a227">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Priority Round | ONYX MUN 2026 — Best MUN in Hyderabad</title>
-    <meta name="description" content="Priority Round registration for ONYX MUN 2026 — secure early committee allocation at Hyderabad's premier Model United Nations conference.">
-    <meta name="keywords" content="MUN priority registration Hyderabad, ONYX MUN early bird, delegate priority round">
-    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="ONYX MUN 2026 has concluded. Thank you for your participation.">
+    <meta name="keywords" content="ONYX MUN, Model United Nations Hyderabad">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://onyxmunhyd.in/priority-round">
-    <meta property="og:title" content="Priority Round | ONYX MUN 2026">
-    <meta property="og:description" content="Early registration for the best MUN in Hyderabad — ONYX MUN 2026.">
+    <meta property="og:title" content="ONYX MUN 2026 — Conference concluded">
+    <meta property="og:description" content="Thank you for a wonderful conference. We look forward to seeing you next year!">
     <meta property="og:url" content="https://onyxmunhyd.in/priority-round">
     <meta property="og:image" content="https://onyxmunhyd.in/logo.png">
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/onyx-config.js"></script>
-    <script src="assets/onyx-guard.js"></script>
-    <script src="assets/onyx-submit.js"></script>
     <link rel="stylesheet" href="assets/onyx.css">
     <link rel="stylesheet" href="assets/onyx-hifi.css">
     <link rel="stylesheet" href="assets/onyx-forms.css">
-    <script defer src="assets/onyx-upi.js"></script>
-    <script defer src="assets/onyx.js"></script>
 </head>
 <body>
     <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="onyx-bg" aria-hidden="true"></div>
     <div class="onyx-grain" aria-hidden="true"></div>
-    <div id="loader" data-delay="400" aria-hidden="false"><img src="logo.webp" alt="ONYX MUN logo" class="loader-mark" width="96" height="96"></div>
     <header class="onyx-header is-scrolled">
         <div class="onyx-header__inner">
             <a href="index.html" class="onyx-logo"><img src="logo.svg" alt="ONYX MUN"></a>
@@ -41,313 +34,20 @@
     <main class="onyx-main">
         <section class="ox-page-hero">
             <div class="onyx-wrap">
-                <nav class="ox-breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> · <span>Apply</span></nav>
-                <p class="ox-eyebrow">Early access</p>
-                <h1 class="ox-title">Priority Round <em>Application</em></h1>
-                <p class="ox-lead">Secure preferred committee and portfolio assignments.</p>
+                <p class="ox-eyebrow">Conference concluded</p>
+                <h1 class="ox-title">ONYX MUN <em>2026</em></h1>
+                <p class="ox-lead">Thank you for your participation. We look forward to seeing you next year!</p>
             </div>
         </section>
         <section class="ox-section ox-section--tight">
-            <div class="onyx-single-form">
-                <div class="onyx-form-panel">
-
-                    <div class="info-box"><strong>Note:</strong> Select top 3 preferences. See <a href="allocations.html">Allocations</a> and <a href="policy.html" target="_blank">Delegate Policy</a>.</div>
-<form id="priorityForm">
-<div class="ox-hp" aria-hidden="true">
-    <label for="website_url">Website</label>
-    <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
-</div>
-                <!-- Personal Info -->
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
-                </div>
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" id="email" name="email" required placeholder="john@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="+91 00000 00000">
-                </div>
-                <div class="form-group">
-                    <label>Institution *</label>
-                    <input type="text" id="institution" name="institution" required placeholder="School/College Name">
-                </div>
-
-                <!-- Preferences -->
-                <div id="preferences-container">
-                    <!-- Preference 1 -->
-                    <div class="preference-block">
-                        <div class="preference-title">
-                            <span class="pref-num">1</span> First Preference
-                        </div>
-                        <div class="form-group">
-                            <label>Committee *</label>
-                            <select class="committee-select" id="pref1_committee" required onchange="updatePortfolios(1)">
-                                <option value="">Select Committee</option>
-                                <option value="disec">UNGA — DISEC</option>
-                                <option value="ccc">CCC</option>
-                                <option value="unhrc">UNHRC</option>
-                                <option value="uncsw">UNCSW</option>
-                                <option value="loksabha">Lok Sabha</option>
-                                <option value="international_press">International Press</option>
-                                <option value="illuminati">Illuminati</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Specific Allocation / Portfolio *</label>
-                            <select class="portfolio-select" id="pref1_portfolio" required>
-                                <option value="">Select Portfolio</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Preference 2 -->
-                    <div class="preference-block">
-                        <div class="preference-title">
-                            <span class="pref-num">2</span> Second Preference
-                        </div>
-                        <div class="form-group">
-                            <label>Committee *</label>
-                            <select class="committee-select" id="pref2_committee" required onchange="updatePortfolios(2)">
-                                <option value="">Select Committee</option>
-                                <option value="disec">UNGA — DISEC</option>
-                                <option value="ccc">CCC</option>
-                                <option value="unhrc">UNHRC</option>
-                                <option value="uncsw">UNCSW</option>
-                                <option value="loksabha">Lok Sabha</option>
-                                <option value="international_press">International Press</option>
-                                <option value="illuminati">Illuminati</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Specific Allocation / Portfolio *</label>
-                            <select class="portfolio-select" id="pref2_portfolio" required>
-                                <option value="">Select Portfolio</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Preference 3 -->
-                    <div class="preference-block">
-                        <div class="preference-title">
-                            <span class="pref-num">3</span> Third Preference
-                        </div>
-                        <div class="form-group">
-                            <label>Committee *</label>
-                            <select class="committee-select" id="pref3_committee" required onchange="updatePortfolios(3)">
-                                <option value="">Select Committee</option>
-                                <option value="disec">UNGA — DISEC</option>
-                                <option value="ccc">CCC</option>
-                                <option value="unhrc">UNHRC</option>
-                                <option value="uncsw">UNCSW</option>
-                                <option value="loksabha">Lok Sabha</option>
-                                <option value="international_press">International Press</option>
-                                <option value="illuminati">Illuminati</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Specific Allocation / Portfolio *</label>
-                            <select class="portfolio-select" id="pref3_portfolio" required>
-                                <option value="">Select Portfolio</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Do you have prior MUN experience? *</label>
-                    <select id="experience" name="experience" required>
-                        <option value="">Select Option</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Previous MUN Experience (if any)</label>
-                    <textarea id="previousMuns" placeholder="List your previous MUNs, committees, and awards..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>How did you get to know about us? *</label>
-                    <select id="referralSource" required>
-                        <option value="">Select Option</option>
-                        <option value="Instagram">Instagram</option>
-                        <option value="Friends/Referral">Friends / Referral</option>
-                        <option value="Website">Website</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Queries and feedback (if any)</label>
-                    <textarea id="queriesFeedback" placeholder="Your questions or feedback..."></textarea>
-                </div>
-
-                <div class="form-group payment-section" data-upi-panel data-upi-amount="2349" data-upi-note="ONYX MUN Priority Round" data-upi-qr-size="200" style="background: rgba(212,175,55,0.05); padding: 25px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.2); margin-top: 30px;">
-                    <label style="color: var(--gold); font-size: 1.1rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;">Application Fee Payment *</label>
-                    <p style="margin: -12px 0 20px; font-size: 0.9rem; color: var(--text-muted);">UPI payments powered by <a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Gathrly</a>, ONYX MUN's event registration technology partner.</p>
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 25px;">
-                        <div style="background: white; padding: 10px; border-radius: 10px;">
-                            <img data-upi-qr src="" alt="UPI QR Code" style="width: 200px; height: 200px; display: block;">
-                        </div>
-                        <a data-upi-link class="onyx-btn onyx-btn--primary upi-pay-btn" href="#">Pay with UPI app</a>
-                        <div style="text-align: center; line-height: 1.8;">
-                            <p style="font-size: 1.2rem; font-weight: 700; color: var(--gold); margin: 0;">Amount: ₹2349</p>
-                            <p style="margin: 5px 0 0; opacity: 0.8; font-family: monospace; font-size: 1rem;" data-upi-id>9493678346@ibl</p>
-                            <p style="margin: 0; opacity: 0.6; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Sunkara Murali Krishna</p>
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 20px;">
-                        <label for="transactionId">UPI Transaction ID *</label>
-                        <input type="text" id="transactionId" placeholder="Enter your 12-digit UPI Transaction ID" required>
-                    </div>
-                </div>
-
-                <div class="form-group" style="display: flex; gap: 15px; align-items: flex-start; margin-top: 40px; background: rgba(212,175,55,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(212,175,55,0.2);">
-                    <input type="checkbox" id="policyAgreement" required style="width: 20px; height: 20px; accent-color: var(--gold); margin-top: 2px;">
-                    <label for="policyAgreement" style="font-size: 0.85rem; color: var(--white); opacity: 0.9; text-transform: none; letter-spacing: normal; cursor: pointer;">
-                        I agree to abide by the <a href="policy.html" target="_blank" style="color: var(--gold); text-decoration: underline;">ONYX MUN Code of Conduct and Delegate Policy</a>. *
-                    </label>
-                </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
-                <div id="formMessage" style="margin-top: 20px; text-align: center; font-weight: 600;"></div>
-            </form>
+            <div class="onyx-wrap" style="text-align:center;padding-top:0;">
+                <div class="ox-surface" style="padding:60px 40px;max-width:600px;margin:0 auto;">
+                    <h2 style="color:var(--gold);margin-bottom:16px;">Applications closed</h2>
+                    <p style="color:var(--text-muted);margin-bottom:32px;">ONYX MUN 2026 has concluded. If you have questions about your participation or the event, please reach out to the Secretariat.</p>
+                    <a href="index.html" class="onyx-btn onyx-btn--primary">Back to home</a>
                 </div>
             </div>
         </section>
     </main>
-    <script>
-
-        const allocationData = {
-            ccc: ["USA", "China", "Russia", "India", "UK", "France", "Germany", "Japan", "Brazil", "South Africa", "Turkey", "Saudi Arabia", "Iran", "Israel", "Egypt", "Nigeria", "Pakistan", "Indonesia", "Australia", "Canada", "Mexico", "Argentina", "Italy", "Spain", "Ukraine", "Poland", "Sweden", "Norway", "Finland", "Switzerland"],
-            hcc: ["USA", "China", "Russia", "India", "UK", "France", "Germany", "Japan", "Brazil", "South Africa", "Turkey", "Saudi Arabia", "Iran", "Israel", "Egypt", "Nigeria", "Pakistan", "Indonesia", "Australia", "Canada", "Mexico", "Argentina", "Italy", "Spain", "Ukraine", "Poland", "Sweden", "Norway", "Finland", "Switzerland"],
-            uncsw: ["USA", "China", "Russia", "India", "UK", "France", "Germany", "Japan", "Brazil", "South Africa", "Turkey", "Saudi Arabia", "Iran", "Israel", "Egypt", "Nigeria", "Pakistan", "Indonesia", "Australia", "Canada", "Mexico", "Argentina", "Italy", "Spain", "Ukraine", "Poland", "Sweden", "Norway", "Finland", "Switzerland"],
-            disec: ["USA", "China", "Russia", "UK", "France", "India", "Pakistan", "Israel", "Iran", "North Korea", "South Korea", "Japan", "Germany", "Italy", "Canada", "Australia", "Brazil", "Argentina", "Mexico", "South Africa", "Egypt", "Saudi Arabia", "UAE", "Turkey", "Indonesia", "Malaysia", "Thailand", "Vietnam", "Philippines", "Nigeria", "Kenya", "Ethiopia", "Ukraine", "Poland", "Spain", "Netherlands", "Sweden", "Norway", "Finland", "Denmark", "Switzerland", "Austria", "Belgium", "Greece", "Portugal", "Chile", "Colombia", "Peru", "Bangladesh", "Sri Lanka"],
-            unhrc: ["USA", "China", "Russia", "India", "Pakistan", "Afghanistan", "Iran", "Iraq", "Syria", "Yemen", "Israel", "Palestine", "Saudi Arabia", "UAE", "Qatar", "Turkey", "Egypt", "Sudan", "South Sudan", "Ethiopia", "Somalia", "Nigeria", "Kenya", "South Africa", "DR Congo", "France", "Germany", "UK", "Italy", "Spain", "Netherlands", "Sweden", "Norway", "Finland", "Denmark", "Poland", "Ukraine", "Canada", "Mexico", "Brazil", "Argentina", "Chile", "Colombia", "Peru", "Japan", "South Korea", "Indonesia", "Bangladesh", "Myanmar", "Sri Lanka"],
-            loksabha: ["K. Chandrashekar Rao", "K. T. Rama Rao", "Narendra Modi (PM)", "Amit Shah", "Rajnath Singh", "Nitin Gadkari", "S. Jaishankar", "Piyush Goyal", "Smriti Irani", "Dharmendra Pradhan", "Ashwini Vaishnaw", "Hardeep Singh Puri", "Yogi Adityanath", "Shivraj Singh Chouhan", "Devendra Fadnavis", "Himanta Biswa Sarma", "Basavaraj Bommai", "Eknath Shinde", "Rahul Gandhi", "Sonia Gandhi", "Mallikarjun Kharge", "Shashi Tharoor", "Priyanka Gandhi", "Arvind Kejriwal", "Bhagwant Mann", "Mamata Banerjee", "Derek O’Brien", "Jagan Mohan Reddy", "N. Chandrababu Naidu", "Pawan Kalyan", "M. K. Stalin", "Udhayanidhi Stalin", "Tejashwi Yadav", "Nitish Kumar", "Lalu Prasad Yadav", "Akhilesh Yadav", "Mayawati", "Adhir Ranjan Chowdhury", "Asaduddin Owaisi", "Supriya Sule", "Sharad Pawar", "Ajit Pawar", "Omar Abdullah", "Mehbooba Mufti", "Farooq Abdullah", "Ghulam Nabi Azad", "Anurag Thakur", "Kiren Rijiju", "Prahlad Joshi", "Jyotiraditya Scindia", "A. Revanth Reddy", "G. Kishan Reddy", "T. Harish Rao", "Bandi Sanjay Kumar", "K. Kavitha", "Mallu Bhatti Vikramarka", "Nara Lokesh", "Y. S. Sharmila", "V. Vijay Sai Reddy", "Daggubati Purandeswari"],
-            international_press: [],
-            illuminati: []
-        };
-
-        function updatePortfolios(prefNum) {
-            const committee = document.getElementById(`pref${prefNum}_committee`).value;
-            const portfolioSelect = document.getElementById(`pref${prefNum}_portfolio`);
-            const portfolioGroup = portfolioSelect.closest('.form-group');
-            
-            // Hide portfolio dropdown for Press & Illuminati (no portfolio yet)
-            if (committee === 'international_press' || committee === 'illuminati') {
-                portfolioGroup.style.display = 'none';
-                portfolioSelect.removeAttribute('required');
-                portfolioSelect.value = 'N/A';
-                portfolioSelect.innerHTML = '<option value="N/A">N/A</option>';
-                return;
-            }
-            
-            // Show portfolio dropdown for other committees
-            portfolioGroup.style.display = 'block';
-            portfolioSelect.setAttribute('required', '');
-            portfolioSelect.innerHTML = '<option value="">Select Portfolio</option>';
-            
-            if (committee && allocationData[committee]) {
-                allocationData[committee].forEach(item => {
-                    const opt = document.createElement('option');
-                    opt.value = item;
-                    opt.textContent = item;
-                    portfolioSelect.appendChild(opt);
-                });
-            }
-        }
-
-        // Supabase Init — submissions routed via ONYX_SUBMIT (/api/submit)
-
-        const PRIORITY_ROUND_OPEN = false;
-        const priorityForm = document.getElementById('priorityForm');
-
-        if (!PRIORITY_ROUND_OPEN) {
-            const closedMsg = document.getElementById('formMessage');
-            closedMsg.style.color = '#ff4444';
-            closedMsg.textContent = 'Priority Round applications are closed.';
-            document.getElementById('submitBtn').disabled = true;
-            priorityForm.querySelectorAll('input, select, textarea, button').forEach(el => {
-                if (el.id !== 'submitBtn') el.disabled = true;
-            });
-        }
-
-        priorityForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const msg = document.getElementById('formMessage');
-
-            if (!PRIORITY_ROUND_OPEN) {
-                msg.style.color = '#ff4444';
-                msg.textContent = 'Priority Round applications are closed.';
-                return;
-            }
-            
-            btn.disabled = true;
-            btn.textContent = 'Submitting...';
-
-            const payload = {
-                full_name: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                institution: document.getElementById('institution').value,
-                pref1_committee: document.getElementById('pref1_committee').value,
-                pref1_portfolio: document.getElementById('pref1_portfolio').value,
-                pref2_committee: document.getElementById('pref2_committee').value,
-                pref2_portfolio: document.getElementById('pref2_portfolio').value,
-                pref3_committee: document.getElementById('pref3_committee').value,
-                pref3_portfolio: document.getElementById('pref3_portfolio').value,
-                experience_level: document.getElementById('experience').value,
-                previous_experience: document.getElementById('previousMuns').value,
-                referral_source: document.getElementById('referralSource').value,
-                queries_feedback: document.getElementById('queriesFeedback').value,
-                transaction_id: document.getElementById('transactionId').value,
-                fee_amount: 2349,
-                submitted_at: new Date().toISOString()
-            };
-
-            try {
-                await ONYX_SUBMIT.insert('priority_applications', payload, {
-                    formType: 'priority',
-                    honeypot: document.getElementById('website_url')?.value || '',
-                });
-
-                msg.style.color = '#4CAF50';
-                msg.textContent = 'Application submitted successfully!';
-                document.getElementById('priorityForm').reset();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (err) {
-                console.error(err);
-                msg.style.color = '#ff4444';
-                msg.textContent = 'Error: ' + err.message;
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Submit Application';
-            }
-        });
-    
-    </script>
-
-    <footer class="ox-footer ox-footer--mini">
-        <div class="onyx-wrap">
-            <nav class="ox-footer__links ox-footer__links--mini" aria-label="Footer">
-                <a href="index.html">Home</a>
-                <a href="round-1.html">Delegate</a>
-                <a href="policy.html">Policy</a>
-                <a href="https://instagram.com/onyx.mun" target="_blank" rel="noopener noreferrer">Instagram</a>
-            </nav>
-            <p class="ox-footer__copy">© 2026 ONYX MUN Secretariat</p>
-            <div class="ox-footer__credits">
-                <p class="ox-footer__credit"><a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer">Registration powered by Gathrly</a> · Platform by <a href="https://www.ruthwikreddy.live/" target="_blank" rel="noopener noreferrer">Ruthwik Reddy</a></p>
-            </div>
-        </div>
-    </footer>
-    <button type="button" class="scroll-top" aria-label="Scroll to top">↑</button>
 </body>
 </html>

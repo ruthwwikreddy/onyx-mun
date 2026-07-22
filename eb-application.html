@@ -5,190 +5,49 @@
     <meta name="theme-color" content="#c9a227">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Executive Board Application | ONYX MUN 2026 — Best MUN in Hyderabad</title>
-    <meta name="description" content="Apply for Executive Board (EB) positions at ONYX MUN 2026 — chair committees at Hyderabad's premier Model United Nations conference, 12–14 June.">
-    <meta name="keywords" content="MUN EB application Hyderabad, executive board ONYX MUN, chair MUN Hyderabad 2026">
+    <meta name="description" content="ONYX MUN 2026 has concluded. Thank you for your participation.">
+    <meta name="keywords" content="ONYX MUN, Model United Nations Hyderabad">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://onyxmunhyd.in/eb-application">
-    <meta property="og:title" content="EB Application | ONYX MUN 2026">
-    <meta property="og:description" content="Apply to chair at Hyderabad's best Model United Nations conference.">
+    <meta property="og:title" content="ONYX MUN 2026 — Conference concluded">
+    <meta property="og:description" content="Thank you for a wonderful conference. We look forward to seeing you next year!">
     <meta property="og:url" content="https://onyxmunhyd.in/eb-application">
     <meta property="og:image" content="https://onyxmunhyd.in/logo.png">
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/onyx-config.js"></script>
-    <script src="assets/onyx-guard.js"></script>
-    <script src="assets/onyx-submit.js"></script>
     <link rel="stylesheet" href="assets/onyx.css">
     <link rel="stylesheet" href="assets/onyx-hifi.css">
     <link rel="stylesheet" href="assets/onyx-forms.css">
-    <script defer src="assets/onyx.js"></script>
 </head>
 <body>
     <div class="ox-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="onyx-bg" aria-hidden="true"></div>
     <div class="onyx-grain" aria-hidden="true"></div>
-    <div id="loader" data-delay="400" aria-hidden="false"><img src="logo.webp" alt="ONYX MUN logo" class="loader-mark" width="96" height="96"></div>
-
     <header class="onyx-header is-scrolled">
         <div class="onyx-header__inner">
             <a href="index.html" class="onyx-logo"><img src="logo.svg" alt="ONYX MUN"></a>
             <a href="index.html" class="onyx-btn onyx-btn--ghost onyx-btn--sm">Home</a>
         </div>
     </header>
-
     <main class="onyx-main">
         <section class="ox-page-hero">
             <div class="onyx-wrap">
-                <nav class="ox-breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> · <span>Apply</span></nav>
-                <p class="ox-eyebrow">Executive Board</p>
-                <h1 class="ox-title">Join the <em>Leadership</em></h1>
-                <p class="ox-lead">Shape the conference experience and lead tomorrow's diplomats.</p>
+                <p class="ox-eyebrow">Conference concluded</p>
+                <h1 class="ox-title">ONYX MUN <em>2026</em></h1>
+                <p class="ox-lead">Thank you for your participation. We look forward to seeing you next year!</p>
             </div>
         </section>
-
         <section class="ox-section ox-section--tight">
-            <div class="onyx-single-form">
-                <div class="onyx-form-panel" data-reveal>
-                    <p style="text-align:center;margin-bottom:28px">
-                        <a href="assets/eb-guide.pdf" target="_blank" rel="noopener noreferrer" class="onyx-btn onyx-btn--ghost">View EB Application Guide (PDF)</a>
-                    </p>
-
-                    <form id="ebForm">
-                        <div class="ox-hp" aria-hidden="true">
-                            <label for="website_url">Website</label>
-                            <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label for="fullName">Full Name *</label>
-                            <input type="text" id="fullName" name="fullName" required placeholder="Your full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" required placeholder="you@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone *</label>
-                            <input type="tel" id="phone" name="phone" required placeholder="+91 00000 00000">
-                        </div>
-                        <div class="form-group">
-                            <label for="institution">Institution *</label>
-                            <input type="text" id="institution" name="institution" required placeholder="School or organization">
-                        </div>
-                        <div class="form-group">
-                            <label for="position">Position *</label>
-                            <select id="position" name="position" required>
-                                <option value="">Select position</option>
-                                <option value="chairperson-disec">Chairperson — UNGA-DISEC</option>
-                                <option value="chairperson-ccc">Chairperson — CCC</option>
-                                <option value="chairperson-unhrc">Chairperson — UNHRC</option>
-                                <option value="chairperson-uncsw">Chairperson — UNCSW</option>
-                                <option value="chairperson-loksabha">Chairperson — Lok Sabha</option>
-                                <option value="chairperson-press">Chairperson — International Press</option>
-                                <option value="chairperson-illuminati">Chairperson — Illuminati</option>
-                                <option value="vice-chairperson">Vice Chairperson</option>
-                                <option value="rapporteur">Rapporteur</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="munExperience">MUN Experience *</label>
-                            <textarea id="munExperience" name="munExperience" required placeholder="Conferences, committees, awards…"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="leadershipExperience">Leadership Experience *</label>
-                            <textarea id="leadershipExperience" name="leadershipExperience" required placeholder="Roles and initiatives you've led…"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="motivation">Why join the EB? *</label>
-                            <textarea id="motivation" name="motivation" required placeholder="Your motivation and goals…"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="additionalInfo">Additional information</label>
-                            <textarea id="additionalInfo" name="additionalInfo" placeholder="Optional"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="referralSource">How did you hear about us? *</label>
-                            <select id="referralSource" name="referralSource" required>
-                                <option value="">Select</option>
-                                <option value="Instagram">Instagram</option>
-                                <option value="Friends/Referral">Friends / Referral</option>
-                                <option value="Website">Website</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="queriesFeedback">Queries or feedback</label>
-                            <textarea id="queriesFeedback" name="queriesFeedback" placeholder="Optional"></textarea>
-                        </div>
-                        <div class="info-box" style="display:flex;gap:12px;align-items:flex-start">
-                            <input type="checkbox" id="policyAgreement" required style="width:20px;height:20px;margin-top:4px;accent-color:var(--gold)">
-                            <label for="policyAgreement" style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--text-muted);cursor:pointer">
-                                I agree to the <a href="policy.html" target="_blank" rel="noopener">Code of Conduct and Delegate Policy</a>. *
-                            </label>
-                        </div>
-                        <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
-                        <p id="formMessage" style="margin-top:16px;text-align:center"></p>
-                    </form>
+            <div class="onyx-wrap" style="text-align:center;padding-top:0;">
+                <div class="ox-surface" style="padding:60px 40px;max-width:600px;margin:0 auto;">
+                    <h2 style="color:var(--gold);margin-bottom:16px;">Applications closed</h2>
+                    <p style="color:var(--text-muted);margin-bottom:32px;">ONYX MUN 2026 has concluded. If you have questions about your participation or the event, please reach out to the Secretariat.</p>
+                    <a href="index.html" class="onyx-btn onyx-btn--primary">Back to home</a>
                 </div>
             </div>
         </section>
     </main>
-
-    <script>
-        document.getElementById('ebForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            const formMessage = document.getElementById('formMessage');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting…';
-            const formData = {
-                full_name: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                institution: document.getElementById('institution').value,
-                position: document.getElementById('position').value,
-                mun_experience: document.getElementById('munExperience').value,
-                leadership_experience: document.getElementById('leadershipExperience').value,
-                motivation: document.getElementById('motivation').value,
-                additional_info: document.getElementById('additionalInfo').value,
-                referral_source: document.getElementById('referralSource').value,
-                queries_feedback: document.getElementById('queriesFeedback').value,
-                submitted_at: new Date().toISOString()
-            };
-            try {
-                await ONYX_SUBMIT.insert('eb_applications', formData, {
-                    formType: 'eb',
-                    honeypot: document.getElementById('website_url')?.value || '',
-                });
-                formMessage.style.color = '#6fcf97';
-                formMessage.textContent = 'Application submitted successfully.';
-                document.getElementById('ebForm').reset();
-            } catch (err) {
-                formMessage.style.color = '#ff8a8a';
-                formMessage.textContent = 'Error submitting. Please try again.';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Application';
-            }
-        });
-    </script>
-
-    <footer class="ox-footer ox-footer--mini">
-        <div class="onyx-wrap">
-            <nav class="ox-footer__links ox-footer__links--mini" aria-label="Footer">
-                <a href="index.html">Home</a>
-                <a href="round-1.html">Delegate</a>
-                <a href="policy.html">Policy</a>
-                <a href="https://instagram.com/onyx.mun" target="_blank" rel="noopener noreferrer">Instagram</a>
-            </nav>
-            <p class="ox-footer__copy">© 2026 ONYX MUN Secretariat</p>
-            <div class="ox-footer__credits">
-                <p class="ox-footer__credit"><a href="https://www.gathrly.in/clients/onyx-mun-2026" target="_blank" rel="noopener noreferrer">Registration powered by Gathrly</a> · Platform by <a href="https://www.ruthwikreddy.live/" target="_blank" rel="noopener noreferrer">Ruthwik Reddy</a></p>
-            </div>
-        </div>
-    </footer>
-    <button type="button" class="scroll-top" aria-label="Scroll to top">↑</button>
 </body>
 </html>
